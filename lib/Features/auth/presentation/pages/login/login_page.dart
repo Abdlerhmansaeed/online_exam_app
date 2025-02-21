@@ -21,7 +21,8 @@ class LoginPage extends StatelessWidget {
         body: BlocConsumer<AuthCubit, AuthStates>(
           listener: (context, state) {
             if (state is LoginSuccessState) {
-              Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+              Navigator.pushReplacementNamed(context, 
+              AppRoutes.homePage);
             }
             if (state is LoginLoadingState) {}
             if (state is LoginErrorState) {}
