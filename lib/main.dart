@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/routes/app_routes_generator.dart';
 import 'package:online_exam_app/core/theme/app_theme.dart';
@@ -13,12 +14,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      
-      theme: AppTheme.appTheme,
-      debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.homeScreen,
-      onGenerateRoute: AppRoutesGenerator.generateRoute,
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      child: MaterialApp(
+        
+        theme: AppTheme.appTheme,
+        debugShowCheckedModeBanner: false,
+        initialRoute: AppRoutes.homeScreen,
+        onGenerateRoute: AppRoutesGenerator.generateRoute,
+      ),
     );
   }
 }
