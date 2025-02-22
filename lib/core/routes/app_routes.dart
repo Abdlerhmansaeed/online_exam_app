@@ -7,4 +7,5 @@ class AppRoutes {
   static const String profilePage = '/profilePage';
   static const String resultPage = '/resultPage';
   static const String homeScreen = '/homeScreen';
+  static const String subjectDetails = '/subjectDetails';
 }

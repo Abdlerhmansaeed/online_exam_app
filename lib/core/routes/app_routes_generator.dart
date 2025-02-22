@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:online_exam_app/Features/auth/domain/repositories/auth_repo.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_cubit.dart';
 import 'package:online_exam_app/Features/home/presentation/pages/home_tab.dart';
+import 'package:online_exam_app/Features/home/presentation/pages/subject_detail.dart';
 import 'package:online_exam_app/Features/profile/presentation/pages/profile_page.dart';
 import 'package:online_exam_app/Features/result/presentation/pages/result_page.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
@@ -30,6 +31,8 @@ class AppRoutesGenerator {
         return MaterialPageRoute(builder: (_) => const ProfilePage());
         case AppRoutes.resultPage:
         return MaterialPageRoute(builder: (_) => const ResultPage());
+        case AppRoutes.subjectDetails:
+        return MaterialPageRoute(builder: (_) => const SubjectDetail());
 
       default:
         return MaterialPageRoute(builder: (_) => LoginPage());

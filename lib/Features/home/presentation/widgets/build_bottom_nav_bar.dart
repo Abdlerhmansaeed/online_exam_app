@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:online_exam_app/core/theme/app_colors.dart';
 class BuildBottomNavBar extends StatelessWidget {
    int selectedIndex;
   void Function(int)? onTabFunction;
@@ -16,21 +18,48 @@ required this.context,
   Widget build(BuildContext context) {
     return
       BottomNavigationBar(
-        // type: BottomNavigationBarType.fixed,
-     
+        type: BottomNavigationBarType.fixed,
+     selectedItemColor: AppColors.blue,
     onTap: onTabFunction,
       currentIndex: selectedIndex ,
-        items: const [
+        items:  [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+
+            icon:  Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
+              decoration: BoxDecoration(
+                color: selectedIndex == 0 ?  const Color(0xffCCD7EB) :
+                Colors.transparent
+                ,
+           borderRadius: BorderRadius.horizontal(left: Radius.circular(20.r),
+            right: Radius.circular(20.r)),
+        ),
+              child: const ImageIcon(AssetImage('assets/images/home_Icon.png'),)),
+            label: 'Explore',
           ),
           BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/images/result_icon.png'),),
+            icon: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
+              decoration: BoxDecoration(
+                color: selectedIndex == 1 ?  const Color(0xffCCD7EB) :
+                Colors.transparent
+                ,
+           borderRadius: BorderRadius.horizontal(left: Radius.circular(20.r),
+            right: Radius.circular(20.r))),
+       
+              child: const ImageIcon(AssetImage('assets/images/result_icon.png'),)),
             label: 'Result',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 5.h),
+              decoration: BoxDecoration(
+                color: selectedIndex == 2 ?  const Color(0xffCCD7EB) :
+                Colors.transparent
+                ,
+           borderRadius: BorderRadius.horizontal(left: Radius.circular(20.r),
+            right: Radius.circular(20.r))),
+              child: const Icon(Icons.person)),
             label: 'Profile',
           ),
         ],
