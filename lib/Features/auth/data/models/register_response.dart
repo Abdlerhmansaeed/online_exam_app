@@ -1,13 +1,13 @@
 import 'package:online_exam_app/Features/auth/domain/entities/user_entiti.dart';
 
-class RegisterResponce {
+class RegisterResponse {
   String? message;
   String? token;
   User? user;
 
-  RegisterResponce({this.message, this.token, this.user});
+  RegisterResponse({this.message, this.token, this.user});
 
-  RegisterResponce.fromJson(Map<String, dynamic> json) {
+  RegisterResponse.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     token = json['token'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
@@ -23,7 +23,6 @@ class User extends UserEntiti{
   String? email;
   String? phone;
   String? role;
-
   String? sId;
   
 
