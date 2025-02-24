@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:online_exam_app/core/di/di.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/routes/app_routes_generator.dart';
 import 'package:online_exam_app/core/theme/app_theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+    configureDependencies(); 
   runApp(const MyApp());
 }
   

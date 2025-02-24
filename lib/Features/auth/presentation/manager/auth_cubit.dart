@@ -9,7 +9,7 @@ import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.d
 class AuthCubit extends Cubit<AuthStates> {
   AuthCubit() : super(InitialState());
   final LoginUseCase _loginUseCase = LoginUseCase();
-  final SignupUsecase _signupUseCase = SignupUsecase();
+  final SignupUseCase _signupUseCase = SignupUseCase();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController rePasswordController = TextEditingController();

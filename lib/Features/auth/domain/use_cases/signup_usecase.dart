@@ -2,9 +2,9 @@ import 'package:online_exam_app/Features/auth/data/repositories/auth_repo_imp.da
 import 'package:online_exam_app/Features/auth/domain/entities/user_entiti.dart';
 import 'package:online_exam_app/Features/auth/domain/repositories/auth_repo.dart';
 
-class SignupUsecase {
+class SignupUseCase {
   AuthRepo authRepo = AuthRepoImp();
-  Future<UserEntiti> call({
+  Future<UserEntity> call({
     required String email,
     required String password,
     required String rePassword,

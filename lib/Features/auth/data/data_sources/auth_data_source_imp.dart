@@ -3,11 +3,11 @@ import 'package:online_exam_app/Features/auth/data/data_sources/auth_data_source
 import 'package:online_exam_app/core/services/network_srevices.dart';
 
 class AuthDataSourceImp implements AuthDataSource {
-  NetworkSrevices networkSrevices = NetworkSrevices();
+  NetworkServices networkServices = NetworkServices();
 
   @override
   Future<Response> login({required String email, required String password}) {
-    return networkSrevices.dio.post('api/v1/auth/signin',
+    return networkServices.dio.post('api/v1/auth/signin',
         data: {"email": email, "password": password});
   }
 
@@ -21,7 +21,7 @@ class AuthDataSourceImp implements AuthDataSource {
     required String lastName,
     required String phoneNumber,
   }) {
-    return networkSrevices.dio.post('api/v1/auth/signup', data: {
+    return networkServices .dio.post('api/v1/auth/signup', data: {
       "username": userName,
       "firstName": firstName,
       "lastName": lastName,

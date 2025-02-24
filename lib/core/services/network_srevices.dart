@@ -1,10 +1,8 @@
-import 'dart:math';
-
 import 'package:dio/dio.dart';
 
-class NetworkSrevices {
+class NetworkServices {
   late Dio dio;
-  NetworkSrevices() {
+  NetworkServices() {
     init();
   }
   void init() {

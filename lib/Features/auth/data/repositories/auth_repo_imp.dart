@@ -9,16 +9,16 @@ class AuthRepoImp implements AuthRepo {
   AuthDataSource authDataSource = AuthDataSourceImp();
 
   @override
-  Future<UserEntiti> login(
+  Future<UserEntity> login(
       {required String email, required String password}) async {
     try {
       var response =
           await authDataSource.login(email: email, password: password);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        RegisterResponce registerResponce =
-            RegisterResponce.fromJson(response.data);
-        return registerResponce.user!;
+        RegisterResponse registerResponse =
+            RegisterResponse.fromJson(response.data);
+        return registerResponse.user!;
       } else {
         throw Exception(response.statusMessage);
       }
@@ -36,7 +36,7 @@ class AuthRepoImp implements AuthRepo {
   }
 
   @override
-  Future<UserEntiti> signup(
+  Future<UserEntity> signup(
       {required String email,
       required String password,
       required String rePassword,
@@ -55,9 +55,9 @@ class AuthRepoImp implements AuthRepo {
           phoneNumber: phoneNumber);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        RegisterResponce registerResponce =
-            RegisterResponce.fromJson(response.data);
-        return registerResponce.user!;
+        RegisterResponse registerResponse =
+            RegisterResponse.fromJson(response.data);
+        return registerResponse.user!;
       } else {
         throw Exception(response.statusMessage);
       }
