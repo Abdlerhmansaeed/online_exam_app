@@ -27,7 +27,23 @@ class AppRoutesGenerator {
       case AppRoutes.resetPasswordPage:
         return MaterialPageRoute(builder: (_) =>  ResetPasswordPage(authCubit: settings.arguments as AuthCubit,));
       default:
-        return MaterialPageRoute(builder: (_) => const LoginPage());
+        return MaterialPageRoute(builder: (_) => const DefaultRoute());
     }
   }
 }
+
+class DefaultRoute extends StatelessWidget {
+  const DefaultRoute({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("There is No data"),
+        Icon(Icons.crisis_alert_rounded)
+      ],
+    );
+  }
+}
+
