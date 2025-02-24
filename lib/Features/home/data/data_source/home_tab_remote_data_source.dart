@@ -22,17 +22,13 @@ class HomeTabRemoteImpl implements HomRemoteDataSourceContract {
       compact: true,
       maxWidth: 90,
     ));
-    var connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.mobile ||
-        connectivityResult == ConnectivityResult.wifi) {
+   
       final response = await dio.get(AppConstant.allExamsEndPoint);
       if (response.statusCode == 200) {
         return Right(response.data);
       } else {
         return Left(ServerFailure(errorMessage: response.statusMessage!));
       }
-    }else{
-      return const Left(NetWorkError(errorMessage: "No Internet Connection"));
     }
   }
-}
+

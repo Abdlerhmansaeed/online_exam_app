@@ -10,7 +10,6 @@ class AuthDataSourceImp implements AuthDataSource {
     return networkServices.dio.post('api/v1/auth/signin',
         data: {"email": email, "password": password});
   }
-
   @override
   Future<Response> signup({
     required String email,
