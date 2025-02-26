@@ -10,7 +10,7 @@ class UserEntity {
   String? info;
   String? resetCode;
   String? token ;
-  UserEntiti(
+  UserEntity(
       {this.userName,
       this.firstName,
       this.lastName,

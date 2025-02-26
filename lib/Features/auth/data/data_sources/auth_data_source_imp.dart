@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/Features/auth/data/data_sources/auth_data_source.dart';
-import 'package:online_exam_app/core/services/network_services.dart';
+import 'package:online_exam_app/core/Constant/app_constant.dart';
+
+import '../../../../core/services/network_srevices.dart';
 
 @Injectable(as: AuthDataSource)
 class AuthDataSourceImp implements AuthDataSource {
@@ -12,7 +14,7 @@ class AuthDataSourceImp implements AuthDataSource {
   @override
   Future<Response> login({required String email, required String password}) {
     return _networkServices.dio.post(
-      'api/v1/auth/signin',
+      AppConstant.signInEndPoint,
       data: {"email": email, "password": password},
     );
   }
@@ -28,7 +30,7 @@ class AuthDataSourceImp implements AuthDataSource {
     required String phoneNumber,
   }) {
     return _networkServices.dio.post(
-      'api/v1/auth/signup',
+      AppConstant.signupEndPoint,
       data: {
         "username": userName,
         "firstName": firstName,
@@ -44,7 +46,7 @@ class AuthDataSourceImp implements AuthDataSource {
   @override
   Future<Response> forgetPasswordEmailVerify({required String email}) {
     return _networkServices.dio.post(
-      'api/v1/auth/forgotpassword',
+      AppConstant.forgotPasswordEndPoint,
       data: {"email": email},
     );
   }
@@ -52,7 +54,7 @@ class AuthDataSourceImp implements AuthDataSource {
   @override
   Future<Response> resetCodeVerify({required String resetCode}) {
     return _networkServices.dio.post(
-      'api/v1/auth/verifyResetCode',
+      AppConstant.verifyResetCodeEndPoint,
       data: {"resetCode": resetCode},
     );
   }
@@ -60,7 +62,7 @@ class AuthDataSourceImp implements AuthDataSource {
   @override
   Future<Response> resetPassword({required String email, required String password}) {
     return _networkServices.dio.put(
-      'api/v1/auth/resetPassword',
+      AppConstant.resetPasswordEndPoint,
       data: {
         "email": email,
         "newPassword": password,

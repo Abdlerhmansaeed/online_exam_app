@@ -4,7 +4,7 @@ abstract class AuthStates {}
 class InitialState extends AuthStates{}
 class  LoginLoadingState extends AuthStates{}
 class LoginSuccessState extends AuthStates{
-  UserEntiti userEntiti;
+  UserEntity userEntiti;
   LoginSuccessState(this.userEntiti);
 }
 class LoginErrorState extends AuthStates{
@@ -13,7 +13,7 @@ class LoginErrorState extends AuthStates{
 } 
 class SignupLoadingState extends AuthStates{}
 class SignupSuccessState extends AuthStates{
-  UserEntiti userEntiti;
+  UserEntity userEntiti;
   SignupSuccessState(this.userEntiti);
 }
 class SignupErrorState extends AuthStates{
@@ -24,7 +24,7 @@ class SignupErrorState extends AuthStates{
 
 class ForgetPasswordLoadingState extends AuthStates{}
 class ForgetPasswordSuccessState extends AuthStates{
-  UserEntiti userEntiti;
+  UserEntity userEntiti;
   ForgetPasswordSuccessState(this.userEntiti);
 }
 class ForgetPasswordErrorState extends AuthStates{
@@ -33,7 +33,7 @@ class ForgetPasswordErrorState extends AuthStates{
 }
 class OtpLoadingState extends AuthStates{}
 class OtpSuccessState extends AuthStates{
-  UserEntiti userEntiti;
+  UserEntity userEntiti;
   OtpSuccessState(this.userEntiti);
 }
 class OtpErrorState extends AuthStates{
@@ -43,7 +43,7 @@ class OtpErrorState extends AuthStates{
 
 class ResetPasswordLoadingState extends AuthStates{}
 class ResetPasswordSuccessState extends AuthStates{
-  UserEntiti userEntiti;
+  UserEntity userEntiti;
   ResetPasswordSuccessState(this.userEntiti);
 }
 class ResetPasswordErrorState extends AuthStates{

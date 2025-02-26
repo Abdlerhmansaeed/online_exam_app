@@ -10,7 +10,7 @@ class ForgetPasswordUseCase {
 
   ForgetPasswordUseCase(this.authRepo);
 
-  Future<Either<String, UserEntiti>>call({required String email}) {
+  Future<Either<String, UserEntity>>call({required String email}) {
     return authRepo.forgetPasswordEmailVerify(email: email);
   }
 

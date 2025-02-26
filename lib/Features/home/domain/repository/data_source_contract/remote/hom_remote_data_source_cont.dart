@@ -3,5 +3,5 @@ import 'package:online_exam_app/Features/home/domain/entity/all_exams_entity.dar
 import 'package:online_exam_app/core/Error/failure.dart';
 
 abstract class HomRemoteDataSourceContract {
-  Future<Either<Failures, ExamsEntity>> getAllExams();
+  Future<Either<Failures, SubjectsEntity>> getAllSubjects();
 }

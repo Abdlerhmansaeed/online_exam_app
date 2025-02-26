@@ -11,7 +11,7 @@ class OtpResetUseCase {
   AuthRepo authRepo;
   OtpResetUseCase(this.authRepo);
 
-  Future<Either<String, UserEntiti>> call({required String resetCode}) {
+  Future<Either<String, UserEntity>> call({required String resetCode}) {
     return authRepo.resetCodeVerify(resetCode: resetCode);
   }
 }

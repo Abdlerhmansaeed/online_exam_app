@@ -16,7 +16,7 @@ class AuthRepoImp implements AuthRepo {
   AuthRepoImp(this.authDataSource);
 
   @override
-  Future<Either<String, UserEntiti>> login(
+  Future<Either<String, UserEntity>> login(
       {required String email, required String password}) async {
     try {
       var response =
@@ -44,7 +44,7 @@ class AuthRepoImp implements AuthRepo {
   }
 
   @override
-  Future<Either<String, UserEntiti>> signup({required String email,
+  Future<Either<String, UserEntity>> signup({required String email,
     required String password,
     required String rePassword,
     required String userName,
@@ -84,7 +84,7 @@ class AuthRepoImp implements AuthRepo {
   }
 
   @override
-  Future<Either<String, UserEntiti>> forgetPasswordEmailVerify(
+  Future<Either<String, UserEntity>> forgetPasswordEmailVerify(
       {required String email}) async {
     try {
       var response = await authDataSource.forgetPasswordEmailVerify(
@@ -94,7 +94,7 @@ class AuthRepoImp implements AuthRepo {
         ForgetPasswordResponse forgetPasswordResponse =
         ForgetPasswordResponse.fromJson(response.data);
 
-        return right(UserEntiti(
+        return right(UserEntity(
           message: forgetPasswordResponse.message,
           info: forgetPasswordResponse.info,
         ),);
@@ -115,7 +115,7 @@ class AuthRepoImp implements AuthRepo {
   }
 
   @override
-  Future<Either<String, UserEntiti>> resetCodeVerify(
+  Future<Either<String, UserEntity>> resetCodeVerify(
       {required String resetCode}) async {
     try {
       var response = await authDataSource.resetCodeVerify(
@@ -125,7 +125,7 @@ class AuthRepoImp implements AuthRepo {
         OtpCodeResponse otpCodeResponse =
         OtpCodeResponse.fromJson(response.data);
 
-        return right(UserEntiti(
+        return right(UserEntity(
           message: otpCodeResponse.resetCode,
         ),);
       } else {
@@ -145,7 +145,7 @@ class AuthRepoImp implements AuthRepo {
   }
 
   @override
-  Future<Either<String, UserEntiti>> resetPassword(
+  Future<Either<String, UserEntity>> resetPassword(
       {required String email, required String password}) async {
     try {
       var response = await authDataSource.resetPassword(
@@ -156,7 +156,7 @@ class AuthRepoImp implements AuthRepo {
         RegisterResponse registerResponse =
         RegisterResponse.fromJson(response.data);
 
-        return right(UserEntiti(
+        return right(UserEntity(
           message: registerResponse.message,
           token: registerResponse.token
         ),);

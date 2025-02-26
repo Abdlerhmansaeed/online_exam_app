@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_cubit.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.dart';
-import 'package:online_exam_app/core/config/git_config.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../../core/di/di.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

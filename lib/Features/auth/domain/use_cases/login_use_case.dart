@@ -9,7 +9,7 @@ class LoginUseCase {
   AuthRepo authRepo;
 
   LoginUseCase(this.authRepo);
-   Future<Either<String, UserEntiti>> call({required String email, required String password}){
+   Future<Either<String, UserEntity>> call({required String email, required String password}){
     return authRepo.login(email: email, password: password);
    }
 }
