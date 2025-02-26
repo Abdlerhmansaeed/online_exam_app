@@ -28,9 +28,9 @@ class SubjectItem extends StatelessWidget {
         child: Row(
           children: [
             CachedNetworkImage(
-              width: 50.w,
-              height: 50.h,
-              imageUrl: subjectsEntity.name??"null",
+              width: 60.w,
+              height: 60.h,
+              imageUrl: (subjectsEntity.icon ?? "").trim(),
               placeholder: (context, url) => CircularProgressIndicator(),
               errorWidget: (context, url, error) => Icon(Icons.error),
             ),

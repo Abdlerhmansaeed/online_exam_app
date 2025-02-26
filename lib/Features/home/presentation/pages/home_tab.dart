@@ -42,12 +42,16 @@ class _HomePageState extends State<HomePage> {
           verticalSpace(24),
           BlocBuilder<HomeCubit, HomeState>(
             bloc: homeCubit..getAllSubjects(),
+          
             builder: (context, state) {
+
               return state is HomeSuccessState
                   ? Expanded(
-                      child: ListView.builder(itemBuilder: (context, index) {
+                      child: ListView.builder(
+                        itemCount: state.subjectsEntity.length,
+                        itemBuilder: (context, index) {
                       return SubjectItem(
-                        subjectsEntity: state.subjectsEntity,
+                        subjectsEntity: state.subjectsEntity[index],
                       );
                     }))
                   : const Center(child: CircularProgressIndicator());

@@ -16,7 +16,7 @@ class SubjectsEntity {
       name = json["name"];
     }
     if(json["icon"] is String) {
-      icon = json["icon"];
+      icon = json["icon"].toString();
     }
     if(json["createdAt"] is String) {
       createdAt = json["createdAt"];
@@ -35,36 +35,5 @@ class SubjectsEntity {
     _data["createdAt"] = createdAt;
     return _data;
   }
-}
 
-class Metadata {
-  int? currentPage;
-  int? numberOfPages;
-  int? limit;
-
-  Metadata({this.currentPage, this.numberOfPages, this.limit});
-
-  Metadata.fromJson(Map<String, dynamic> json) {
-    if(json["currentPage"] is int) {
-      currentPage = json["currentPage"];
-    }
-    if(json["numberOfPages"] is int) {
-      numberOfPages = json["numberOfPages"];
-    }
-    if(json["limit"] is int) {
-      limit = json["limit"];
-    }
-  }
-
-  static List<Metadata> fromList(List<Map<String, dynamic>> list) {
-    return list.map(Metadata.fromJson).toList();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["currentPage"] = currentPage;
-    _data["numberOfPages"] = numberOfPages;
-    _data["limit"] = limit;
-    return _data;
-  }
 }

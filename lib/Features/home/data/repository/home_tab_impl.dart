@@ -14,7 +14,7 @@ HomRemoteDataSourceContract remoteDataSourceContract;
   });
   
   @override
-  Future<Either<Failures, SubjectsEntity>> getAllSubjects() async {
+  Future<Either<Failures,List <SubjectsEntity>>> getAllSubjects() async {
     return await remoteDataSourceContract.getAllSubjects();
   }
 }

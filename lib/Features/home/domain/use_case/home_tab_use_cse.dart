@@ -9,7 +9,7 @@ class GetAllSubjectsUseCase {
 HomeTabRepoContract homeTabRepo;
 
 GetAllSubjectsUseCase(this.homeTabRepo);
-Future<Either<Failures, SubjectsEntity>> invoke() async {
+Future<Either<Failures, List<SubjectsEntity>>> invoke() async {
   var either= await homeTabRepo.getAllSubjects();
  return either.fold( (l) => Left(l), (r) {
     return Right(r);

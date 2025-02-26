@@ -4,5 +4,5 @@ import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.
 import 'package:online_exam_app/core/Error/failure.dart';
 @injectable
 abstract class HomeTabRepoContract {
-  Future<Either<Failures, SubjectsEntity>> getAllSubjects();
+  Future<Either<Failures,List< SubjectsEntity>>> getAllSubjects();
 }
