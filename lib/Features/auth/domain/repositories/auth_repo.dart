@@ -1,9 +1,8 @@
-import 'package:dartz/dartz.dart';
 import 'package:online_exam_app/Features/auth/domain/entities/user_entiti.dart';
 
 abstract class AuthRepo {
-  Future<Either<String, UserEntiti>> login({required String email, required String password});
-  Future<Either<String, UserEntiti>> signup({
+  Future<UserEntity> login({required String email, required String password});
+  Future<UserEntity> signup({
     required String email,
     required String password,
     required String rePassword,

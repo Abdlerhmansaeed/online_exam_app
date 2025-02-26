@@ -1,4 +1,4 @@
-class UserEntiti {
+class UserEntity {
   String? userName;
   String? firstName;
   String? lastName;

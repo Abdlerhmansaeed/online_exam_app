@@ -10,50 +10,52 @@ import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.d
 
 @injectable
 class AuthCubit extends Cubit<AuthStates> {
-  AuthCubit(this._loginUseCase, this._signupUseCase,
-      this._forgetPasswordUseCase, this._OtpResetUseCase, this._resetPasswordUseCase)
-      : super(InitialState());
+  AuthCubit(
+      this._loginUseCase,
+      this._signupUseCase,
+      this._forgetPasswordUseCase,
+      this._otpResetUseCase,
+      this._resetPasswordUseCase,
+      ) : super(InitialState());
+
   final LoginUseCase _loginUseCase;
   final SignupUsecase _signupUseCase;
   final ForgetPasswordUseCase _forgetPasswordUseCase;
   final ResetPasswordUseCase _resetPasswordUseCase;
+  final OtpResetUseCase _otpResetUseCase;
+
+  // Form Keys
   final forgotPasswordFormKey = GlobalKey<FormState>();
   final loginFormKey = GlobalKey<FormState>();
   final otpFormKey = GlobalKey<FormState>();
   final resetPasswordFormKey = GlobalKey<FormState>();
   final signupFormKey = GlobalKey<FormState>();
 
-  final OtpResetUseCase _OtpResetUseCase;
-
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController rePasswordController = TextEditingController();
-  TextEditingController userNameController = TextEditingController();
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController forgetPasswordEmailController = TextEditingController();
-  TextEditingController otpController = TextEditingController();
-  List<String> opts = List.filled(6, "");
-
+  // Controllers
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController rePasswordController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController forgetPasswordEmailController = TextEditingController();
+  final TextEditingController otpController = TextEditingController();
 
 
   Future<void> login() async {
     emit(LoginLoadingState());
     try {
       var result = await _loginUseCase.call(
-          email: emailController.text, password: passwordController.text);
+        email: emailController.text,
+        password: passwordController.text,
+      );
       result.fold(
-        (l) {
-          emit(LoginErrorState(l));
-        },
-        (r) {
-
-          emit(LoginSuccessState(r));
-        },
+            (failure) => emit(LoginErrorState(failure)),
+            (success) => emit(LoginSuccessState(success)),
       );
     } catch (e) {
-      print(e.toString());
+      emit(LoginErrorState(e.toString()));
     }
   }
 
@@ -61,23 +63,20 @@ class AuthCubit extends Cubit<AuthStates> {
     emit(SignupLoadingState());
     try {
       var result = await _signupUseCase.call(
-          email: emailController.text,
-          password: passwordController.text,
-          rePassword: rePasswordController.text,
-          userName: userNameController.text,
-          firstName: firstNameController.text,
-          lastName: lastNameController.text,
-          phoneNumber: phoneNumberController.text);
+        email: emailController.text,
+        password: passwordController.text,
+        rePassword: rePasswordController.text,
+        userName: userNameController.text,
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
+        phoneNumber: phoneNumberController.text,
+      );
       result.fold(
-        (l) {
-          emit(SignupErrorState(l));
-        },
-        (r) {
-          emit(SignupSuccessState(r));
-        },
+            (failure) => emit(SignupErrorState(failure)),
+            (success) => emit(SignupSuccessState(success)),
       );
     } catch (e) {
-      print(e.toString());
+      emit(SignupErrorState(e.toString()));
     }
   }
 
@@ -85,34 +84,29 @@ class AuthCubit extends Cubit<AuthStates> {
     emit(ForgetPasswordLoadingState());
     try {
       var result = await _forgetPasswordUseCase.call(
-          email: forgetPasswordEmailController.text);
+        email: forgetPasswordEmailController.text,
+      );
       result.fold(
-        (l) {
-          emit(ForgetPasswordErrorState(l));
-        },
-        (r) {
-          emit(ForgetPasswordSuccessState(r));
-        },
+            (failure) => emit(ForgetPasswordErrorState(failure)),
+            (success) => emit(ForgetPasswordSuccessState(success)),
       );
     } catch (e) {
-      print(e.toString());
+      emit(ForgetPasswordErrorState(e.toString()));
     }
   }
 
   Future<void> resetCodeVerify() async {
     emit(OtpLoadingState());
     try {
-      var result = await _OtpResetUseCase.call(resetCode: otpController.text);
+      var result = await _otpResetUseCase.call(
+        resetCode: otpController.text,
+      );
       result.fold(
-        (l) {
-          emit(OtpErrorState(l));
-        },
-        (r) {
-          emit(OtpSuccessState(r));
-        },
+            (failure) => emit(OtpErrorState(failure)),
+            (success) => emit(OtpSuccessState(success)),
       );
     } catch (e) {
-      print(e.toString());
+      emit(OtpErrorState(e.toString()));
     }
   }
 
@@ -120,19 +114,15 @@ class AuthCubit extends Cubit<AuthStates> {
     emit(ResetPasswordLoadingState());
     try {
       var result = await _resetPasswordUseCase.call(
-          email: forgetPasswordEmailController.text,
-          password: passwordController.text,
-          );
+        email: forgetPasswordEmailController.text,
+        password: passwordController.text,
+      );
       result.fold(
-        (l) {
-          emit(ResetPasswordErrorState(l));
-        },
-        (r) {
-          emit(ResetPasswordSuccessState(r));
-        },
+            (failure) => emit(ResetPasswordErrorState(failure)),
+            (success) => emit(ResetPasswordSuccessState(success)),
       );
     } catch (e) {
-      print(e.toString());
+      emit(ResetPasswordErrorState(e.toString()));
     }
   }
 }
