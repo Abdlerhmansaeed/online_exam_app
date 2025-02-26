@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:online_exam_app/core/config/git_config.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/routes/app_routes_generator.dart';
 import 'package:online_exam_app/core/theme/app_theme.dart';
 
+import 'core/di/di.dart';
 import 'core/services/shared_prefs.dart';
 
 
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           theme: AppTheme.appTheme,
           debugShowCheckedModeBanner: false,
-          initialRoute:  token != null ? AppRoutes.homePage : AppRoutes.loginPage,
+          initialRoute:  token != null ? AppRoutes.homeScreen : AppRoutes.loginPage,
           onGenerateRoute: AppRoutesGenerator.generateRoute,
         );
       },

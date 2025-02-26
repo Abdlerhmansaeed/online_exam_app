@@ -3,17 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_cubit.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.dart';
+import 'package:online_exam_app/core/Constant/app_constant.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
-import 'package:online_exam_app/core/theme/app_colors.dart';
+import '../../../../../core/di/di.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
-  ForgotPasswordPage({super.key, required this.authCubit});
-  AuthCubit authCubit;
+  ForgotPasswordPage({super.key});
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return BlocProvider.value(
-      value: authCubit,
+    AuthCubit authCubit = getIt<AuthCubit>();
+
+    return BlocProvider(
+      create: (context) => authCubit,
+
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
@@ -85,11 +88,7 @@ class ForgotPasswordPage extends StatelessWidget {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "Email Can not be empty";
-                                  } else if (!RegExp(
-                                          r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+"
-                                          r"@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                          r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                          r"{0,253}[a-zA-Z0-9])?)*$")
+                                  } else if (!AppConstant.emailRegex
                                       .hasMatch(value)) {
                                     return "Enter Valid Email";
                                   } else if (state
@@ -98,6 +97,7 @@ class ForgotPasswordPage extends StatelessWidget {
                                   }
                                   return null;
                                 },
+
                                 controller:
                                     authCubit.forgetPasswordEmailController,
                                 decoration: InputDecoration(

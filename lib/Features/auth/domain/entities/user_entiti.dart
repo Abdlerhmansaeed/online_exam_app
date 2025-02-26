@@ -1,4 +1,4 @@
-class UserEntiti {
+class UserEntity {
   String? userName;
   String? firstName;
   String? lastName;
@@ -10,7 +10,7 @@ class UserEntiti {
   String? info;
   String? resetCode;
   String? token ;
-  UserEntiti(
+  UserEntity(
       {this.userName,
       this.firstName,
       this.lastName,

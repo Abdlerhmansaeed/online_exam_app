@@ -51,4 +51,5 @@ class AppColors {
       colorCode100: Color(0xFF030303),
     },
   );
+  
 }

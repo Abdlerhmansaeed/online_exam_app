@@ -10,7 +10,7 @@ class SignupUsecase {
   AuthRepo authRepo;
 
   SignupUsecase(this.authRepo);
-  Future<Either<String, UserEntiti>> call({
+  Future<Either<String, UserEntity>> call({
     required String email,
     required String password,
     required String rePassword,

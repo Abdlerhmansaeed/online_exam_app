@@ -2,7 +2,7 @@ import '../../domain/entities/user_entiti.dart';
 
 /// resetCode : "429392"
 
-class OtpCodeResponse extends UserEntiti{
+class OtpCodeResponse extends UserEntity{
   OtpCodeResponse({
       String? resetCode,}){
     _resetCode = resetCode;

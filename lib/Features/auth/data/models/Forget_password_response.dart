@@ -1,7 +1,7 @@
 
 import '../../domain/entities/user_entiti.dart';
 
-class ForgetPasswordResponse extends UserEntiti {
+class ForgetPasswordResponse extends UserEntity {
   ForgetPasswordResponse({this.message, this.info}) : super();
 
   factory ForgetPasswordResponse.fromJson(dynamic json) {

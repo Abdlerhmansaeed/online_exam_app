@@ -16,7 +16,7 @@ class RegisterResponse {
 
 }
 
-class User extends UserEntiti{
+class User extends UserEntity{
   String? username;
   String? firstName;
   String? lastName;

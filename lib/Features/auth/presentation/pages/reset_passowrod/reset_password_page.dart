@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.dart';
-import 'package:online_exam_app/core/config/git_config.dart';
+import '../../../../../core/Constant/app_constant.dart';
+import '../../../../../core/di/di.dart';
 import '../../../../../core/routes/app_routes.dart';
 import '../../manager/auth_cubit.dart';
 
 class ResetPasswordPage extends StatelessWidget {
-  final AuthCubit authCubit;
 
-  const ResetPasswordPage({super.key, required this.authCubit});
+  const ResetPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return BlocProvider.value(
-      value: authCubit,
+    AuthCubit authCubit = getIt<AuthCubit>();
+
+    return BlocProvider(
+      create: (context) => authCubit,
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
@@ -76,7 +78,16 @@ class ResetPasswordPage extends StatelessWidget {
                           SizedBox(height: 32.h),
                           TextFormField(
                             controller:
-                                context.read<AuthCubit>().emailController,
+                            context.read<AuthCubit>().emailController,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Email is required";
+                              } else if (!AppConstant.emailRegex
+                                  .hasMatch(value)) {
+                                return "Enter Valid Email";
+                              }
+                              return null;
+                            },
                             decoration: const InputDecoration(
                               label: Text('Email'),
                               hintText: 'Enter your email',
@@ -86,6 +97,17 @@ class ResetPasswordPage extends StatelessWidget {
                           TextFormField(
                             controller:
                                 context.read<AuthCubit>().passwordController,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "please enter your password";
+                              } else if (!AppConstant.passwordRegex
+                                  .hasMatch(value)) {
+                                return "Please add a Strong Password";
+                              }
+                              return null;
+                            },
+                            obscureText: true,
+                            obscuringCharacter: "*",
                             decoration: const InputDecoration(
                               label: Text('New Password'),
                               hintText: 'Enter Your New Password',

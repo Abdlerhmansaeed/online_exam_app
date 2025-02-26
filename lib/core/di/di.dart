@@ -1,10 +1,8 @@
-
-
-
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:online_exam_app/core/config/git_config.config.dart';
 
+import 'di.config.dart';
+	
 final getIt = GetIt.instance;  
   
 @InjectableInit(  
@@ -12,4 +10,4 @@ final getIt = GetIt.instance;
   preferRelativeImports: true, // default  
   asExtension: true, // default  
 )  
-void configureDependencies() => getIt.init();  
+void configureDependencies() => getIt.init();

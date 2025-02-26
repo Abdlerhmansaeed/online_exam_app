@@ -7,7 +7,7 @@ import '../entities/user_entiti.dart';
 class ResetPasswordUseCase {
   AuthRepo authRepo;
   ResetPasswordUseCase({required this.authRepo});
-  Future<Either<String, UserEntiti>> call(
+  Future<Either<String, UserEntity>> call(
       {required String email, required String password}) {
     return authRepo.resetPassword(email: email, password: password);
   }
