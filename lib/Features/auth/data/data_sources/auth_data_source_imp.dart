@@ -18,7 +18,6 @@ class AuthDataSourceImp implements AuthDataSource {
       data: {"email": email, "password": password},
     );
   }
-
   @override
   Future<Response> signup({
     required String email,

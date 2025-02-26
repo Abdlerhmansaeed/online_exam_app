@@ -10,7 +10,7 @@ final class HomeErrorState extends HomeState {
   HomeErrorState({required this.errorMessage});
 }
 final class HomeSuccessState extends HomeState {
- SubjectsEntity subjectsEntity;
+List< SubjectsEntity> subjectsEntity;
   HomeSuccessState({required this.subjectsEntity});
 
 }

@@ -1,6 +1,5 @@
 
-
-import 'package:online_exam_app/Features/home/domain/entity/all_exams_entity.dart';
+import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
 
 class AllSubjectsResponse {
   String? message;
@@ -20,7 +19,6 @@ class AllSubjectsResponse {
       subjects = json["subjects"] == null ? null : (json["subjects"] as List).map((e) => SubjectsModel.fromJson(e)).toList();
     }
   }
-
   static List<AllSubjectsResponse> fromList(List<Map<String, dynamic>> list) {
     return list.map(AllSubjectsResponse.fromJson).toList();
   }
@@ -38,9 +36,13 @@ class AllSubjectsResponse {
   }
 }
 
-class SubjectsModel extends SubjectsEntity {
+class SubjectsModel  {
+ String? id;
+  String? name;
+  String? icon;
+  String? createdAt;
 
-  SubjectsModel({super.id, super.name, super.icon, super.createdAt});
+  SubjectsModel({this.id, this.name, this.icon, this.createdAt});
 
   SubjectsModel.fromJson(Map<String, dynamic> json) {
     if(json["_id"] is String) {
@@ -68,6 +70,9 @@ class SubjectsModel extends SubjectsEntity {
     _data["icon"] = icon;
     _data["createdAt"] = createdAt;
     return _data;
+  }
+  SubjectsEntity toSubjectEntity(){
+    return SubjectsEntity(name: name, icon: icon, createdAt: createdAt, id: id);
   }
 }
 

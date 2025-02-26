@@ -1,7 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:online_exam_app/Features/home/domain/entity/all_exams_entity.dart';
+import 'package:meta/meta.dart';
+import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
 
 import 'package:online_exam_app/Features/home/presentation/pages/home_tab.dart';
 import 'package:online_exam_app/Features/profile/presentation/pages/profile_page.dart';
@@ -34,11 +35,10 @@ class HomeCubit extends Cubit<HomeState> {
     var either = await getAllExamsUseCase.invoke();
     either.fold(
       (l) { 
-        print(l.errorMessage);
+        
         emit(
         HomeErrorState(errorMessage: l.errorMessage)); },
       (r) {
-        print(r);
         emit(HomeSuccessState(subjectsEntity: r));
       },
     );

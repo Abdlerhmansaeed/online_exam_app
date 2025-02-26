@@ -3,11 +3,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:online_exam_app/Features/home/domain/entity/all_exams_entity.dart';
-import 'package:online_exam_app/core/helper/spacing.dart';
 
+import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
+import 'package:online_exam_app/helper/spacing.dart';
 
 class SubjectItem extends StatelessWidget {
   SubjectsEntity subjectsEntity;
@@ -28,11 +28,11 @@ class SubjectItem extends StatelessWidget {
         child: Row(
           children: [
             CachedNetworkImage(
-              width: 50.w,
-              height: 50.h,
-              imageUrl: subjectsEntity.name??"null",
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+              width: 60.w,
+              height: 60.h,
+              imageUrl: (subjectsEntity.icon ?? "").trim(),
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
             horizontalSpace(20),
             Text(

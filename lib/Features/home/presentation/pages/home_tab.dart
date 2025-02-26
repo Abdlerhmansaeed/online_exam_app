@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,8 +7,8 @@ import 'package:online_exam_app/Features/home/presentation/cubit/home_cubit.dart
 import 'package:online_exam_app/Features/home/presentation/widgets/build_search_field.dart';
 import 'package:online_exam_app/Features/home/presentation/widgets/subject_item.dart';
 import 'package:online_exam_app/core/di/di.dart';
-import 'package:online_exam_app/core/helper/spacing.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
+import 'package:online_exam_app/helper/spacing.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -41,12 +42,16 @@ class _HomePageState extends State<HomePage> {
           verticalSpace(24),
           BlocBuilder<HomeCubit, HomeState>(
             bloc: homeCubit..getAllSubjects(),
+          
             builder: (context, state) {
+
               return state is HomeSuccessState
                   ? Expanded(
-                      child: ListView.builder(itemBuilder: (context, index) {
+                      child: ListView.builder(
+                        itemCount: state.subjectsEntity.length,
+                        itemBuilder: (context, index) {
                       return SubjectItem(
-                        subjectsEntity: state.subjectsEntity,
+                        subjectsEntity: state.subjectsEntity[index],
                       );
                     }))
                   : const Center(child: CircularProgressIndicator());
