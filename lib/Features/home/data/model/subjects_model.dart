@@ -1,25 +1,27 @@
 
-class ExamsResponse {
+import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
+
+class AllSubjectsResponse {
   String? message;
   Metadata? metadata;
-  List<ExamsModel>? exams;
+  List<SubjectsModel>? subjects;
 
-  ExamsResponse({this.message, this.metadata, this.exams});
+  AllSubjectsResponse({this.message, this.metadata, this.subjects});
 
-  ExamsResponse.fromJson(Map<String, dynamic> json) {
+  AllSubjectsResponse.fromJson(Map<String, dynamic> json) {
     if(json["message"] is String) {
       message = json["message"];
     }
     if(json["metadata"] is Map) {
       metadata = json["metadata"] == null ? null : Metadata.fromJson(json["metadata"]);
     }
-    if(json["exams"] is List) {
-      exams = json["exams"] == null ? null : (json["exams"] as List).map((e) => ExamsModel.fromJson(e)).toList();
+    if(json["subjects"] is List) {
+      subjects = json["subjects"] == null ? null : (json["subjects"] as List).map((e) => SubjectsModel.fromJson(e)).toList();
     }
   }
 
-  static List<ExamsResponse> fromList(List<Map<String, dynamic>> list) {
-    return list.map(ExamsResponse.fromJson).toList();
+  static List<AllSubjectsResponse> fromList(List<Map<String, dynamic>> list) {
+    return list.map(AllSubjectsResponse.fromJson).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -28,60 +30,41 @@ class ExamsResponse {
     if(metadata != null) {
       _data["metadata"] = metadata?.toJson();
     }
-    if(exams != null) {
-      _data["exams"] = exams?.map((e) => e.toJson()).toList();
+    if(subjects != null) {
+      _data["subjects"] = subjects?.map((e) => e.toJson()).toList();
     }
     return _data;
   }
 }
 
-class ExamsModel {
-  String? id;
-  String? title;
-  int? duration;
-  String? subject;
-  int? numberOfQuestions;
-  bool? active;
-  String? createdAt;
+class SubjectsModel extends SubjectsEntity {
 
-  ExamsModel({this.id, this.title, this.duration, this.subject, this.numberOfQuestions, this.active, this.createdAt});
+  SubjectsModel({super.id, super.name, super.icon, super.createdAt});
 
-  ExamsModel.fromJson(Map<String, dynamic> json) {
+  SubjectsModel.fromJson(Map<String, dynamic> json) {
     if(json["_id"] is String) {
       id = json["_id"];
     }
-    if(json["title"] is String) {
-      title = json["title"];
+    if(json["name"] is String) {
+      name = json["name"];
     }
-    if(json["duration"] is int) {
-      duration = json["duration"];
-    }
-    if(json["subject"] is String) {
-      subject = json["subject"];
-    }
-    if(json["numberOfQuestions"] is int) {
-      numberOfQuestions = json["numberOfQuestions"];
-    }
-    if(json["active"] is bool) {
-      active = json["active"];
+    if(json["icon"] is String) {
+      icon = json["icon"];
     }
     if(json["createdAt"] is String) {
       createdAt = json["createdAt"];
     }
   }
 
-  static List<ExamsModel> fromList(List<Map<String, dynamic>> list) {
-    return list.map(ExamsModel.fromJson).toList();
+  static List<SubjectsModel> fromList(List<Map<String, dynamic>> list) {
+    return list.map(SubjectsModel.fromJson).toList();
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> _data = <String, dynamic>{};
     _data["_id"] = id;
-    _data["title"] = title;
-    _data["duration"] = duration;
-    _data["subject"] = subject;
-    _data["numberOfQuestions"] = numberOfQuestions;
-    _data["active"] = active;
+    _data["name"] = name;
+    _data["icon"] = icon;
     _data["createdAt"] = createdAt;
     return _data;
   }

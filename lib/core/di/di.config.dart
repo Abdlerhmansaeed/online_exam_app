@@ -37,8 +37,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i250.HomeTabRemoteImpl());
     gh.factory<_i577.HomeTabRepoContract>(() => _i781.HomeTabImpl(
         remoteDataSourceContract: gh<_i580.HomRemoteDataSourceContract>()));
-    gh.factory<_i242.GetAllExamsUseCase>(
-        () => _i242.GetAllExamsUseCase(gh<_i577.HomeTabRepoContract>()));
+    gh.factory<_i242.GetAllSubjectsUseCase>(
+        () => _i242.GetAllSubjectsUseCase(gh<_i577.HomeTabRepoContract>()));
     return this;
   }
 }

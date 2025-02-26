@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-HomeCubit homeCubit =HomeCubit(getIt<GetAllExamsUseCase>());
+HomeCubit homeCubit =HomeCubit(getIt<GetAllSubjectsUseCase>());
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {

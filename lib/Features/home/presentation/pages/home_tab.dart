@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  HomeCubit homeCubit = HomeCubit(getIt<GetAllExamsUseCase>());
+  HomeCubit homeCubit = HomeCubit(getIt<GetAllSubjectsUseCase>());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,13 +41,16 @@ class _HomePageState extends State<HomePage> {
               style: Theme.of(context).textTheme.titleLarge),
           verticalSpace(24),
           BlocBuilder<HomeCubit, HomeState>(
-            bloc: homeCubit..getAllExamsUseCase,
+            bloc: homeCubit..getAllSubjects(),
             builder: (context, state) {
-              
-              return state is HomeSuccessState ? Expanded(
-                  child: ListView.builder(itemBuilder: (context, index) {
-                return const SubjectItem();
-              })): const Center(child: CircularProgressIndicator());
+              return state is HomeSuccessState
+                  ? Expanded(
+                      child: ListView.builder(itemBuilder: (context, index) {
+                      return SubjectItem(
+                        subjectsEntity: state.subjectsEntity,
+                      );
+                    }))
+                  : const Center(child: CircularProgressIndicator());
             },
           )
         ],

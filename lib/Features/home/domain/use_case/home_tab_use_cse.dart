@@ -3,13 +3,13 @@ import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/Features/home/domain/repository/contract/home_tab_repo.dart';
 import 'package:online_exam_app/core/Error/failure.dart';
 
-import '../entity/all_exams_entity.dart';
+import '../entity/all_subjects_entity.dart';
 @injectable
-class GetAllExamsUseCase {
+class GetAllSubjectsUseCase {
 HomeTabRepoContract homeTabRepo;
 
-GetAllExamsUseCase(this.homeTabRepo);
-Future<Either<Failures, ExamsEntity>> invoke() async {
+GetAllSubjectsUseCase(this.homeTabRepo);
+Future<Either<Failures, SubjectsEntity>> invoke() async {
   var either= await homeTabRepo.getAllSubjects();
  return either.fold( (l) => Left(l), (r) {
     return Right(r);

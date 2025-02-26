@@ -27,7 +27,8 @@ class SubjectDetail extends StatelessWidget {
                verticalSpace(20),
                Expanded(child: ListView.builder(
                  itemBuilder: (context, index) {
-                   return const SubjectItem();
+                   return Container();
+                    // SubjectItem();
                  }
                ))
             ],
