@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/home/presentation/widgets/subject_item.dart';
-import 'package:online_exam_app/helper/spacing.dart';
+
+import '../../../../core/helper/spacing.dart';
 
 class SubjectDetail extends StatelessWidget {
   const SubjectDetail({super.key});

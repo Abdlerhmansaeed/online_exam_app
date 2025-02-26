@@ -7,7 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
-import 'package:online_exam_app/helper/spacing.dart';
+
+import '../../../../core/helper/spacing.dart';
 
 class SubjectItem extends StatelessWidget {
   SubjectsEntity subjectsEntity;

@@ -8,7 +8,8 @@ import 'package:online_exam_app/Features/home/presentation/widgets/build_search_
 import 'package:online_exam_app/Features/home/presentation/widgets/subject_item.dart';
 import 'package:online_exam_app/core/di/di.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
-import 'package:online_exam_app/helper/spacing.dart';
+
+import '../../../../core/helper/spacing.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
