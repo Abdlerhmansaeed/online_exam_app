@@ -20,21 +20,21 @@ class AppRoutesGenerator {
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case AppRoutes.signUpPage:
         return MaterialPageRoute(
-          builder: (_) => SignUpPage(authCubit: settings.arguments as AuthCubit),
+          builder: (_) => const SignUpPage(),
         );
       case AppRoutes.forgotPass:
         return MaterialPageRoute(
-          builder: (_) => ForgotPasswordPage(authCubit: settings.arguments as AuthCubit),
+          builder: (_) => ForgotPasswordPage(),
         );
       case AppRoutes.homePage:
         return MaterialPageRoute(builder: (_) => const HomePage());
       case AppRoutes.otpPage:
         return MaterialPageRoute(
-          builder: (_) => OtpVerificationPage(authCubit: settings.arguments as AuthCubit),
+          builder: (_) => OtpVerificationPage(),
         );
       case AppRoutes.resetPasswordPage:
         return MaterialPageRoute(
-          builder: (_) => ResetPasswordPage(authCubit: settings.arguments as AuthCubit),
+          builder: (_) => ResetPasswordPage(),
         );
       case AppRoutes.homeScreen:
         return MaterialPageRoute(builder: (_) => const HomeScreen());

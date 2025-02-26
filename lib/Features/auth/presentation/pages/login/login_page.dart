@@ -6,6 +6,7 @@ import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../core/Constant/app_constant.dart';
 import '../../../../../core/di/di.dart';
 
 class LoginPage extends StatelessWidget {
@@ -47,7 +48,7 @@ class LoginPage extends StatelessWidget {
                     context: context,
                     barrierDismissible: false, // Prevent closing while loading
                     builder: (_) =>
-                    const Center(child: CircularProgressIndicator()),
+                        const Center(child: CircularProgressIndicator()),
                   );
                 }
               },
@@ -65,13 +66,11 @@ class LoginPage extends StatelessWidget {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "Email Can not be empty";
-                              } else if (!RegExp(
-                                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+"
-                                      r"@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                      r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                      r"{0,253}[a-zA-Z0-9])?)*$")
+                              } else if (!AppConstant.emailRegex
                                   .hasMatch(value)) {
                                 return "Enter Valid Email";
+                              } else if (state is LoginErrorState) {
+                                return state.error;
                               }
                               return null;
                             },
@@ -88,9 +87,14 @@ class LoginPage extends StatelessWidget {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "please enter your password";
+                              } else if (!AppConstant.passwordRegex
+                                  .hasMatch(value)) {
+                                return "Please Enter your correct password";
                               }
                               return null;
                             },
+                            obscureText: true,
+                            obscuringCharacter: "*",
                             controller: authCubit.passwordController,
                             decoration: const InputDecoration(
                               hintText: 'Enter Your Password',
@@ -99,12 +103,20 @@ class LoginPage extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Checkbox(
-                                value: false,
-                                side: const BorderSide(color: AppColors.gray),
-                                overlayColor: const WidgetStatePropertyAll(
-                                    Colors.transparent),
-                                onChanged: (value) {},
+                              ValueListenableBuilder(
+                                valueListenable: authCubit.checkBoxValue,
+                                builder: (context, value, child) {
+                                  return Checkbox(
+                                    value: value,
+                                    side: const BorderSide(color: AppColors.gray),
+                                    overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+                                    onChanged: (newValue) {
+                                      if (newValue != null) {
+                                        authCubit.rememberMe(newValue);
+                                      }
+                                    },
+                                  );
+                                },
                               ),
                               const Text('Remember me'),
                               const Spacer(),
@@ -114,9 +126,10 @@ class LoginPage extends StatelessWidget {
                                       Colors.transparent),
                                 ),
                                 onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, AppRoutes.forgotPass,
-                                      arguments: authCubit);
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    AppRoutes.forgotPass,
+                                  );
                                 },
                                 child: const Text(
                                   'Forgot password?',
@@ -158,7 +171,7 @@ class LoginPage extends StatelessWidget {
                                       Colors.transparent),
                                 ),
                                 onPressed: () {
-                                  Navigator.pushNamed(
+                                  Navigator.pushReplacementNamed(
                                       context, AppRoutes.signUpPage,
                                       arguments: authCubit);
                                 },

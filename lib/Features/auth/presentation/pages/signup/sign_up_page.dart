@@ -2,18 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_cubit.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.dart';
+import 'package:online_exam_app/core/Constant/app_constant.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SignUpPage extends StatelessWidget {
-  final AuthCubit authCubit;
+import '../../../../../core/di/di.dart';
 
-  const SignUpPage({super.key, required this.authCubit});
+class SignUpPage extends StatelessWidget {
+
+  const SignUpPage({super.key,});
   @override
+
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: authCubit,
+    AuthCubit authCubit = getIt<AuthCubit>();
+
+    return BlocProvider(
+      create: (context) => authCubit,
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
@@ -126,11 +131,7 @@ class SignUpPage extends StatelessWidget {
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return "Email is required";
-                                    } else if (!RegExp(
-                                            r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+"
-                                            r"@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                            r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-                                            r"{0,253}[a-zA-Z0-9])?)*$")
+                                    } else if (!AppConstant.emailRegex
                                         .hasMatch(value)) {
                                       return "Enter Valid Email";
                                     }
@@ -152,6 +153,9 @@ class SignUpPage extends StatelessWidget {
                                       validator: (value) {
                                         if (value!.isEmpty) {
                                           return "Password Is Required";
+                                        } else if(!AppConstant.passwordRegex
+                                            .hasMatch(value)){
+                                          return "Enter Strong Password";
                                         }
                                         return null;
                                       },
@@ -193,7 +197,7 @@ class SignUpPage extends StatelessWidget {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "Phone Is Required";
-                                  } else if (!RegExp(r'^01[0125][0-9]{8}$')
+                                  } else if (!AppConstant.phoneRegex
                                       .hasMatch(value)) {
                                     return "Enter Valid Phone";
                                   }

@@ -8,16 +8,18 @@ import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
 import 'package:pinput/pinput.dart';
 
+import '../../../../../core/di/di.dart';
+
 class OtpVerificationPage extends StatelessWidget {
-  OtpVerificationPage({super.key, required this.authCubit});
-   AuthCubit authCubit;
+  OtpVerificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    AuthCubit authCubit = getIt<AuthCubit>();
 
-    return BlocProvider.value(
-      value: authCubit,
+    return BlocProvider(
+      create: (context) => authCubit,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Password'),

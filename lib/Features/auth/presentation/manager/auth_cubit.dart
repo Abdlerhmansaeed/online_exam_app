@@ -10,13 +10,11 @@ import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.d
 
 @injectable
 class AuthCubit extends Cubit<AuthStates> {
-  AuthCubit(
-      this._loginUseCase,
+  AuthCubit(this._loginUseCase,
       this._signupUseCase,
       this._forgetPasswordUseCase,
       this._otpResetUseCase,
-      this._resetPasswordUseCase,
-      ) : super(InitialState());
+      this._resetPasswordUseCase,) : super(InitialState());
 
   final LoginUseCase _loginUseCase;
   final SignupUsecase _signupUseCase;
@@ -42,6 +40,8 @@ class AuthCubit extends Cubit<AuthStates> {
   final TextEditingController forgetPasswordEmailController = TextEditingController();
   final TextEditingController otpController = TextEditingController();
 
+
+  final ValueNotifier<bool> checkBoxValue = ValueNotifier<bool>(false);
 
   Future<void> login() async {
     emit(LoginLoadingState());
@@ -124,5 +124,9 @@ class AuthCubit extends Cubit<AuthStates> {
     } catch (e) {
       emit(ResetPasswordErrorState(e.toString()));
     }
+  }
+
+  Future<void> rememberMe(bool newValue) async {
+    checkBoxValue.value = newValue;
   }
 }
