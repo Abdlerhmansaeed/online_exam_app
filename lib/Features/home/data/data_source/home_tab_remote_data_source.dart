@@ -30,12 +30,13 @@ class HomeTabRemoteImpl implements HomRemoteDataSourceContract {
           },
         ));
     if (response.statusCode == 200) {
-     final allSubjectsResponse = AllSubjectsResponse.fromJson(response.data);
-         List<SubjectsEntity> subjects = allSubjectsResponse.subjects?.map((subject) => subject.toSubjectEntity()).toList()?? [];
+      final allSubjectsResponse = AllSubjectsResponse.fromJson(response.data);
+      List<SubjectsEntity> subjects = allSubjectsResponse.subjects
+              ?.map((subject) => subject.toSubjectEntity())
+              .toList() ??
+          [];
 
       return Right(subjects);
-
-      // return Right();
     } else {
       return Left(ServerFailure(errorMessage: response.statusMessage!));
     }

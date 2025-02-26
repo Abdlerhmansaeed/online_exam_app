@@ -35,11 +35,10 @@ class HomeCubit extends Cubit<HomeState> {
     var either = await getAllExamsUseCase.invoke();
     either.fold(
       (l) { 
-        print(l.errorMessage);
+        
         emit(
         HomeErrorState(errorMessage: l.errorMessage)); },
       (r) {
-        print(r);
         emit(HomeSuccessState(subjectsEntity: r));
       },
     );

@@ -31,8 +31,8 @@ class SubjectItem extends StatelessWidget {
               width: 60.w,
               height: 60.h,
               imageUrl: (subjectsEntity.icon ?? "").trim(),
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
             horizontalSpace(20),
             Text(
