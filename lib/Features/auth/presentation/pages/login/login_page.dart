@@ -33,7 +33,7 @@ class LoginPage extends StatelessWidget {
 
                 if (state is LoginSuccessState) {
                   Navigator.pushReplacementNamed(
-                      context, AppRoutes.resetPasswordPage);
+                      context, AppRoutes.homeScreen);
                 } else if (state is LoginErrorState) {
                   showDialog(
                     context: context,

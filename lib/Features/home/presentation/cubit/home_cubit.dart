@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
 
-import 'package:online_exam_app/Features/home/presentation/pages/home_tab.dart';
+import 'package:online_exam_app/Features/home/presentation/pages/home_screen.dart';
 import 'package:online_exam_app/Features/profile/presentation/pages/profile_page.dart';
-import 'package:online_exam_app/Features/result/presentation/pages/result_page.dart';
+import 'package:online_exam_app/Features/user_results/presentation/pages/result_page.dart';
 
 import '../../domain/use_case/home_tab_use_cse.dart';
 
@@ -19,7 +19,7 @@ class HomeCubit extends Cubit<HomeState> {
   ) : super(HomeInitial());
   int selectedIndex = 0;
   List<Widget> tabs = [
-    const HomePage(),
+    const HomeScreen(),
     const ResultPage(),
     const ProfilePage()
   ];

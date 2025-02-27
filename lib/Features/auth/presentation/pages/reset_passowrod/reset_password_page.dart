@@ -35,7 +35,7 @@ class ResetPasswordPage extends StatelessWidget {
             BlocListener<AuthCubit, AuthStates>(
               listener: (context, state) {
                 if (state is ResetPasswordSuccessState) {
-                  Navigator.pushReplacementNamed(context, AppRoutes.homePage);
+                  Navigator.pushReplacementNamed(context, AppRoutes.layoutScreen);
                 } else if (state is ResetPasswordErrorState) {
                   showDialog(
                     context: context,
