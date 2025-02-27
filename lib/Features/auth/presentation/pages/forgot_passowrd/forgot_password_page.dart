@@ -5,6 +5,7 @@ import 'package:online_exam_app/Features/auth/presentation/manager/auth_cubit.da
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.dart';
 import 'package:online_exam_app/core/Constant/app_constant.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
+import '../../../../../core/base_states/base_states.dart';
 import '../../../../../core/di/di.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
@@ -29,18 +30,18 @@ class ForgotPasswordPage extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back_ios_new_rounded),
               ),
             ),
-            BlocConsumer<AuthCubit, AuthStates>(
+            BlocConsumer<AuthCubit, AuthState>(
               listener: (context, state) {
-                if (state is! ForgetPasswordLoadingState) {
+                if (state.forgetPasswordStates is! LoadingState) {
                   if (Navigator.canPop(context)) {
                     Navigator.pop(context);
                   }
                 }
 
-                if (state is ForgetPasswordSuccessState) {
+                if (state.forgetPasswordStates is SuccessState) {
                   Navigator.pushReplacementNamed(context, AppRoutes.otpPage,
                       arguments: authCubit);
-                } else if (state is ForgetPasswordLoadingState) {
+                } else if (state.forgetPasswordStates is LoadingState) {
                   showDialog(
                     context: context,
                     barrierDismissible: false,
@@ -48,14 +49,13 @@ class ForgotPasswordPage extends StatelessWidget {
                       return const Center(child: CircularProgressIndicator());
                     },
                   );
-                } else if (state is ForgetPasswordErrorState) {
+                } else if (state.forgetPasswordStates is ErrorState) {
                   showDialog(
                     context: context,
                     builder: (context) {
                       return AlertDialog(
                         title: const Text("Error"),
-                        content: Text(state.error),
-                      );
+                        content: Text((state.forgetPasswordStates as ErrorState).error?? ""));
                     },
                   );
                 }
@@ -91,9 +91,6 @@ class ForgotPasswordPage extends StatelessWidget {
                                   } else if (!AppConstant.emailRegex
                                       .hasMatch(value)) {
                                     return "Enter Valid Email";
-                                  } else if (state
-                                      is ForgetPasswordErrorState) {
-                                    return state.error;
                                   }
                                   return null;
                                 },
@@ -103,9 +100,7 @@ class ForgotPasswordPage extends StatelessWidget {
                                 decoration: InputDecoration(
                                   hintText: 'Enter Your Email',
                                   labelText: 'Email',
-                                  errorText: state is ForgetPasswordErrorState
-                                      ? state.error
-                                      : null,
+
                                 ),
                               ),
                               SizedBox(

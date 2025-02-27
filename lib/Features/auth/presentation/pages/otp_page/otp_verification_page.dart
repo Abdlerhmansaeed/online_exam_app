@@ -8,6 +8,7 @@ import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
 import 'package:pinput/pinput.dart';
 
+import '../../../../../core/base_states/base_states.dart';
 import '../../../../../core/di/di.dart';
 
 class OtpVerificationPage extends StatelessWidget {
@@ -30,28 +31,24 @@ class OtpVerificationPage extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios_new_rounded),
           ),
         ),
-        body: BlocConsumer<AuthCubit, AuthStates>(
+        body: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
-            if (state is! OtpLoadingState) {
-              if (Navigator.canPop(context)) {
-                Navigator.pop(context);
-              }
-            }
 
-            if (state is OtpSuccessState) {
+
+            if (state.otpStates is SuccessState) {
               Navigator.pushReplacementNamed(
                   context, AppRoutes.resetPasswordPage,
                   arguments: authCubit);
-            } else if (state is OtpErrorState) {
+            } else if (state.otpStates is ErrorState) {
               showDialog(
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: Text(state.error),
+                    title: Text((state.otpStates as ErrorState).error?? ""),
                   );
                 },
               );
-            } else if (state is OtpLoadingState) {
+            } else if (state.otpStates is LoadingState) {
               showDialog(
                 context: context,
                 barrierDismissible: false, // Prevent closing while loading

@@ -7,6 +7,7 @@ import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../core/base_states/base_states.dart';
 import '../../../../../core/di/di.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -31,30 +32,24 @@ class SignUpPage extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back_ios_new_rounded),
               ),
             ),
-            BlocConsumer<AuthCubit, AuthStates>(
+            BlocConsumer<AuthCubit, AuthState>(
               listener: (context, state) {
-                if (state is! SignupLoadingState) {
-                  if (Navigator.canPop(context)) {
-                    Navigator.pop(context);
-                  }
-                }
-
-                if (state is SignupSuccessState) {
+                if (state.signupStates is SuccessState) {
                   Navigator.pushReplacementNamed(
-                      context, AppRoutes.resetPasswordPage);
-                } else if (state is SignupErrorState) {
+                      context, AppRoutes.layoutScreen);
+                } else if (state.signupStates is ErrorState) {
                   showDialog(
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: Text(state.error),
+                        title: Text((state.signupStates as ErrorState).error?? ""),
                       );
                     },
                   );
-                } else if (state is SignupLoadingState) {
+                } else if (state.signupStates is LoadingState) {
                   showDialog(
                     context: context,
-                    barrierDismissible: false, // Prevent closing while loading
+                    barrierDismissible: false,
                     builder: (_) =>
                     const Center(child: CircularProgressIndicator()),
                   );

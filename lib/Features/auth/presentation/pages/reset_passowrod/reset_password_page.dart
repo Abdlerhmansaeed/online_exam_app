@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.dart';
 import '../../../../../core/Constant/app_constant.dart';
+import '../../../../../core/base_states/base_states.dart';
 import '../../../../../core/di/di.dart';
 import '../../../../../core/routes/app_routes.dart';
 import '../../manager/auth_cubit.dart';
@@ -32,20 +33,20 @@ class ResetPasswordPage extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back_ios_new_rounded),
               ),
             ),
-            BlocListener<AuthCubit, AuthStates>(
+            BlocListener<AuthCubit, AuthState>(
               listener: (context, state) {
-                if (state is ResetPasswordSuccessState) {
+                if (state.resetPasswordStates is SuccessState) {
                   Navigator.pushReplacementNamed(context, AppRoutes.layoutScreen);
-                } else if (state is ResetPasswordErrorState) {
+                } else if (state.resetPasswordStates is ErrorState) {
                   showDialog(
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: Text(state.error),
+                        title: Text((state.resetPasswordStates as ErrorState).error?? ""),
                       );
                     },
                   );
-                } else if (state is ResetPasswordLoadingState) {
+                } else if (state.resetPasswordStates is LoadingState) {
                   // Show loading dialog
                   showDialog(
                     context: context,
@@ -55,7 +56,7 @@ class ResetPasswordPage extends StatelessWidget {
                   );
                 }
               },
-              child: BlocBuilder<AuthCubit, AuthStates>(
+              child: BlocBuilder<AuthCubit, AuthState>(
                 builder: (context, state) {
                   return SliverPadding(
                     padding: const EdgeInsets.all(16),

@@ -7,14 +7,17 @@ import 'package:online_exam_app/Features/auth/domain/use_cases/otp_reset_use_cas
 import 'package:online_exam_app/Features/auth/domain/use_cases/reset_password_use_case.dart';
 import 'package:online_exam_app/Features/auth/domain/use_cases/signup_usecase.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.dart';
+import 'package:online_exam_app/core/base_states/base_states.dart';
+
+import '../../domain/entities/user_entiti.dart';
 
 @injectable
-class AuthCubit extends Cubit<AuthStates> {
+class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this._loginUseCase,
       this._signupUseCase,
       this._forgetPasswordUseCase,
       this._otpResetUseCase,
-      this._resetPasswordUseCase,) : super(InitialState());
+      this._resetPasswordUseCase) : super(AuthState());
 
   final LoginUseCase _loginUseCase;
   final SignupUsecase _signupUseCase;
@@ -44,23 +47,23 @@ class AuthCubit extends Cubit<AuthStates> {
   final ValueNotifier<bool> checkBoxValue = ValueNotifier<bool>(false);
 
   Future<void> login() async {
-    emit(LoginLoadingState());
+    emit(state.copyWith(loginStates:LoadingState()));
     try {
       var result = await _loginUseCase.call(
         email: emailController.text,
         password: passwordController.text,
       );
       result.fold(
-            (failure) => emit(LoginErrorState(failure)),
-            (success) => emit(LoginSuccessState(success)),
+            (failure) => emit(state.copyWith(loginStates: ErrorState(failure))),
+            (success) => emit(state.copyWith(loginStates: SuccessState<UserEntity>(success))),
       );
     } catch (e) {
-      emit(LoginErrorState(e.toString()));
+      emit(state.copyWith(loginStates: ErrorState(e.toString())));
     }
   }
 
   Future<void> signup() async {
-    emit(SignupLoadingState());
+    emit(state.copyWith(signupStates:LoadingState()));
     try {
       var result = await _signupUseCase.call(
         email: emailController.text,
@@ -72,57 +75,57 @@ class AuthCubit extends Cubit<AuthStates> {
         phoneNumber: phoneNumberController.text,
       );
       result.fold(
-            (failure) => emit(SignupErrorState(failure)),
-            (success) => emit(SignupSuccessState(success)),
+            (failure) => emit(state.copyWith(signupStates: ErrorState(failure))),
+            (success) => emit(state.copyWith(signupStates: SuccessState<UserEntity>(success))),
       );
     } catch (e) {
-      emit(SignupErrorState(e.toString()));
+      emit(state.copyWith(signupStates: ErrorState(e.toString())));
     }
   }
 
   Future<void> forgetPasswordEmailVerify() async {
-    emit(ForgetPasswordLoadingState());
+    emit(state.copyWith(forgetPasswordStates:LoadingState()));
     try {
       var result = await _forgetPasswordUseCase.call(
         email: forgetPasswordEmailController.text,
       );
       result.fold(
-            (failure) => emit(ForgetPasswordErrorState(failure)),
-            (success) => emit(ForgetPasswordSuccessState(success)),
+            (failure) => emit(state.copyWith(forgetPasswordStates: ErrorState(failure))),
+            (success) => emit(state.copyWith(forgetPasswordStates: SuccessState<UserEntity>(success))),
       );
     } catch (e) {
-      emit(ForgetPasswordErrorState(e.toString()));
+      emit(state.copyWith(forgetPasswordStates: ErrorState(e.toString())));
     }
   }
 
   Future<void> resetCodeVerify() async {
-    emit(OtpLoadingState());
+    emit(state.copyWith(otpStates:LoadingState()));
     try {
       var result = await _otpResetUseCase.call(
         resetCode: otpController.text,
       );
       result.fold(
-            (failure) => emit(OtpErrorState(failure)),
-            (success) => emit(OtpSuccessState(success)),
+            (failure) => emit(state.copyWith(otpStates: ErrorState(failure))),
+            (success) => emit(state.copyWith(otpStates: SuccessState<UserEntity>(success))),
       );
     } catch (e) {
-      emit(OtpErrorState(e.toString()));
+      emit(state.copyWith(otpStates: ErrorState(e.toString())));
     }
   }
 
   Future<void> resetPassword() async {
-    emit(ResetPasswordLoadingState());
+    emit(state.copyWith(resetPasswordStates:LoadingState()));
     try {
       var result = await _resetPasswordUseCase.call(
         email: forgetPasswordEmailController.text,
         password: passwordController.text,
       );
       result.fold(
-            (failure) => emit(ResetPasswordErrorState(failure)),
-            (success) => emit(ResetPasswordSuccessState(success)),
+            (failure) => emit(state.copyWith(resetPasswordStates: ErrorState(failure))),
+            (success) => emit(state.copyWith(resetPasswordStates: SuccessState<UserEntity>(success))),
       );
     } catch (e) {
-      emit(ResetPasswordErrorState(e.toString()));
+      emit(state.copyWith(resetPasswordStates: ErrorState(e.toString())));
     }
   }
 
