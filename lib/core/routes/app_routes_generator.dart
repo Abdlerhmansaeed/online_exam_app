@@ -49,7 +49,7 @@ class AppRoutesGenerator {
           builder: (_) => const AnswersView(),
         );
       default:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        return MaterialPageRoute(builder: (_) => const LayoutScreen());
     }
   }
 }
