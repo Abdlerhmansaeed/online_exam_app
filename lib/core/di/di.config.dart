@@ -32,6 +32,7 @@ import '../../Features/home/domain/repository/contract/home_tab_repo.dart'
 import '../../Features/home/domain/repository/data_source_contract/remote/hom_remote_data_source_cont.dart'
     as _i580;
 import '../../Features/home/domain/use_case/home_tab_use_cse.dart' as _i174;
+import '../services/api_manager.dart' as _i791;
 import '../services/network_srevices.dart' as _i82;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -45,11 +46,11 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    gh.factory<_i82.NetworkServices>(() => _i82.NetworkServices());
+    gh.singleton<_i791.ApiManager>(() => _i791.ApiManager());
+    gh.singleton<_i82.NetworkServices>(() => _i82.NetworkServices());
+    gh.factory<_i51.AuthDataSource>(() => _i172.AuthDataSourceImp());
     gh.factory<_i580.HomRemoteDataSourceContract>(
         () => _i250.HomeTabRemoteImpl());
-    gh.factory<_i51.AuthDataSource>(
-        () => _i172.AuthDataSourceImp(gh<_i82.NetworkServices>()));
     gh.factory<_i577.HomeTabRepoContract>(() => _i781.HomeTabImpl(
         remoteDataSourceContract: gh<_i580.HomRemoteDataSourceContract>()));
     gh.factory<_i1049.AuthRepo>(
