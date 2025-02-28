@@ -26,10 +26,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
               context: context,
               selectedIndex: homeCubit.selectedIndex,
               onTabFunction: (newIndex) {
-                homeCubit.selectedIndex= newIndex;
-                setState(() {
-
-                });
+                homeCubit.changeBottomNavBar(newIndex);
               },
             )
         );
