@@ -10,4 +10,8 @@ abstract class AuthDataSource {
       required String firstName,
       required String lastName,
       required String phoneNumber});
+
+    Future<Response> forgetPasswordEmailVerify({required String email});
+    Future<Response> resetCodeVerify({required String resetCode});
+    Future<Response> resetPassword({required String email,required String password});
 }
