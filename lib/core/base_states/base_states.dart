@@ -1,6 +1,10 @@
-sealed class BaseStates {}
 
-class InitialState extends BaseStates {}
+
+sealed class BaseStates  {}
+
+class InitialState extends BaseStates {
+
+}
 
 class LoadingState extends BaseStates {}
 
