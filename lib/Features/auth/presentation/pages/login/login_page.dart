@@ -7,6 +7,7 @@ import 'package:online_exam_app/core/theme/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/Constant/app_constant.dart';
+import '../../../../../core/base_states/base_states.dart';
 import '../../../../../core/di/di.dart';
 
 class LoginPage extends StatelessWidget {
@@ -23,27 +24,22 @@ class LoginPage extends StatelessWidget {
               title: Text('Login'),
               leading: Icon(Icons.arrow_back_ios_new_rounded),
             ),
-            BlocConsumer<AuthCubit, AuthStates>(
+            BlocConsumer<AuthCubit, AuthState>(
               listener: (context, state) {
-                if (state is! LoginLoadingState) {
-                  if (Navigator.canPop(context)) {
-                    Navigator.pop(context);
-                  }
-                }
 
-                if (state is LoginSuccessState) {
+                if (state.loginStates is  SuccessState) {
                   Navigator.pushReplacementNamed(
-                      context, AppRoutes.resetPasswordPage);
-                } else if (state is LoginErrorState) {
+                      context, AppRoutes.layoutScreen);
+                } else if (state.loginStates is ErrorState) {
                   showDialog(
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: Text(state.error),
+                        title: Text((state.loginStates as ErrorState).error?? ""),
                       );
                     },
                   );
-                } else if (state is LoginLoadingState) {
+                } else if (state.loginStates is LoadingState) {
                   showDialog(
                     context: context,
                     barrierDismissible: false, // Prevent closing while loading
@@ -69,8 +65,6 @@ class LoginPage extends StatelessWidget {
                               } else if (!AppConstant.emailRegex
                                   .hasMatch(value)) {
                                 return "Enter Valid Email";
-                              } else if (state is LoginErrorState) {
-                                return state.error;
                               }
                               return null;
                             },
