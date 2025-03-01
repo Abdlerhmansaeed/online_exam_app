@@ -31,6 +31,8 @@ import '../../Features/home/domain/repository/contract/home_tab_repo.dart'
     as _i577;
 import '../../Features/home/domain/repository/data_source_contract/remote/hom_remote_data_source_cont.dart'
     as _i580;
+import '../../Features/home/domain/use_case/get_exams_on_subject_use_case.dart'
+    as _i259;
 import '../../Features/home/domain/use_case/home_tab_use_cse.dart' as _i174;
 import '../services/api_manager.dart' as _i791;
 import '../services/network_srevices.dart' as _i82;
@@ -46,8 +48,8 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    gh.singleton<_i791.ApiManager>(() => _i791.ApiManager());
     gh.singleton<_i82.NetworkServices>(() => _i82.NetworkServices());
+    gh.singleton<_i791.ApiManager>(() => _i791.ApiManager());
     gh.factory<_i51.AuthDataSource>(() => _i172.AuthDataSourceImp());
     gh.factory<_i580.HomRemoteDataSourceContract>(
         () => _i250.HomeTabRemoteImpl());
@@ -57,6 +59,9 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1013.AuthRepoImp(gh<_i51.AuthDataSource>()));
     gh.factory<_i174.GetAllSubjectsUseCase>(
         () => _i174.GetAllSubjectsUseCase(gh<_i577.HomeTabRepoContract>()));
+    gh.factory<_i259.GetExamsOnSubjectUseCase>(() =>
+        _i259.GetExamsOnSubjectUseCase(
+            homeTabRepoContract: gh<_i577.HomeTabRepoContract>()));
     gh.factory<_i95.ForgetPasswordUseCase>(
         () => _i95.ForgetPasswordUseCase(gh<_i1049.AuthRepo>()));
     gh.factory<_i747.LoginUseCase>(

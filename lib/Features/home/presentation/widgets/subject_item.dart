@@ -10,49 +10,47 @@ import 'package:online_exam_app/core/theme/app_colors.dart';
 
 import '../../../../core/helper/spacing.dart';
 
-class SubjectItem extends StatelessWidget {
-  SubjectsEntity subjectsEntity;
-  SubjectItem({
+class SubjectAndExamItem extends StatelessWidget {
+  final String imageUrl ;
+  final String name ;
+  SubjectAndExamItem({
     Key? key,
-    required this.subjectsEntity,
+  required this.imageUrl,
+  required this.name
+    
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, AppRoutes.subjectDetails);
-      },
-      child: Container(
-        margin: EdgeInsets.only(left: 5.w, right: 5.w, bottom: 16.h),
-        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
-        child: Row(
-          children: [
-            CachedNetworkImage(
-              width: 60.w,
-              height: 60.h,
-              imageUrl: (subjectsEntity.icon ?? "").trim(),
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-            ),
-            horizontalSpace(20),
-            Text(
-              subjectsEntity.name ?? '',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-          ],
-        ),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(10.r),
-          boxShadow: const [
-            BoxShadow(
-              offset: Offset(2, 2),
-              blurRadius: 12,
-              color: Color.fromRGBO(0, 0, 0, 0.16),
-            ),
-          ],
-        ),
+    return Container(
+      margin: EdgeInsets.only(left: 5.w, right: 5.w, bottom: 16.h),
+      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+      child: Row(
+        children: [
+          CachedNetworkImage(
+            width: 60.w,
+            height: 60.h,
+            imageUrl: imageUrl,
+            placeholder: (context, url) => const CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+          ),
+          horizontalSpace(20),
+          Text(
+            name,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ],
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(10.r),
+        boxShadow: const [
+          BoxShadow(
+            offset: Offset(2, 2),
+            blurRadius: 12,
+            color: Color.fromRGBO(0, 0, 0, 0.16),
+          ),
+        ],
       ),
     );
   }

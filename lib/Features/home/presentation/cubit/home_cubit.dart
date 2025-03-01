@@ -2,8 +2,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
 
+import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
+import 'package:online_exam_app/Features/home/domain/use_case/get_exams_on_subject_use_case.dart';
 import 'package:online_exam_app/Features/home/presentation/pages/home_screen.dart';
 import 'package:online_exam_app/Features/profile/presentation/pages/profile_page.dart';
 import 'package:online_exam_app/Features/user_results/presentation/pages/result_page.dart';
@@ -14,8 +15,10 @@ part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   GetAllSubjectsUseCase getAllExamsUseCase;
+  GetExamsOnSubjectUseCase getExamsOnSubjectUseCase;
   HomeCubit(
     this.getAllExamsUseCase,
+    this.getExamsOnSubjectUseCase,
   ) : super(HomeInitial());
   int selectedIndex = 0;
   List<Widget> tabs = [
@@ -43,4 +46,9 @@ class HomeCubit extends Cubit<HomeState> {
       },
     );
   }
+getExamsOnSubject(String subjectId) async{
+  emit(HomeLoadingState());
+  var either = await getExamsOnSubjectUseCase.invoke(subjectId);
+  
+}
 }

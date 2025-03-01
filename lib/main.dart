@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           theme: AppTheme.appTheme,
           debugShowCheckedModeBanner: false,
-          initialRoute:  token != null ? AppRoutes.homeScreen : AppRoutes.loginPage,
+          initialRoute:  token != null ? AppRoutes.layoutScreen : AppRoutes.loginPage,
           onGenerateRoute: AppRoutesGenerator.generateRoute,
         );
       },

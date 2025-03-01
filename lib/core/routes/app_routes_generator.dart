@@ -5,13 +5,13 @@ import 'package:online_exam_app/Features/auth/presentation/pages/otp_page/otp_ve
 import 'package:online_exam_app/Features/auth/presentation/pages/reset_passowrod/reset_password_page.dart';
 import 'package:online_exam_app/Features/auth/presentation/pages/signup/sign_up_page.dart';
 import 'package:online_exam_app/Features/home/presentation/pages/layout_screen.dart';
+import 'package:online_exam_app/Features/home/presentation/pages/subject_details.dart';
 import 'package:online_exam_app/Features/profile/presentation/pages/profile_page.dart';
 import 'package:online_exam_app/Features/user_results/presentation/pages/answers_view.dart';
 import 'package:online_exam_app/Features/user_results/presentation/pages/result_page.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 
 import '../../Features/home/presentation/pages/home_screen.dart';
-import '../../Features/home/presentation/pages/subject_detail.dart';
 
 class AppRoutesGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -43,7 +43,7 @@ class AppRoutesGenerator {
       case AppRoutes.resultPage:
         return MaterialPageRoute(builder: (_) => const ResultPage());
       case AppRoutes.subjectDetails:
-        return MaterialPageRoute(builder: (_) => const SubjectDetail());
+        return MaterialPageRoute(builder: (_) => const SubjectDetails());
       case AppRoutes.resultAnswersPage:
         return MaterialPageRoute(
           builder: (_) => const AnswersView(),
