@@ -6,10 +6,10 @@ import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
 import '../../../../core/helper/spacing.dart';
 
-class SubjectAndExamItem extends StatelessWidget {
+class SubjectItem extends StatelessWidget {
   final String imageUrl;
   final String name;
-  SubjectAndExamItem({Key? key, required this.imageUrl, required this.name})
+  SubjectItem({Key? key, required this.imageUrl, required this.name})
       : super(key: key);
 
   @override

@@ -6,7 +6,7 @@ import 'package:online_exam_app/core/routes/app_routes.dart';
 import '../../../../core/helper/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 
-class ResultCartWidget extends StatelessWidget {
+class CartWidget extends StatelessWidget {
   String? subjectName;
   int? duration;
   int? numberOfQuestions;
@@ -14,7 +14,7 @@ class ResultCartWidget extends StatelessWidget {
   String?quizTitle;
 
  
-   ResultCartWidget({super.key,
+   CartWidget({super.key,
    this.subjectName,
    this.duration,
    this.numberOfQuestions,
