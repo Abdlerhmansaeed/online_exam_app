@@ -6,8 +6,21 @@ import 'package:online_exam_app/core/routes/app_routes.dart';
 import '../../../../core/helper/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 
-class ResultCartWidget extends StatelessWidget {
-  const ResultCartWidget({super.key});
+class CartWidget extends StatelessWidget {
+  String? subjectName;
+  int? duration;
+  int? numberOfQuestions;
+  String? createdAt;
+  String?quizTitle;
+
+ 
+   CartWidget({super.key,
+   this.subjectName,
+   this.duration,
+   this.numberOfQuestions,
+   this.createdAt,
+   this.quizTitle
+   });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +30,7 @@ class ResultCartWidget extends StatelessWidget {
       children: [
         verticalSpace(40),
         Text(
-          "Language",
+         subjectName ?? "Language",
           style: theme.textTheme.labelLarge!.copyWith(fontSize: 18.sp),
         ),
         verticalSpace(24),
@@ -52,28 +65,28 @@ class ResultCartWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "High level",
+                       quizTitle??"High level",
                       style: theme.textTheme.bodySmall!.copyWith(
                         color: AppColors.black,
                         fontSize: 16.sp,
                       ),
                     ),
-                    const Text(
-                      "20 Question",
+                     Text(
+                     "${numberOfQuestions.toString()} Question" ?? "20 Question",
                       style: TextStyle(
                         color: AppColors.gray,
                       ),
                     ),
                     verticalSpace(16),
                     Text(
-                      "18 corrected answers in 25 min.",
+                    createdAt ??  "18 corrected answers in 25 min.",
                       style: theme.textTheme.bodySmall!.copyWith(
                         color: AppColors.blue,
                       ),
                     ),
                   ],
                 ),
-                const Text("30 Minutes"),
+                 Text( "${duration.toString()} Minutes" ?? "30 Minutes"),
               ],
             ),
           ),

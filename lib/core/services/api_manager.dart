@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:online_exam_app/Features/home/data/model/exams_on_subject_model.dart';
 import 'package:online_exam_app/Features/home/data/model/subjects_model.dart';
-import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
 import 'package:online_exam_app/core/Constant/app_constant.dart';
 import 'package:online_exam_app/core/Error/failure.dart';
 import 'package:online_exam_app/core/di/di.dart';
@@ -14,9 +14,8 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 class ApiManager {
   final networkServices = getIt<NetworkServices>();
   final dio = Dio();
-  Future<Either<Failures, List<SubjectsEntity>>> getAllSubjects() async {
-    
-    dio.interceptors.add(
+  void prettyLogger() {
+ dio.interceptors.add(
     PrettyDioLogger(
       requestHeader: true,
       requestBody: true,
@@ -26,6 +25,9 @@ class ApiManager {
       compact: true,
       maxWidth: 90,
     ),);
+  }
+  Future<Either<Failures, List<SubjectsModel>>> getAllSubjects() async {
+   prettyLogger();
     final response = await dio.get(AppConstant.allSubjectsEndPoint,
         options: Options(
           headers: {
@@ -33,18 +35,30 @@ class ApiManager {
           },
         ));
     if (response.statusCode == 200) {
-      final allSubjectsResponse = AllSubjectsResponse.fromJson(response.data);
-      List<SubjectsEntity> subjects = allSubjectsResponse.subjects
-              ?.map((subject) => subject.toSubjectEntity())
-              .toList() ??
-          [];
-
+     
+      final subjects = List<SubjectsModel>.from((response.data["subjects"] as List)
+          .map((e) => SubjectsModel.fromJson(e)));
+    
       return Right(subjects);
     } else {
       return Left(ServerFailure(errorMessage: response.statusMessage!));
     }
   }
-
+ 
+  Future<Either<Failures, List<ExamsOnSubjectModel>>> getExamsOnSubject(String subjectId) async {
+    prettyLogger();
+    final response = await dio.get(AppConstant.subjectExamsEndPoint(subjectId),options: Options(
+          headers: {
+       "token": await SharedPrefs().getString('token')
+    }));
+    if (response.statusCode == 200) {
+     final exams = List<ExamsOnSubjectModel>.from((response.data["exams"] as List)
+          .map((e) => ExamsOnSubjectModel.fromJson(e)));
+     return Right(exams);
+  }else{
+    return Left(ServerFailure(errorMessage: response.statusMessage!));
+  }
+  }
  Future<Response> login({required String email, required String password}) {
     return dio.post(
       AppConstant.signInEndPoint,
@@ -101,8 +115,5 @@ class ApiManager {
       },
     );
   }
-  // Future<Response> logout() {
-  //   _networkServices.dio.get()
-  // }
-
-}
+ 
+  }

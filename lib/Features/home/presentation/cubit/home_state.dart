@@ -13,4 +13,9 @@ final class HomeSuccessState extends HomeState {
 List< SubjectsEntity> subjectsEntity;
   HomeSuccessState({required this.subjectsEntity});
 
+}final class ExamOnSubjectSuccessState extends HomeState {
+List<ExamsOnSubjectEntity> examsOnSubjectEntity;
+  ExamOnSubjectSuccessState({required this.examsOnSubjectEntity});
+ 
+
 }
