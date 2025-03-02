@@ -23,7 +23,7 @@ ExamInstructionsScreen({
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -40,14 +40,14 @@ ExamInstructionsScreen({
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      subjectName ?? "Languages",
+                      quizTitle ?? "Languages",
                       style: TextStyle(color: AppColors.blue[60]),
                     ),
                     horizontalSpace(10),
                     Text(" $numberOfQuestions Questions", ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   "$duration Minutes",
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
@@ -57,7 +57,7 @@ ExamInstructionsScreen({
               ],
             ),
            verticalSpace(20),
-            Text(
+            const Text(
               "Instructions",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
@@ -67,20 +67,17 @@ ExamInstructionsScreen({
               "Choose the correct answer before proceeding to the next question.",
               "Ensure your internet connection is stable.",
               "Do not exit the exam before submitting your answers.",
-            ].map((instruction) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: AppColors.black,
-                        radius: 5.r,
-                        ),
-                      horizontalSpace(8),
-                      Expanded(child: Text(instruction)),
-                    ],
+            ].map((instruction) => Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  backgroundColor: AppColors.black,
+                  radius: 5.r,
                   ),
-                )),
+                horizontalSpace(8),
+                Expanded(child: Text(instruction)),
+              ],
+            )),
             verticalSpace(40),
             Center(
               child: ElevatedButton(
@@ -91,12 +88,12 @@ ExamInstructionsScreen({
                   padding: EdgeInsets.symmetric(horizontal: 80.w, vertical: 15),
                 ),
                 onPressed: () {
-                  // Navigator.pushNamed(
-                  //  context,
-                  //  AppRoutes.resultAnswersPage 
-                  // );
+                  Navigator.pushNamed(
+                   context,
+                   AppRoutes.examScreen 
+                  );
                 },
-                child: Text("Start", style: TextStyle(fontSize: 18)),
+                child: const Text("Start", style: TextStyle(fontSize: 18)),
               ),
             ),
           ],

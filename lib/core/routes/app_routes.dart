@@ -12,4 +12,5 @@ class AppRoutes {
   static const String subjectDetails = '/subjectDetails';
   static const String resultAnswersPage = '/resultAnswersPage';
   static const String instructionsScreen = '/instructionsScreen';
+  static const String examScreen = '/examScreen';
 }

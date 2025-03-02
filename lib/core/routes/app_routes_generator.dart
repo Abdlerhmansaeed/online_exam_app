@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Features/auth/presentation/pages/forgot_passowrd/forgot_password_page.dart';
 import 'package:online_exam_app/Features/auth/presentation/pages/login/login_page.dart';
 import 'package:online_exam_app/Features/auth/presentation/pages/otp_page/otp_verification_page.dart';
 import 'package:online_exam_app/Features/auth/presentation/pages/reset_passowrod/reset_password_page.dart';
 import 'package:online_exam_app/Features/auth/presentation/pages/signup/sign_up_page.dart';
-import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
-import 'package:online_exam_app/Features/home/presentation/cubit/home_cubit.dart';
+import 'package:online_exam_app/Features/exam/presentation/pages/exam_screen.dart';
 import 'package:online_exam_app/Features/home/presentation/pages/instructions_screen.dart';
  import 'package:online_exam_app/Features/home/presentation/pages/layout_screen.dart';
 import 'package:online_exam_app/Features/home/presentation/pages/exams_on_subject_screen.dart';
 import 'package:online_exam_app/Features/profile/presentation/pages/profile_page.dart';
 import 'package:online_exam_app/Features/user_results/presentation/pages/answers_view.dart';
 import 'package:online_exam_app/Features/user_results/presentation/pages/result_page.dart';
-import 'package:online_exam_app/core/di/di.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 
 import '../../Features/home/presentation/pages/home_screen.dart';
@@ -62,6 +59,11 @@ class AppRoutesGenerator {
         return MaterialPageRoute(
           // settings: settings,
           builder: (_) =>  ExamInstructionsScreen(),
+        );
+        case AppRoutes.examScreen:
+        return MaterialPageRoute(
+          // settings: settings,
+          builder: (_) =>  const ExamScreen(),
         );
       default:
         return MaterialPageRoute(builder: (_) => const LayoutScreen());

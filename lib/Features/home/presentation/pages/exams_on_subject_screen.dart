@@ -4,11 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
 import 'package:online_exam_app/Features/home/presentation/cubit/home_cubit.dart';
 import 'package:online_exam_app/Features/home/presentation/pages/instructions_screen.dart';
-import 'package:online_exam_app/Features/home/presentation/widgets/subject_item.dart';
 import 'package:online_exam_app/Features/user_results/presentation/widgets/cart_widget.dart';
 import 'package:online_exam_app/core/di/di.dart';
-import 'package:online_exam_app/core/routes/app_routes.dart';
-import '../../../../core/helper/spacing.dart';
 
 class ExamsOnSubjectScreen extends StatelessWidget {
   ExamsOnSubjectScreen({
