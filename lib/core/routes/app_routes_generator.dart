@@ -7,8 +7,9 @@ import 'package:online_exam_app/Features/auth/presentation/pages/reset_passowrod
 import 'package:online_exam_app/Features/auth/presentation/pages/signup/sign_up_page.dart';
 import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
 import 'package:online_exam_app/Features/home/presentation/cubit/home_cubit.dart';
+import 'package:online_exam_app/Features/home/presentation/pages/instructions_screen.dart';
  import 'package:online_exam_app/Features/home/presentation/pages/layout_screen.dart';
-import 'package:online_exam_app/Features/home/presentation/pages/subject_details.dart';
+import 'package:online_exam_app/Features/home/presentation/pages/exams_on_subject_screen.dart';
 import 'package:online_exam_app/Features/profile/presentation/pages/profile_page.dart';
 import 'package:online_exam_app/Features/user_results/presentation/pages/answers_view.dart';
 import 'package:online_exam_app/Features/user_results/presentation/pages/result_page.dart';
@@ -50,13 +51,17 @@ class AppRoutesGenerator {
         return MaterialPageRoute(
 
           settings: settings,
-          builder: (_) => SubjectDetails(
+          builder: (_) => ExamsOnSubjectScreen(
 
-            // subject: settings.arguments as SubjectsEntity,
             ));
       case AppRoutes.resultAnswersPage:
         return MaterialPageRoute(
           builder: (_) => const AnswersView(),
+        );
+         case AppRoutes.instructionsScreen:
+        return MaterialPageRoute(
+          // settings: settings,
+          builder: (_) =>  ExamInstructionsScreen(),
         );
       default:
         return MaterialPageRoute(builder: (_) => const LayoutScreen());
