@@ -36,13 +36,9 @@ class AllSubjectsResponse {
   }
 }
 
-class SubjectsModel  {
- String? id;
-  String? name;
-  String? icon;
-  String? createdAt;
-
-  SubjectsModel({this.id, this.name, this.icon, this.createdAt});
+class SubjectsModel extends SubjectsEntity  {
+ 
+  SubjectsModel({super.id, super.name, super.icon, super.createdAt});
 
   SubjectsModel.fromJson(Map<String, dynamic> json) {
     if(json["_id"] is String) {

@@ -15,4 +15,5 @@ Future<Either<Failures, List<SubjectsEntity>>> invoke() async {
     return Right(r);
   },);
 }
+
 }

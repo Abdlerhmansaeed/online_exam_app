@@ -4,14 +4,16 @@ import 'package:online_exam_app/Features/auth/presentation/pages/login/login_pag
 import 'package:online_exam_app/Features/auth/presentation/pages/otp_page/otp_verification_page.dart';
 import 'package:online_exam_app/Features/auth/presentation/pages/reset_passowrod/reset_password_page.dart';
 import 'package:online_exam_app/Features/auth/presentation/pages/signup/sign_up_page.dart';
-import 'package:online_exam_app/Features/home/presentation/pages/layout_screen.dart';
+import 'package:online_exam_app/Features/exam/presentation/pages/exam_screen.dart';
+import 'package:online_exam_app/Features/home/presentation/pages/instructions_screen.dart';
+ import 'package:online_exam_app/Features/home/presentation/pages/layout_screen.dart';
+import 'package:online_exam_app/Features/home/presentation/pages/exams_on_subject_screen.dart';
 import 'package:online_exam_app/Features/profile/presentation/pages/profile_page.dart';
 import 'package:online_exam_app/Features/user_results/presentation/pages/answers_view.dart';
 import 'package:online_exam_app/Features/user_results/presentation/pages/result_page.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 
 import '../../Features/home/presentation/pages/home_screen.dart';
-import '../../Features/home/presentation/pages/subject_detail.dart';
 
 class AppRoutesGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -43,10 +45,25 @@ class AppRoutesGenerator {
       case AppRoutes.resultPage:
         return MaterialPageRoute(builder: (_) => const ResultPage());
       case AppRoutes.subjectDetails:
-        return MaterialPageRoute(builder: (_) => const SubjectDetail());
+        return MaterialPageRoute(
+
+          settings: settings,
+          builder: (_) => ExamsOnSubjectScreen(
+
+            ));
       case AppRoutes.resultAnswersPage:
         return MaterialPageRoute(
           builder: (_) => const AnswersView(),
+        );
+         case AppRoutes.instructionsScreen:
+        return MaterialPageRoute(
+          // settings: settings,
+          builder: (_) =>  ExamInstructionsScreen(),
+        );
+        case AppRoutes.examScreen:
+        return MaterialPageRoute(
+          // settings: settings,
+          builder: (_) =>  const ExamScreen(),
         );
       default:
         return MaterialPageRoute(builder: (_) => const LayoutScreen());

@@ -31,7 +31,11 @@ import '../../Features/home/domain/repository/contract/home_tab_repo.dart'
     as _i577;
 import '../../Features/home/domain/repository/data_source_contract/remote/hom_remote_data_source_cont.dart'
     as _i580;
+import '../../Features/home/domain/use_case/get_exams_on_subject_use_case.dart'
+    as _i259;
 import '../../Features/home/domain/use_case/home_tab_use_cse.dart' as _i174;
+import '../../Features/home/presentation/cubit/home_cubit.dart' as _i996;
+import '../services/api_manager.dart' as _i791;
 import '../services/network_srevices.dart' as _i82;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -45,17 +49,20 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
-    gh.factory<_i82.NetworkServices>(() => _i82.NetworkServices());
+    gh.singleton<_i82.NetworkServices>(() => _i82.NetworkServices());
+    gh.singleton<_i791.ApiManager>(() => _i791.ApiManager());
+    gh.factory<_i51.AuthDataSource>(() => _i172.AuthDataSourceImp());
     gh.factory<_i580.HomRemoteDataSourceContract>(
         () => _i250.HomeTabRemoteImpl());
-    gh.factory<_i51.AuthDataSource>(
-        () => _i172.AuthDataSourceImp(gh<_i82.NetworkServices>()));
     gh.factory<_i577.HomeTabRepoContract>(() => _i781.HomeTabImpl(
         remoteDataSourceContract: gh<_i580.HomRemoteDataSourceContract>()));
     gh.factory<_i1049.AuthRepo>(
         () => _i1013.AuthRepoImp(gh<_i51.AuthDataSource>()));
     gh.factory<_i174.GetAllSubjectsUseCase>(
         () => _i174.GetAllSubjectsUseCase(gh<_i577.HomeTabRepoContract>()));
+    gh.factory<_i259.GetExamsOnSubjectUseCase>(() =>
+        _i259.GetExamsOnSubjectUseCase(
+            homeTabRepoContract: gh<_i577.HomeTabRepoContract>()));
     gh.factory<_i95.ForgetPasswordUseCase>(
         () => _i95.ForgetPasswordUseCase(gh<_i1049.AuthRepo>()));
     gh.factory<_i747.LoginUseCase>(
@@ -64,6 +71,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i25.OtpResetUseCase(gh<_i1049.AuthRepo>()));
     gh.factory<_i179.SignupUsecase>(
         () => _i179.SignupUsecase(gh<_i1049.AuthRepo>()));
+    gh.factory<_i996.HomeCubit>(() => _i996.HomeCubit(
+          gh<_i174.GetAllSubjectsUseCase>(),
+          gh<_i259.GetExamsOnSubjectUseCase>(),
+        ));
     gh.factory<_i447.ResetPasswordUseCase>(
         () => _i447.ResetPasswordUseCase(authRepo: gh<_i1049.AuthRepo>()));
     gh.factory<_i239.AuthCubit>(() => _i239.AuthCubit(
