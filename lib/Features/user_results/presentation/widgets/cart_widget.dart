@@ -34,61 +34,54 @@ class CartWidget extends StatelessWidget {
           style: theme.textTheme.labelLarge!.copyWith(fontSize: 18.sp),
         ),
         verticalSpace(24),
-        InkWell(
-          onTap: () {
-            Navigator.pushReplacementNamed(
-                context, AppRoutes.resultAnswersPage);
-          },
-          hoverColor: Colors.transparent,
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: 16,
-              horizontal: 24,
-            ),
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(10.r),
-              boxShadow: const [
-                BoxShadow(
-                  offset: Offset(2, 2),
-                  blurRadius: 12,
-                  color: Color.fromRGBO(0, 0, 0, 0.16),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.asset("assets/images/Profit.png"),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                       quizTitle??"High level",
-                      style: theme.textTheme.bodySmall!.copyWith(
-                        color: AppColors.black,
-                        fontSize: 16.sp,
-                      ),
+        Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 24,
+          ),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(10.r),
+            boxShadow: const [
+              BoxShadow(
+                offset: Offset(2, 2),
+                blurRadius: 12,
+                color: Color.fromRGBO(0, 0, 0, 0.16),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.asset("assets/images/Profit.png"),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                     quizTitle??"High level",
+                    style: theme.textTheme.bodySmall!.copyWith(
+                      color: AppColors.black,
+                      fontSize: 16.sp,
                     ),
-                     Text(
-                     "${numberOfQuestions.toString()} Question" ?? "20 Question",
-                      style: TextStyle(
-                        color: AppColors.gray,
-                      ),
+                  ),
+                   Text(
+                   "${numberOfQuestions.toString()} Question" ?? "20 Question",
+                    style: TextStyle(
+                      color: AppColors.blue[60],
                     ),
-                    verticalSpace(16),
-                    Text(
-                    createdAt ??  "18 corrected answers in 25 min.",
-                      style: theme.textTheme.bodySmall!.copyWith(
-                        color: AppColors.blue,
-                      ),
+                  ),
+                  verticalSpace(16),
+                  Text(
+                  createdAt ??  "18 corrected answers in 25 min.",
+                    style: theme.textTheme.bodySmall!.copyWith(
+                      color: AppColors.blue,
                     ),
-                  ],
-                ),
-                 Text( "${duration.toString()} Minutes" ?? "30 Minutes"),
-              ],
-            ),
+                  ),
+                ],
+              ),
+               Text( "${duration.toString()} Minutes" ?? "30 Minutes"),
+            ],
           ),
         ),
       ],

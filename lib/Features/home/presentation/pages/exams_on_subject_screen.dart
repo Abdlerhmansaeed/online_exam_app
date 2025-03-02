@@ -3,13 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
 import 'package:online_exam_app/Features/home/presentation/cubit/home_cubit.dart';
-import 'package:online_exam_app/Features/home/presentation/widgets/subject_item.dart';
+import 'package:online_exam_app/Features/home/presentation/pages/instructions_screen.dart';
 import 'package:online_exam_app/Features/user_results/presentation/widgets/cart_widget.dart';
 import 'package:online_exam_app/core/di/di.dart';
-import '../../../../core/helper/spacing.dart';
 
-class SubjectDetails extends StatelessWidget {
-  SubjectDetails({
+class ExamsOnSubjectScreen extends StatelessWidget {
+  ExamsOnSubjectScreen({
     Key? key,
   }) : super(key: key);
 
@@ -40,13 +39,27 @@ class SubjectDetails extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return state.examsOnSubjectEntity==[] ?
                          const Center(child: Text('No exams found'))
-                         : CartWidget(
-                          subjectName: args.name,quizTitle: state.examsOnSubjectEntity[index].title,
-                          createdAt: state.examsOnSubjectEntity[index].createdAt,
-                          duration: state.examsOnSubjectEntity[index].duration,
-                          numberOfQuestions: state.examsOnSubjectEntity[index].numberOfQuestions,
-                          
-                        );
+                         : InkWell(
+                          onTap: (){
+                            Navigator.push(context, 
+                            MaterialPageRoute(builder: (context) => 
+                            ExamInstructionsScreen(
+                              createdAt: state.examsOnSubjectEntity[index].createdAt,
+                              duration: state.examsOnSubjectEntity[index].duration,
+                              numberOfQuestions: state.examsOnSubjectEntity[index].numberOfQuestions,
+                             subjectName: state.examsOnSubjectEntity[index].subject,
+                              quizTitle: state.examsOnSubjectEntity[index].title,
+                            ),)
+                            );
+                          },
+                           child: CartWidget(
+                            subjectName: args.name,quizTitle: state.examsOnSubjectEntity[index].title,
+                            createdAt: state.examsOnSubjectEntity[index].createdAt,
+                            duration: state.examsOnSubjectEntity[index].duration,
+                            numberOfQuestions: state.examsOnSubjectEntity[index].numberOfQuestions,
+                            
+                                                   ),
+                         );
                       },
                     );
                   } else if (state is HomeLoadingState) {
