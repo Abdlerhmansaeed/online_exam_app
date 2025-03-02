@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:online_exam_app/Features/home/domain/entity/exams_on_subject_entity.dart';
 import 'package:online_exam_app/Features/home/domain/use_case/get_exams_on_subject_use_case.dart';
 import 'package:online_exam_app/Features/home/domain/use_case/home_tab_use_cse.dart';
 import 'package:online_exam_app/Features/home/presentation/cubit/home_cubit.dart';
-import 'package:online_exam_app/Features/home/presentation/pages/subject_details.dart';
 import 'package:online_exam_app/Features/home/presentation/widgets/build_search_field.dart';
 import 'package:online_exam_app/Features/home/presentation/widgets/subject_item.dart';
 import 'package:online_exam_app/core/di/di.dart';
@@ -47,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: Theme.of(context).textTheme.titleLarge),
             verticalSpace(24),
             BlocBuilder<HomeCubit, HomeState>(
-              // bloc: homeCubit..getAllSubjects(),
+           
               builder: (context, state) {
                 return state is HomeSuccessState
                     ? Expanded(
@@ -56,9 +54,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
-                                  Navigator.pushNamed(context, AppRoutes.subjectDetails,arguments: state.subjectsEntity[index]);
+                                  Navigator.pushNamed(context, AppRoutes.subjectDetails,
+                                  arguments: state.subjectsEntity[index]);
                                 },
-                                child: SubjectAndExamItem(
+                                child: SubjectItem(
                                   imageUrl:
                                       state.subjectsEntity[index].icon ?? '',
                                   name: state.subjectsEntity[index].name ?? '',
