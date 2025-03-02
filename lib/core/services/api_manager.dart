@@ -3,8 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/Features/home/data/model/exams_on_subject_model.dart';
 import 'package:online_exam_app/Features/home/data/model/subjects_model.dart';
-import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
-import 'package:online_exam_app/Features/home/domain/entity/exams_on_subject_entity.dart';
 import 'package:online_exam_app/core/Constant/app_constant.dart';
 import 'package:online_exam_app/core/Error/failure.dart';
 import 'package:online_exam_app/core/di/di.dart';
@@ -29,7 +27,6 @@ class ApiManager {
     ),);
   }
   Future<Either<Failures, List<SubjectsModel>>> getAllSubjects() async {
-    
    prettyLogger();
     final response = await dio.get(AppConstant.allSubjectsEndPoint,
         options: Options(
@@ -38,9 +35,7 @@ class ApiManager {
           },
         ));
     if (response.statusCode == 200) {
-      // final subjects = 
-      // AllSubjectsResponse.fromJson(response.data).subjects?.map((e) => e).toList() ?? [];
-      
+     
       final subjects = List<SubjectsModel>.from((response.data["subjects"] as List)
           .map((e) => SubjectsModel.fromJson(e)));
     
@@ -57,7 +52,7 @@ class ApiManager {
        "token": await SharedPrefs().getString('token')
     }));
     if (response.statusCode == 200) {
-     final exams = List<ExamsOnSubjectModel>.from((response.data["subjects"] as List)
+     final exams = List<ExamsOnSubjectModel>.from((response.data["exams"] as List)
           .map((e) => ExamsOnSubjectModel.fromJson(e)));
      return Right(exams);
   }else{

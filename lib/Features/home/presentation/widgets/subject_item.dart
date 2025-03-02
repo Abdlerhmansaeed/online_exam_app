@@ -1,24 +1,16 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
+import 'package:online_exam_app/Features/home/domain/entity/exams_on_subject_entity.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
-
 import '../../../../core/helper/spacing.dart';
 
 class SubjectAndExamItem extends StatelessWidget {
-  final String imageUrl ;
-  final String name ;
-  SubjectAndExamItem({
-    Key? key,
-  required this.imageUrl,
-  required this.name
-    
-  }) : super(key: key);
+  final String imageUrl;
+  final String name;
+  SubjectAndExamItem({Key? key, required this.imageUrl, required this.name})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
