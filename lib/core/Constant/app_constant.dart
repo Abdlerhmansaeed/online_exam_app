@@ -18,5 +18,8 @@ class AppConstant {
   static const String verifyResetCodeEndPoint = '$baseUrl/auth/verifyResetCode';
   static const String resetPasswordEndPoint = '$baseUrl/auth/resetPassword';
   static const String allSubjectsEndPoint = '$baseUrl/subjects';
+  static const String editProfileEndPoint = '$baseUrl/auth/editProfile';
+  static const String getUserProfileEndPoint = '$baseUrl/auth/profileData';
+  static const String changePasswordEndPoint = '$baseUrl/auth/changePassword';
   static  String subjectExamsEndPoint(String subjectId) => '$baseUrl/exams?subject=$subjectId'; //subjectExamsEndPoint;
 }
