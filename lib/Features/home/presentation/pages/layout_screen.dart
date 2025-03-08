@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:online_exam_app/Features/home/domain/use_case/get_exams_on_subject_use_case.dart';
 import 'package:online_exam_app/Features/home/domain/use_case/home_tab_use_cse.dart';
 import 'package:online_exam_app/core/di/di.dart';
 
@@ -12,7 +13,7 @@ class LayoutScreen extends StatefulWidget {
   @override
   State<LayoutScreen> createState() => _LayoutScreenState();
 }
-HomeCubit homeCubit =HomeCubit(getIt<GetAllSubjectsUseCase>());
+HomeCubit homeCubit =HomeCubit(getIt<GetAllSubjectsUseCase>(), getIt<GetExamsOnSubjectUseCase>());
 class _LayoutScreenState extends State<LayoutScreen> {
   @override
   Widget build(BuildContext context) {

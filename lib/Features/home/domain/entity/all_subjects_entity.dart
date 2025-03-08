@@ -1,39 +1,37 @@
-
-
 class SubjectsEntity {
-  String? id;
-  String? name;
-  String? icon;
-  String? createdAt;
+  final String id;
+  final String name;
+  final String icon;
+  final String createdAt;
 
-  SubjectsEntity({this.id, this.name, this.icon, this.createdAt});
+  SubjectsEntity({
+    required this.id,
+    required this.name,
+    required this.icon,
+    required this.createdAt,
+  });
 
-  SubjectsEntity.fromJson(Map<String, dynamic> json) {
-    if(json["_id"] is String) {
-      id = json["_id"];
-    }
-    if(json["name"] is String) {
-      name = json["name"];
-    }
-    if(json["icon"] is String) {
-      icon = json["icon"].toString();
-    }
-    if(json["createdAt"] is String) {
-      createdAt = json["createdAt"];
-    }
+  factory SubjectsEntity.fromJson(Map<String, dynamic> json) {
+    return SubjectsEntity(
+      id: json["_id"] ?? '',
+      name: json["name"] ?? '',
+      icon: json["icon"]?.toString() ?? '',
+      createdAt: json["createdAt"] ?? '',
+    );
   }
 
-  static List<SubjectsEntity> fromList(List<Map<String, dynamic>> list) {
-    return list.map(SubjectsEntity.fromJson).toList();
+  static List<SubjectsEntity> fromList(List<dynamic> list) {
+    return List<SubjectsEntity>.from(
+      list.map((item) => SubjectsEntity.fromJson(item)),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> _data = <String, dynamic>{};
-    _data["_id"] = id;
-    _data["name"] = name;
-    _data["icon"] = icon;
-    _data["createdAt"] = createdAt;
-    return _data;
+    return {
+      "_id": id,
+      "name": name,
+      "icon": icon,
+      "createdAt": createdAt,
+    };
   }
-
 }
