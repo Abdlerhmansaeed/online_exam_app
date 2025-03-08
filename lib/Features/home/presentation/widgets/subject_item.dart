@@ -20,8 +20,8 @@ class SubjectItem extends StatelessWidget {
       child: Row(
         children: [
           CachedNetworkImage(
-            width: 60.w,
-            height: 60.h,
+            width: 50.w,
+            height: 50.h,
             imageUrl: imageUrl,
             placeholder: (context, url) => const CircularProgressIndicator(),
             errorWidget: (context, url, error) => const Icon(Icons.error),

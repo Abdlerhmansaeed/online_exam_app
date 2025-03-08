@@ -25,6 +25,7 @@ class AnswersCardWidget extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             "Select the correctly punctuated \nsentence.",

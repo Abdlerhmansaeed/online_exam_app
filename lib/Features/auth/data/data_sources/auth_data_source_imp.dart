@@ -1,40 +1,46 @@
-import 'package:dio/dio.dart';
+import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:online_exam_app/Features/auth/data/data_sources/auth_data_source.dart';
-import 'package:online_exam_app/core/di/di.dart';
-import 'package:online_exam_app/core/services/api_manager.dart';
-
+import '../../../../core/exceptions/failure.dart';
+import '../../../../core/di/di.dart';
+import '../../../../core/helper/request_handler.dart';
+import '../../../../core/services/web_services.dart';
+import '../models/request_model/forget_password_email_request.dart';
+import '../models/request_model/login_request.dart';
+import '../models/request_model/otp_code_verify_request.dart';
+import '../models/request_model/reset_passowrd_request.dart';
+import '../models/request_model/signup_request.dart';
+import '../models/response/otp_code_response.dart';
+import '../models/response/register_response.dart';
+import '../models/response/reset_password.dart';
+import '../models/response/reset_password_verify.dart';
+import 'auth_data_source.dart';
 
 @Injectable(as: AuthDataSource)
 class AuthDataSourceImp implements AuthDataSource {
- final apiManager = getIt<ApiManager>();
-  @override
-  Future<Response> forgetPasswordEmailVerify({required String email}) async {
-   final response = await apiManager.forgetPasswordEmailVerify(email: email);
-   return response;
-   
-  }
-  
-  @override
-  Future<Response> login({required String email, required String password}) async {
-   return await apiManager.login(email: email, password: password);
-  }
-  
-  @override
-  Future<Response> resetCodeVerify({required String resetCode}) async {
-   return await apiManager.resetCodeVerify(resetCode: resetCode);
-  }
-  
-  @override
-  Future<Response> resetPassword({required String email, required String password}) async {
-   return await apiManager.resetPassword(email: email, password: password);
-  }
-  
-  @override
-  Future<Response> signup({required String email, required String password, required String rePassword, required String userName, required String firstName, required String lastName, required String phoneNumber}) async {
-   return await apiManager.signup(email: email, password: password, rePassword: rePassword, userName: userName, firstName: firstName, lastName: lastName, phoneNumber: phoneNumber);
-  }
+ final WebServices webServices = getIt<WebServices>();
 
-  
+ @override
+ Future<Either<Failures, ResetPasswordVerify>> forgetPasswordEmailVerify({required ForgetPasswordEmailRequest data}) async {
+  return await RequestHandler.handle(() => webServices.forgetPasswordEmailVerify(data));
+ }
 
+ @override
+ Future<Either<Failures, RegisterResponse>> login({required LoginRequest data}) async {
+  return await RequestHandler.handle(() => webServices.login(data));
+ }
+
+ @override
+ Future<Either<Failures, OtpCodeResponse>> resetCodeVerify({required OtpCodeVerifyRequset data}) async {
+  return await RequestHandler.handle(() => webServices.resetCodeVerify(data));
+ }
+
+ @override
+ Future<Either<Failures, ResetPasswordResponse>> resetPassword({required ResetPasswordRequest data}) async {
+  return await RequestHandler.handle(() => webServices.resetPassword(data));
+ }
+
+ @override
+ Future<Either<Failures, RegisterResponse>> signup({required SignUpRequest data}) async {
+  return await RequestHandler.handle(() => webServices.signup(data));
+ }
 }

@@ -1,4 +1,3 @@
-import 'package:online_exam_app/Features/home/data/model/exams_on_subject_model.dart';
 
 class ExamsOnSubjectEntity {
   String? id;
