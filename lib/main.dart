@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/routes/app_routes_generator.dart';
-import 'package:online_exam_app/core/services/api_manager.dart';
 import 'package:online_exam_app/core/theme/app_theme.dart';
 
 import 'core/di/di.dart';
 import 'core/services/shared_prefs.dart';
 
-
-String? token ;
+ String? token ;
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();

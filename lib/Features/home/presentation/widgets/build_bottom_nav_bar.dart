@@ -8,11 +8,11 @@ class BuildBottomNavBar extends StatelessWidget {
   BuildContext context;
 
    BuildBottomNavBar({
-    Key? key,
+    super.key,
 required this.context,
     required this.selectedIndex,
     required this.onTabFunction,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

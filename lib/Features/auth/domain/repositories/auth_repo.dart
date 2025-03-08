@@ -1,19 +1,21 @@
 import 'package:dartz/dartz.dart';
+import 'package:online_exam_app/Features/auth/data/models/response/otp_code_response.dart';
+import 'package:online_exam_app/Features/auth/data/models/response/reset_password.dart';
+import 'package:online_exam_app/Features/auth/data/models/response/reset_password_verify.dart';
 import 'package:online_exam_app/Features/auth/domain/entities/user_entiti.dart';
+import '../../data/models/request_model/forget_password_email_request.dart';
+import '../../data/models/request_model/login_request.dart';
+import '../../data/models/request_model/otp_code_verify_request.dart';
+import '../../data/models/request_model/reset_passowrd_request.dart';
+import '../../data/models/request_model/signup_request.dart';
 
 abstract class AuthRepo {
-  Future<Either<String, UserEntity>> login({required String email, required String password});
-  Future<Either<String, UserEntity>> signup({
-    required String email,
-    required String password,
-    required String rePassword,
-    required String userName,
-    required String firstName,
-    required String lastName,
-    required String phoneNumber,
-  });
-  Future<Either<String, UserEntity>> forgetPasswordEmailVerify({required String email});
-  Future<Either<String, UserEntity>> resetCodeVerify({required String resetCode});
-  Future<Either<String, UserEntity>> resetPassword({required String email, required String password});
-
+  Future<Either<String, ResetPasswordVerify>> forgetPasswordEmailVerify(
+      {required ForgetPasswordEmailRequest data});
+  Future<Either<String, OtpCodeResponse>> resetCodeVerify(
+      {required OtpCodeVerifyRequset data});
+  Future<Either<String, ResetPasswordResponse>> resetPassword(
+      {required ResetPasswordRequest data});
+  Future<Either<String, UserEntity>> login({required LoginRequest data});
+  Future<Either<String, UserEntity>> signup({required SignUpRequest data});
 }

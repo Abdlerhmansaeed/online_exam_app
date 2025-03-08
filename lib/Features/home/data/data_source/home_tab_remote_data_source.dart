@@ -1,26 +1,28 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
-import 'package:online_exam_app/Features/home/domain/entity/exams_on_subject_entity.dart';
-import 'package:online_exam_app/Features/home/domain/repository/data_source_contract/remote/hom_remote_data_source_cont.dart';
-import 'package:online_exam_app/core/Error/failure.dart';
+import 'package:online_exam_app/Features/home/data/model/get_exams_on_subject.dart';
+import 'package:online_exam_app/Features/home/data/model/get_subjects_response.dart';
+import 'package:online_exam_app/Features/home/domain/repository/data_source_contract/remote/home_remote_data_source_cont.dart';
+import 'package:online_exam_app/core/exceptions/failure.dart';
 import 'package:online_exam_app/core/di/di.dart';
-import 'package:online_exam_app/core/services/api_manager.dart';
+import 'package:online_exam_app/core/services/web_services.dart';
+import 'package:online_exam_app/main.dart';
+import '../../../../core/helper/request_handler.dart';
 
 @Injectable(as: HomRemoteDataSourceContract)
 class HomeTabRemoteImpl implements HomRemoteDataSourceContract {
- final apiManager = getIt<ApiManager>();
+  final webServices = getIt<WebServices>();
+
   @override
-  Future<Either<Failures, List<SubjectsEntity>>> getAllSubjects() async {
-    final either=  await apiManager.getAllSubjects();
-    return either.fold((l) => Left(l), (r) => Right(r));
+  Future<Either<Failures, GetSubjectsResponse>> getAllSubjects() async {
+    return RequestHandler.handle(() => webServices.getAllSubjects(token ?? ''));
   }
 
   @override
-  Future<Either<Failures, List<ExamsOnSubjectEntity>>> getExamsOnSubject(String subjectId) async {
-    // TODO: implement getExamsOnSubject
-    var either=await  apiManager.getExamsOnSubject(subjectId);
-    return either.fold((l) => Left(l), (r) => Right(r));
+  Future<Either<Failures, GetExamsOnSubject>> getExamsOnSubject(
+      String subjectId) async {
+    return RequestHandler.handle(() =>
+        webServices.getExamsOnSubject(subjectId, token ?? ''));
+
   }
- 
 }

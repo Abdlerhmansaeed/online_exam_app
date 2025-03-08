@@ -23,53 +23,58 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 20.0.w,
-        vertical: 16.0.h,
-      ),
-      child: BlocProvider(
-        create: (context) => homeCubit..getAllSubjects(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Survey',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(color: AppColors.blue)),
-            verticalSpace(16),
-            const BuildSearchField(),
-            verticalSpace(40),
-            Text('Browse by subject',
-                style: Theme.of(context).textTheme.titleLarge),
-            verticalSpace(24),
-            BlocBuilder<HomeCubit, HomeState>(
-           
-              builder: (context, state) {
-                return state is HomeSuccessState
-                    ? Expanded(
-                        child: ListView.builder(
-                            itemCount: state.subjectsEntity.length,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 20.0.w,
+          vertical: 16.0.h,
+        ),
+        child: BlocProvider(
+          create: (context) => homeCubit..getAllSubjects(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Survey',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(color: AppColors.blue)),
+              verticalSpace(16),
+              const BuildSearchField(),
+              verticalSpace(40),
+              Text('Browse by subject',
+                  style: Theme.of(context).textTheme.titleLarge),
+              verticalSpace(24),
+              BlocBuilder<HomeCubit, HomeState>(
+                builder: (context, state) {
+                  return state is HomeSuccessState
+                      ? Expanded(
+                          child: ListView.builder(
+                            itemCount: state.subjectsList.length,
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
-                                  Navigator.pushNamed(context, AppRoutes.subjectDetails,
-                                  arguments: state.subjectsEntity[index]);
+                                  Navigator.pushNamed(
+                                      context, AppRoutes.subjectDetails,
+                                      arguments: state.subjectsList[index]);
                                 },
                                 child: SubjectItem(
                                   imageUrl:
-                                      state.subjectsEntity[index].icon ?? '',
-                                  name: state.subjectsEntity[index].name ?? '',
+                                      state.subjectsList[index].icon ?? '',
+                                  name: state.subjectsList[index].name ?? '',
                                 ),
                               );
-                            }))
-                    : const Center(child: CircularProgressIndicator());
-              },
-            )
-          ],
+                            },
+                          ),
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                },
+              ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }

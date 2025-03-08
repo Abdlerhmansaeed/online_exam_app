@@ -1,19 +1,18 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:online_exam_app/Features/auth/data/models/request_model/forget_password_email_request.dart';
+import 'package:online_exam_app/Features/auth/data/models/response/reset_password_verify.dart';
 import 'package:online_exam_app/Features/auth/domain/repositories/auth_repo.dart';
-
-import '../entities/user_entiti.dart';
 
 @injectable
 class ForgetPasswordUseCase {
-  AuthRepo authRepo;
+ final AuthRepo _authRepo;
 
-  ForgetPasswordUseCase(this.authRepo);
+  ForgetPasswordUseCase(this._authRepo);
 
-  Future<Either<String, UserEntity>>call({required String email}) {
-    return authRepo.forgetPasswordEmailVerify(email: email);
+  Future<Either<String, ResetPasswordVerify>> call(
+      {required ForgetPasswordEmailRequest data}) async{
+    var response = await _authRepo.forgetPasswordEmailVerify(data: data);
+    return response;
   }
-
-
-
 }
