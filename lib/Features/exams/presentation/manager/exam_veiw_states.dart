@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:online_exam_app/Features/exams/data/models/check_questions_request.dart';
 import 'package:online_exam_app/core/base_states/base_states.dart';
 
 class ExamStates extends Equatable {
@@ -8,28 +9,43 @@ class ExamStates extends Equatable {
   final int? examDuration;
   final bool? examTimeOutState;
   final String? navigationState;
+  final List<UserAnswers>? userAnswers;
+  final BaseStates? checkUserAnswersStates;
+  final int ? lastQuestionIndex;
 
-  const ExamStates(
-      {this.examStates,
-      this.currentQuestionIndex = 0,
-      this.selectedAnswers,
-      this.examDuration,
-      this.examTimeOutState,
-      this.navigationState});
+  const ExamStates({
+    this.examStates,
+    this.lastQuestionIndex,
+    this.currentQuestionIndex = 0,
+    this.selectedAnswers,
+    this.examDuration,
+    this.examTimeOutState,
+    this.navigationState,
+    this.userAnswers,
+    this.checkUserAnswersStates,
+  });
 
-  ExamStates copyWith(
-      {BaseStates? examStates,
-      int? currentQuestionIndex,
-      Map<int, int>? selectedAnswers,
-      int? examDuration,
-      bool? examTimeOutState,
-      String? navigationState}) {
+  ExamStates copyWith({
+    final BaseStates? examStates,
+    final int? currentQuestionIndex,
+    final Map<int, int>? selectedAnswers,
+    final int? examDuration,
+    final bool? examTimeOutState,
+    final int? lastQuestionIndex,
+    final String? navigationState,
+    final List<UserAnswers>? userAnswers,
+    final BaseStates? checkUserAnswersStates,
+  }) {
     return ExamStates(
         examStates: examStates ?? this.examStates,
         currentQuestionIndex: currentQuestionIndex ?? this.currentQuestionIndex,
         selectedAnswers: selectedAnswers ?? this.selectedAnswers,
+        lastQuestionIndex: lastQuestionIndex ?? this.lastQuestionIndex,
         examDuration: examDuration ?? this.examDuration,
         examTimeOutState: examTimeOutState ?? this.examTimeOutState,
+        userAnswers: userAnswers ?? this.userAnswers,
+        checkUserAnswersStates:
+            checkUserAnswersStates ?? this.checkUserAnswersStates,
         navigationState: navigationState ?? this.navigationState);
   }
 
@@ -40,6 +56,9 @@ class ExamStates extends Equatable {
         selectedAnswers,
         examDuration,
         examTimeOutState,
+        lastQuestionIndex,
+        checkUserAnswersStates,
+        userAnswers,
         navigationState
       ];
 }

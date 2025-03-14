@@ -12,6 +12,9 @@ class AppConstant {
 
   static final RegExp phoneRegex = RegExp(r'^01[0125][0-9]{8}$');
 
+  static const String examBoxName = 'exams';
+ static const String examDataKey = 'answers';
+
   static const String baseUrl = 'https://exam.elevateegy.com/api/v1';
   static const String signupEndPoint = '/auth/signup';
   static const String signInEndPoint = '/auth/signin';

@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive/hive.dart';
+import 'package:online_exam_app/core/Constant/app_constant.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/routes/app_routes_generator.dart';
 import 'package:online_exam_app/core/theme/app_theme.dart';
-
+import 'Features/exams/data/models/check_questions_request.dart';
 import 'core/di/di.dart';
+import 'core/services/hive_local_storage.dart';
 import 'core/services/shared_prefs.dart';
 
- String? token ;
+String? token;
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
+  await HiveLocalStorage.hiveInit();
+  Hive.registerAdapter(UserAnswersAdapter());
+  await HiveLocalStorage.openBox(AppConstant.examBoxName);
   token = await SharedPrefs().getString("token");
   runApp(const MyApp());
 }
@@ -30,7 +36,8 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           theme: AppTheme.appTheme,
           debugShowCheckedModeBanner: false,
-          initialRoute:  token != null ? AppRoutes.layoutScreen : AppRoutes.loginPage,
+          initialRoute:
+              token != null ? AppRoutes.layoutScreen : AppRoutes.loginPage,
           onGenerateRoute: AppRoutesGenerator.generateRoute,
         );
       },

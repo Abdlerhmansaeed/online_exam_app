@@ -19,6 +19,7 @@ required this.context,
     return
       BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+
      selectedItemColor: AppColors.blue,
     onTap: onTabFunction,
       currentIndex: selectedIndex ,

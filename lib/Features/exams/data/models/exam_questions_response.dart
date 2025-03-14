@@ -26,7 +26,7 @@ class ExamQuestionsResponse {
 @JsonSerializable()
 class Questions {
   @JsonKey(name: "answers")
-  final List<Answers>? answers;
+  final List<ExamAnswers>? answers;
   @JsonKey(name: "type")
   final String? type;
   @JsonKey(name: "_id")
@@ -63,23 +63,23 @@ class Questions {
 }
 
 @JsonSerializable()
-class Answers {
+class ExamAnswers {
   @JsonKey(name: "answer")
   final String? answer;
   @JsonKey(name: "key")
   final String? key;
 
-  Answers ({
+  ExamAnswers ({
     this.answer,
     this.key,
   });
 
-  factory Answers.fromJson(Map<String, dynamic> json) {
-    return _$AnswersFromJson(json);
+  factory ExamAnswers.fromJson(Map<String, dynamic> json) {
+    return _$ExamAnswersFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return _$AnswersToJson(this);
+    return _$ExamAnswersToJson(this);
   }
 }
 

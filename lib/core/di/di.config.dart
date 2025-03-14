@@ -25,12 +25,16 @@ import '../../Features/auth/domain/use_cases/reset_password_use_case.dart'
     as _i447;
 import '../../Features/auth/domain/use_cases/signup_usecase.dart' as _i179;
 import '../../Features/auth/presentation/manager/auth_cubit.dart' as _i239;
+import '../../Features/exams/data/data_sources/local_data_source/exam_local_data_base.dart'
+    as _i486;
 import '../../Features/exams/data/data_sources/remote_data_source/exam_remote_data_source.dart'
     as _i551;
 import '../../Features/exams/data/data_sources/remote_data_source/exam_remote_data_source_impl.dart'
     as _i583;
 import '../../Features/exams/data/repositories/exam_repo_impl.dart' as _i846;
 import '../../Features/exams/domain/repositories/exam_repo.dart' as _i334;
+import '../../Features/exams/domain/use_cases/check_user_answers_use_case.dart'
+    as _i345;
 import '../../Features/exams/domain/use_cases/exam_quetions_use_case.dart'
     as _i590;
 import '../../Features/exams/presentation/manager/exam_veiw_model.dart'
@@ -41,7 +45,7 @@ import '../../Features/home/data/repository/home_tab_impl.dart' as _i781;
 import '../../Features/home/domain/repository/contract/home_tab_repo.dart'
     as _i577;
 import '../../Features/home/domain/repository/data_source_contract/remote/home_remote_data_source_cont.dart'
-    as _i580;
+    as _i898;
 import '../../Features/home/domain/use_case/get_exams_on_subject_use_case.dart'
     as _i259;
 import '../../Features/home/domain/use_case/home_tab_use_cse.dart' as _i174;
@@ -63,6 +67,7 @@ import '../../Features/user_profile/domain/use_cases/get_user_profile_use_case.d
 import '../../Features/user_profile/presentation/manager/profile_view_model_cubit.dart'
     as _i604;
 import '../services/dio_module.dart' as _i870;
+import '../services/hive_local_storage.dart' as _i46;
 import '../services/web_services.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -78,14 +83,17 @@ extension GetItInjectableX on _i174.GetIt {
     );
     final dioModule = _$DioModule();
     gh.factory<int>(() => _i870.DioModule.connectionTimeOut);
+    gh.factory<_i46.HiveLocalStorage>(() => _i46.HiveLocalStorage());
     gh.singleton<_i361.LogInterceptor>(() => dioModule.provideLogger());
+    gh.factory<_i486.ExamLocalDataSource>(
+        () => _i486.ExamLocalDataSource(gh<_i46.HiveLocalStorage>()));
     gh.factory<_i51.AuthDataSource>(() => _i172.AuthDataSourceImp());
-    gh.factory<_i580.HomRemoteDataSourceContract>(
+    gh.factory<_i898.HomRemoteDataSourceContract>(
         () => _i250.HomeTabRemoteImpl());
     gh.singleton<_i361.Dio>(
         () => dioModule.provideDio(gh<_i361.LogInterceptor>()));
     gh.factory<_i577.HomeTabRepoContract>(() => _i781.HomeTabImpl(
-        remoteDataSourceContract: gh<_i580.HomRemoteDataSourceContract>()));
+        remoteDataSourceContract: gh<_i898.HomRemoteDataSourceContract>()));
     gh.factory<_i1049.AuthRepo>(
         () => _i1013.AuthRepoImp(gh<_i51.AuthDataSource>()));
     gh.singleton<_i460.WebServices>(
@@ -129,10 +137,15 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i590.ExamQuestionsUseCase>(
         () => _i590.ExamQuestionsUseCase(gh<_i334.ExamRepo>()));
-    gh.factory<_i337.ExamViewModel>(
-        () => _i337.ExamViewModel(gh<_i590.ExamQuestionsUseCase>()));
+    gh.factory<_i345.CheckUserAnswersUseCase>(
+        () => _i345.CheckUserAnswersUseCase(gh<_i334.ExamRepo>()));
     gh.factory<_i100.GetUserProfileUseCase>(() => _i100.GetUserProfileUseCase(
         userProfileRepo: gh<_i464.UserProfileRepo>()));
+    gh.factory<_i337.ExamViewModel>(() => _i337.ExamViewModel(
+          gh<_i590.ExamQuestionsUseCase>(),
+          gh<_i486.ExamLocalDataSource>(),
+          gh<_i345.CheckUserAnswersUseCase>(),
+        ));
     gh.factory<_i604.ProfileViewModelCubit>(() => _i604.ProfileViewModelCubit(
           gh<_i100.GetUserProfileUseCase>(),
           gh<_i197.ChangeUserPasswordUseCase>(),

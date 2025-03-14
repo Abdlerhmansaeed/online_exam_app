@@ -5,13 +5,12 @@ import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.
 import 'package:online_exam_app/Features/home/presentation/cubit/home_cubit.dart';
 import 'package:online_exam_app/Features/user_results/presentation/widgets/cart_widget.dart';
 import 'package:online_exam_app/core/di/di.dart';
-
 import 'instructions_screen.dart';
 
 class ExamsOnSubjectScreen extends StatelessWidget {
-  ExamsOnSubjectScreen({
-    Key? key,
-  }) : super(key: key);
+  const ExamsOnSubjectScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +22,16 @@ class ExamsOnSubjectScreen extends StatelessWidget {
           onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
-       title: Text(args.name??''),
+       title: Text(args.name),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 16.0.h),
         child: Column(
           children: [
-           
+
             Expanded(
               child: BlocBuilder(
-                bloc: getIt<HomeCubit>()..getExamsOnSubject(args.id ?? ''),
+                bloc: getIt<HomeCubit>()..getExamsOnSubject(args.id),
                 builder: (context, state) {
                   if (state is ExamOnSubjectSuccessState) {
                     return ListView.builder(
@@ -42,8 +41,8 @@ class ExamsOnSubjectScreen extends StatelessWidget {
                          const Center(child: Text('No exams found'))
                          : InkWell(
                           onTap: (){
-                            Navigator.push(context, 
-                            MaterialPageRoute(builder: (context) => 
+                            Navigator.push(context,
+                            MaterialPageRoute(builder: (context) =>
                             ExamInstructionsScreen(
                               createdAt: state.examsList[index].createdAt,
                               duration: state.examsList[index].duration,
@@ -59,7 +58,7 @@ class ExamsOnSubjectScreen extends StatelessWidget {
                             createdAt: state.examsList[index].createdAt,
                             duration: state.examsList[index].duration,
                             numberOfQuestions: state.examsList[index].numberOfQuestions,
-                            
+
                                                    ),
                          );
                       },

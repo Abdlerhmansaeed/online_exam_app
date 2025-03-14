@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -14,9 +13,8 @@ part 'home_state.dart';
 
 @injectable
 class HomeCubit extends Cubit<HomeState> {
-  GetAllSubjectsUseCase _getAllExamsUseCase;
-  GetExamsOnSubjectUseCase _getExamsOnSubjectUseCase;
-
+   final GetAllSubjectsUseCase _getAllExamsUseCase;
+  final GetExamsOnSubjectUseCase _getExamsOnSubjectUseCase;
   static HomeCubit get(context) => BlocProvider.of(context);
   HomeCubit(
     this._getAllExamsUseCase,
@@ -30,7 +28,6 @@ class HomeCubit extends Cubit<HomeState> {
   ];
 
   changeBottomNavBar(int newIndex) {
-    // emit(HomeInitial());
     selectedIndex = newIndex;
     emit(ChangeBottomNavBarState());
   }
@@ -43,16 +40,6 @@ class HomeCubit extends Cubit<HomeState> {
       onLoading: () => emit(HomeLoadingState()),
     );
 
-    // emit(HomeLoadingState());
-    // var either = await getAllExamsUseCase.invoke();
-    // either.fold(
-    //   (error) {
-    //     emit(HomeErrorState(errorMessage: error.errorMessage));
-    //   },
-    //   (success) {
-    //     emit(HomeSuccessState(subjectsList:success?? []));
-    //   },
-    // );
   }
 
  Future<void> getExamsOnSubject(String subjectId) async {
@@ -62,15 +49,5 @@ class HomeCubit extends Cubit<HomeState> {
       onError: (error) => emit(HomeErrorState(errorMessage: error)),
       onLoading: () => emit(HomeLoadingState()),
     );
-    // emit(HomeLoadingState());
-    // var either = await _getExamsOnSubjectUseCase.invoke(subjectId);
-    // either.fold(
-    //   (error) {
-    //     emit(HomeErrorState(errorMessage: error.errorMessage));
-    //   },
-    //   (success) {
-    //     emit(ExamOnSubjectSuccessState(examsList: success.exams ?? []));
-    //   },
-    // );
   }
 }

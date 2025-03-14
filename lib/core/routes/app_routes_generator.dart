@@ -15,6 +15,7 @@ import 'package:online_exam_app/Features/user_results/presentation/pages/result_
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import '../../Features/exams/presentation/pages/instructions_screen.dart';
 import '../../Features/home/presentation/pages/home_screen.dart';
+import '../../main.dart';
 
 class AppRoutesGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -47,7 +48,7 @@ class AppRoutesGenerator {
         return MaterialPageRoute(builder: (_) => const ResultPage());
       case AppRoutes.subjectDetails:
         return MaterialPageRoute(
-            settings: settings, builder: (_) => ExamsOnSubjectScreen());
+            settings: settings, builder: (_) => const ExamsOnSubjectScreen());
       case AppRoutes.resultAnswersPage:
         return MaterialPageRoute(
           builder: (_) => const AnswersView(),
@@ -71,7 +72,9 @@ class AppRoutesGenerator {
           builder: (_) => const ChangePasswordPage(),
         );
       default:
-        return MaterialPageRoute(builder: (_) => const LayoutScreen());
+        return
+         token == null? MaterialPageRoute(builder: (_) => const LoginPage()):
+          MaterialPageRoute(builder: (_) => const LayoutScreen());
     }
   }
 }

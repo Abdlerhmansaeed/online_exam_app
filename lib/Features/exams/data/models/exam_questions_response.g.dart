@@ -24,7 +24,7 @@ Map<String, dynamic> _$ExamQuestionsResponseToJson(
 
 Questions _$QuestionsFromJson(Map<String, dynamic> json) => Questions(
       answers: (json['answers'] as List<dynamic>?)
-          ?.map((e) => Answers.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => ExamAnswers.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: json['type'] as String?,
       Id: json['_id'] as String?,
@@ -50,12 +50,13 @@ Map<String, dynamic> _$QuestionsToJson(Questions instance) => <String, dynamic>{
       'createdAt': instance.createdAt,
     };
 
-Answers _$AnswersFromJson(Map<String, dynamic> json) => Answers(
+ExamAnswers _$ExamAnswersFromJson(Map<String, dynamic> json) => ExamAnswers(
       answer: json['answer'] as String?,
       key: json['key'] as String?,
     );
 
-Map<String, dynamic> _$AnswersToJson(Answers instance) => <String, dynamic>{
+Map<String, dynamic> _$ExamAnswersToJson(ExamAnswers instance) =>
+    <String, dynamic>{
       'answer': instance.answer,
       'key': instance.key,
     };

@@ -61,10 +61,9 @@ Widget buildExamContent(BuildContext context, ExamQuestionsResponse? examData, E
                       itemCount: examData.questions![questionIndex].answers?.length ?? 0,
                       itemBuilder: (context, answerIndex) {
                         return InkWell(
-
                           overlayColor: const WidgetStatePropertyAll(Colors.transparent),
                           onTap: () {
-                            examViewModel.selectedAnswer(answerIndex,questionIndex);
+                            examViewModel.selectedUserAnswer(answerIndex,questionIndex, examData.questions?[questionIndex].Id?? '', examViewModel.answers[questionIndex].key?? '');
                           },
                           child: BlocBuilder<ExamViewModel, ExamStates>(
                             bloc: examViewModel,
@@ -158,7 +157,9 @@ Widget buildExamContent(BuildContext context, ExamQuestionsResponse? examData, E
                     EdgeInsets.symmetric(horizontal: 64.w, vertical: 14.h),
                   ),
                 ),
-                onPressed: examViewModel.goToNextQuestion,
+                onPressed:() {
+                  examViewModel.goToNextQuestion(context);
+                },
                 child: const Text("Next"),
               ),
             ],

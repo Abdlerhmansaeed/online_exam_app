@@ -65,7 +65,7 @@ class _ExamScreenState extends State<ExamScreen> {
                 return Container(
                   margin: EdgeInsets.all(10.r),
                   child: Text(
-                    '${minutes} : ${seconds}',
+                    '$minutes : $seconds',
                     style: TextStyle(
                       color: AppColors.green,
                       fontSize: 20.sp,
@@ -110,8 +110,8 @@ class _ExamScreenState extends State<ExamScreen> {
 
                             ),
                               onPressed: () {
-                              examViewModel.navigateToRoute(AppRoutes.examScoreScreen, context);
-                              }, child: Text("View score"))
+                              examViewModel.navigateToRoute(routeName: AppRoutes.examScoreScreen, context: context, arguments: examViewModel);
+                              }, child: const Text("View score")),
                         ],
                       ),
                     ),
@@ -119,9 +119,10 @@ class _ExamScreenState extends State<ExamScreen> {
                 },
               );
             }
-          },
-          listenWhen: (previous, current) {
-            return current.examTimeOutState != previous.examTimeOutState;
+            if ((state.lastQuestionIndex ?? 0) == examViewModel.questions.length - 1){
+              examViewModel.checkUserAnswers();
+              examViewModel.navigateToRoute(routeName: AppRoutes.examScoreScreen, context: context, arguments: examViewModel);
+            }
           },
           builder: (context, state) {
             if (state.examStates is LoadingState) {
