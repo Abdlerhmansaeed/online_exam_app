@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/user_results/presentation/widgets/cart_widget.dart';
+import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
 
 import '../../../../core/helper/spacing.dart';
@@ -27,7 +28,9 @@ class ResultPage extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: 20,
                   itemBuilder: (context, index) {
-                  return CartWidget();
+                  return InkWell( onTap: () {
+                    Navigator.pushReplacementNamed(context, AppRoutes.resultAnswersPage);
+                  },child: CartWidget());
                 },),
               ),
 

@@ -135,10 +135,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i25.OtpResetUseCase>(),
           gh<_i447.ResetPasswordUseCase>(),
         ));
-    gh.factory<_i590.ExamQuestionsUseCase>(
-        () => _i590.ExamQuestionsUseCase(gh<_i334.ExamRepo>()));
     gh.factory<_i345.CheckUserAnswersUseCase>(
         () => _i345.CheckUserAnswersUseCase(gh<_i334.ExamRepo>()));
+    gh.factory<_i590.ExamQuestionsUseCase>(
+        () => _i590.ExamQuestionsUseCase(gh<_i334.ExamRepo>()));
     gh.factory<_i100.GetUserProfileUseCase>(() => _i100.GetUserProfileUseCase(
         userProfileRepo: gh<_i464.UserProfileRepo>()));
     gh.factory<_i337.ExamViewModel>(() => _i337.ExamViewModel(

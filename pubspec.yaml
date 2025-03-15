@@ -52,6 +52,7 @@ dependencies:
   flutter_native_splash:
   hive_flutter:
   hive:
+  lottie:
 
 
 dev_dependencies:

@@ -11,11 +11,11 @@ class ExamStates extends Equatable {
   final String? navigationState;
   final List<UserAnswers>? userAnswers;
   final BaseStates? checkUserAnswersStates;
-  final int ? lastQuestionIndex;
+  final bool ? isLastQuestion;
 
   const ExamStates({
     this.examStates,
-    this.lastQuestionIndex,
+    this.isLastQuestion,
     this.currentQuestionIndex = 0,
     this.selectedAnswers,
     this.examDuration,
@@ -31,7 +31,7 @@ class ExamStates extends Equatable {
     final Map<int, int>? selectedAnswers,
     final int? examDuration,
     final bool? examTimeOutState,
-    final int? lastQuestionIndex,
+    final bool? isLastQuestion,
     final String? navigationState,
     final List<UserAnswers>? userAnswers,
     final BaseStates? checkUserAnswersStates,
@@ -40,7 +40,7 @@ class ExamStates extends Equatable {
         examStates: examStates ?? this.examStates,
         currentQuestionIndex: currentQuestionIndex ?? this.currentQuestionIndex,
         selectedAnswers: selectedAnswers ?? this.selectedAnswers,
-        lastQuestionIndex: lastQuestionIndex ?? this.lastQuestionIndex,
+        isLastQuestion: isLastQuestion ?? this.isLastQuestion,
         examDuration: examDuration ?? this.examDuration,
         examTimeOutState: examTimeOutState ?? this.examTimeOutState,
         userAnswers: userAnswers ?? this.userAnswers,
@@ -56,7 +56,7 @@ class ExamStates extends Equatable {
         selectedAnswers,
         examDuration,
         examTimeOutState,
-        lastQuestionIndex,
+        isLastQuestion,
         checkUserAnswersStates,
         userAnswers,
         navigationState

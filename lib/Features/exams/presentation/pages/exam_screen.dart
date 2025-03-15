@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:online_exam_app/Features/exams/data/models/exam_questions_response.dart';
 import 'package:online_exam_app/Features/exams/presentation/manager/exam_veiw_model.dart';
 import 'package:online_exam_app/Features/exams/presentation/manager/exam_veiw_states.dart';
@@ -8,6 +9,7 @@ import 'package:online_exam_app/core/base_states/base_states.dart';
 import 'package:online_exam_app/core/di/di.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
+import '../../../../core/generated/assets.dart';
 import '../widgets/exam_content.dart';
 
 class ExamScreen extends StatefulWidget {
@@ -34,6 +36,7 @@ class _ExamScreenState extends State<ExamScreen> {
     super.dispose();
   }
 
+  bool _isBottomSheetOpen = false;
   @override
   Widget build(BuildContext context) {
     ExamViewModel examViewModel = getIt<ExamViewModel>();
@@ -105,13 +108,20 @@ class _ExamScreenState extends State<ExamScreen> {
                           ),
                           ElevatedButton(
                             style: ButtonStyle(
-                              padding: WidgetStatePropertyAll(EdgeInsets.symmetric(
-                              vertical: 8.w, horizontal: 50.h),)
-
+                              padding: WidgetStatePropertyAll(
+                                EdgeInsets.symmetric(
+                                    vertical: 8.w, horizontal: 50.h),
+                              ),
                             ),
-                              onPressed: () {
-                              examViewModel.navigateToRoute(routeName: AppRoutes.examScoreScreen, context: context, arguments: examViewModel);
-                              }, child: const Text("View score")),
+                            onPressed: () {
+                              examViewModel.navigateToRoute(
+                                routeName: AppRoutes.examScoreScreen,
+                                context: context,
+                                arguments: examViewModel,
+                              );
+                            },
+                            child: const Text("View score"),
+                          ),
                         ],
                       ),
                     ),
@@ -119,10 +129,69 @@ class _ExamScreenState extends State<ExamScreen> {
                 },
               );
             }
-            if ((state.lastQuestionIndex ?? 0) == examViewModel.questions.length - 1){
-              examViewModel.checkUserAnswers();
-              examViewModel.navigateToRoute(routeName: AppRoutes.examScoreScreen, context: context, arguments: examViewModel);
+
+            if (state.isLastQuestion == true && !_isBottomSheetOpen) {
+              _isBottomSheetOpen = true;
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: false,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20.r),
+                      topRight: Radius.circular(20.r),
+                    ),
+                  ),
+                  builder: (context) {
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.r),
+                          topRight: Radius.circular(20.r),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Lottie.asset(Assets.imagesExamdone),
+                          Text(
+                            "Are you sure you want to submit?",
+                            style: theme.textTheme.bodyLarge!
+                                .copyWith(fontSize: 20.sp),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              examViewModel.checkUserAnswers().then((value) {
+                                Navigator.pop(context);
+                                _isBottomSheetOpen = false;
+                                Navigator.pushReplacementNamed(
+                                    context, AppRoutes.examScoreScreen, arguments: examViewModel);
+                              });
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Yes",
+                                  style: theme.textTheme.bodyLarge!.copyWith(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              });
             }
+          },
+          listenWhen: (previous, current) {
+            return current.isLastQuestion != previous.isLastQuestion ||
+                current.examTimeOutState != previous.examTimeOutState;
           },
           builder: (context, state) {
             if (state.examStates is LoadingState) {

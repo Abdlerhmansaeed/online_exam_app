@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/exams/presentation/pages/exam_screen.dart';
 import 'package:online_exam_app/core/helper/spacing.dart';
-import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
 
 class ExamInstructionsScreen extends StatelessWidget {
@@ -94,7 +93,7 @@ class ExamInstructionsScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 80.w, vertical: 15),
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder:(context) => ExamScreen(duration:duration,examId: examId,), ));
+                  Navigator.push(context, MaterialPageRoute(builder:(context) => ExamScreen(duration:duration,examId: examId?? '',), ));
                 },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
