@@ -63,7 +63,7 @@ Widget buildExamContent(BuildContext context, ExamQuestionsResponse? examData, E
                         return InkWell(
                           overlayColor: const WidgetStatePropertyAll(Colors.transparent),
                           onTap: () {
-                            examViewModel.selectedUserAnswer(answerIndex,questionIndex, examData.questions?[questionIndex].Id?? '', examViewModel.answers[questionIndex].key?? '');
+                            examViewModel.selectedUserAnswer(answerIndex,questionIndex, examData.questions?[questionIndex].Id?? '', examViewModel.questions[answerIndex].answers?[answerIndex].key?? '');
                           },
                           child: BlocBuilder<ExamViewModel, ExamStates>(
                             bloc: examViewModel,

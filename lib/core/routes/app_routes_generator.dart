@@ -66,6 +66,7 @@ class AppRoutesGenerator {
       case AppRoutes.examScoreScreen:
         return MaterialPageRoute(
           builder: (_) => const ExamScoreScreen(),
+          settings: settings,
         );
       case AppRoutes.changePasswordScreen:
         return MaterialPageRoute(
