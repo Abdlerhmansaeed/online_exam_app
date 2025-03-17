@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
+import 'package:online_exam_app/Features/home/data/model/get_exams_on_subject.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/routes/app_routes_generator.dart';
 import 'package:online_exam_app/core/theme/app_theme.dart';
 import 'Features/exams/data/models/check_questions_request.dart';
+import 'core/Constant/app_keys.dart';
 import 'core/di/di.dart';
 import 'core/services/hive_local_storage.dart';
 import 'core/services/shared_prefs.dart';
@@ -16,6 +18,8 @@ void main() async {
   configureDependencies();
   await HiveLocalStorage.hiveInit();
   Hive.registerAdapter(UserAnswersAdapter());
+  Hive.registerAdapter(ExamsAdapter());
+  await Hive.openBox<Exams>(AppKeys.examBoxName);
   token = await SharedPrefs().getString("token");
   runApp(const MyApp());
 }

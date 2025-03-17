@@ -7,11 +7,21 @@ import 'package:online_exam_app/Features/exams/data/models/exam_questions_respon
 import 'package:online_exam_app/Features/exams/domain/repositories/exam_repo.dart';
 import 'package:online_exam_app/core/helper/handel_response.dart';
 
+import '../../../home/data/model/get_exams_on_subject.dart';
+
 @Injectable(as: ExamRepo)
 class ExamRepoImpl implements ExamRepo {
   final ExamRemoteDataSource examRemoteDataSource;
 
   ExamRepoImpl({required this.examRemoteDataSource});
+
+
+  @override
+  Future<Either<String, GetExamsOnSubject>> getExamsOnSubject(
+      String subjectId) async {
+    var response = await examRemoteDataSource.getExamsOnSubject(subjectId);
+    return handleResponse(response);
+  }
 
   @override
   Future<Either<String, ExamQuestionsResponse>> getExamsQuestions(String? examId) async{

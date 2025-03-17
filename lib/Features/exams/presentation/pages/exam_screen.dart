@@ -70,7 +70,7 @@ class _ExamScreenState extends State<ExamScreen> {
                   child: Text(
                     '$minutes : $seconds',
                     style: TextStyle(
-                      color: AppColors.green,
+                      color: state.isDangerTime?? false ? AppColors.red : AppColors.green,
                       fontSize: 20.sp,
                     ),
                   ),

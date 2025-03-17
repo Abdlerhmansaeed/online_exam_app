@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.dart';
-import '../../../../../core/Constant/app_constant.dart';
+import '../../../../../core/Constant/app_regx.dart';
 import '../../../../../core/base_states/base_states.dart';
 import '../../../../../core/di/di.dart';
 import '../../../../../core/routes/app_routes.dart';
@@ -83,7 +83,7 @@ class ResetPasswordPage extends StatelessWidget {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "Email is required";
-                              } else if (!AppConstant.emailRegex
+                              } else if (!AppRegx.emailRegex
                                   .hasMatch(value)) {
                                 return "Enter Valid Email";
                               }
@@ -101,7 +101,7 @@ class ResetPasswordPage extends StatelessWidget {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "please enter your password";
-                              } else if (!AppConstant.passwordRegex
+                              } else if (!AppRegx.passwordRegex
                                   .hasMatch(value)) {
                                 return "Please add a Strong Password";
                               }

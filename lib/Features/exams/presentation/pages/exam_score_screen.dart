@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/exams/presentation/manager/exam_veiw_states.dart';
 import 'package:online_exam_app/core/base_states/base_states.dart';
 import 'package:online_exam_app/core/helper/spacing.dart';
+import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../data/models/check_questions_response.dart';
@@ -16,6 +17,7 @@ class ExamScoreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var viewModel = ModalRoute.of(context)?.settings.arguments as ExamViewModel;
+
     return BlocProvider(
       create: (context) => viewModel,
       child: Scaffold(
@@ -26,15 +28,21 @@ class ExamScoreScreen extends StatelessWidget {
               fontSize: 20.sp,
             ),
           ),
-          leading: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+          leading: GestureDetector(
+              onTap: () {
+                viewModel.navigateToRoute(routeName: AppRoutes.layoutScreen, context: context);
+              },
+              child: Icon(Icons.arrow_back_ios_new_rounded)),
         ),
         body: BlocBuilder<ExamViewModel, ExamStates>(
           builder: (context, state) {
+
             final viewModel = context.read<ExamViewModel>();
             if (state.checkUserAnswersStates is SuccessState<CheckQuestionsResponse>) {
               var data = (state.checkUserAnswersStates as SuccessState<CheckQuestionsResponse>).data;
+              final totalString = data?.total?.replaceAll('%', '') ?? '0';
+              final total = double.tryParse(totalString) ?? 0.0;
+              final percentage = total.toStringAsFixed(1);
               return Padding(
                 padding: EdgeInsets.all(16.r),
                 child: Column(
@@ -43,7 +51,7 @@ class ExamScoreScreen extends StatelessWidget {
                     Text(
                       "Your Score",
                       style: theme.textTheme.titleLarge!.copyWith(
-                        fontSize: 18.sp,
+                        fontSize: 20.sp,
                       ),
                     ),
                     verticalSpace(16),
@@ -54,9 +62,13 @@ class ExamScoreScreen extends StatelessWidget {
                           radius: MediaQuery.of(context).size.width * 0.2,
                           lineWidth: 10.0,
                           backgroundColor: AppColors.red,
+                          percent: total/100,
                           center: Text(
-                            "${data?.total?? ''}",
-                            style: theme.textTheme.titleLarge,
+                            "$percentage%"
+                            ,
+                            style: theme.textTheme.titleLarge!.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           progressColor: AppColors.blue,
                         ),
@@ -72,9 +84,9 @@ class ExamScoreScreen extends StatelessWidget {
                       ],
                     ),
                     verticalSpace(32),
-                    _buildButton("Show Results", () {}),
+                    Center(child: _buildButton("Show Results", () {})),
                     verticalSpace(24),
-                    _buildButton("Start Again", () {}, isPrimary: false),
+                    Center(child: _buildButton("Start Again", () {}, isPrimary: false)),
                   ],
                 ),
               );
@@ -96,16 +108,19 @@ class ExamScoreScreen extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: 16.sp, color: color),
+          style: TextStyle(fontSize: 16.sp, color: color, fontWeight: FontWeight.bold),
         ),
         const Spacer(),
         Container(
+          width: 25.w,
+          height: 25.h,
+          margin: EdgeInsets.all(4.r),
           padding: EdgeInsets.all(4.r),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(color: color),
+            border: Border.all(color: color, width: 1.4.w),
           ),
-          child: Text(value, style: TextStyle(color: color)),
+          child: Center(child: Text(value, style: TextStyle(color: color, fontSize: 14.sp, fontWeight: FontWeight.bold))),
         ),
       ],
     );
@@ -121,18 +136,25 @@ class ExamScoreScreen extends StatelessWidget {
         side: isPrimary
             ? null
             : WidgetStatePropertyAll(
-            BorderSide(color: AppColors.blue, width: 1.2.w)),
+            BorderSide(color: AppColors.blue, width: 1.1.w),),
         elevation: const WidgetStatePropertyAll(0),
         overlayColor: const WidgetStatePropertyAll(Colors.transparent),
-        padding: WidgetStatePropertyAll(EdgeInsets.all(16.r)),
       ),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 16.sp,
-          fontWeight: FontWeight.bold,
-          color: isPrimary ? null : AppColors.blue,
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(8.r),
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
+                color: isPrimary ? null : AppColors.blue,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

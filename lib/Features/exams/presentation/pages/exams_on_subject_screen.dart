@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:online_exam_app/Features/exams/presentation/manager/exam_veiw_model.dart';
+import 'package:online_exam_app/Features/home/data/model/get_exams_on_subject.dart';
 import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
 import 'package:online_exam_app/Features/home/presentation/cubit/home_cubit.dart';
 import 'package:online_exam_app/Features/user_results/presentation/widgets/cart_widget.dart';
+import 'package:online_exam_app/core/base_states/base_states.dart';
 import 'package:online_exam_app/core/di/di.dart';
+import '../manager/exam_veiw_states.dart';
 import 'instructions_screen.dart';
 
 class ExamsOnSubjectScreen extends StatelessWidget {
@@ -30,34 +34,35 @@ class ExamsOnSubjectScreen extends StatelessWidget {
           children: [
 
             Expanded(
-              child: BlocBuilder(
-                bloc: getIt<HomeCubit>()..getExamsOnSubject(args.id),
+              child: BlocBuilder<ExamViewModel, ExamStates>(
+                bloc: getIt<ExamViewModel>()..getExamsOnSubject(args.id),
                 builder: (context, state) {
-                  if (state is ExamOnSubjectSuccessState) {
+                  if (state.examOnSubjectStates is SuccessState<GetExamsOnSubject>) {
+                    var data = (state.examOnSubjectStates as SuccessState<GetExamsOnSubject>).data;
                     return ListView.builder(
-                      itemCount: state.examsList.length,
+                      itemCount:data?.exams?.length ,
                       itemBuilder: (context, index) {
-                        return state.examsList==[] ?
+                        return data?.exams?.isEmpty ?? true ?
                          const Center(child: Text('No exams found'))
                          : InkWell(
                           onTap: (){
                             Navigator.push(context,
                             MaterialPageRoute(builder: (context) =>
                             ExamInstructionsScreen(
-                              createdAt: state.examsList[index].createdAt,
-                              duration: state.examsList[index].duration,
-                              numberOfQuestions: state.examsList[index].numberOfQuestions,
-                             subjectName: state.examsList[index].subject,
-                              quizTitle: state.examsList[index].title,
-                              examId: state.examsList[index].Id,
+                              createdAt: data?.exams?[index].createdAt,
+                              duration:data?.exams?[index].duration,
+                              numberOfQuestions: data?.exams?[index].numberOfQuestions,
+                             subjectName: data?.exams?[index].subject,
+                              quizTitle: data?.exams?[index].title,
+                              examId: data?.exams?[index].Id,
                             ),),
                             );
                           },
                            child: CartWidget(
-                            subjectName: args.name,quizTitle: state.examsList[index].title,
-                            createdAt: state.examsList[index].createdAt,
-                            duration: state.examsList[index].duration,
-                            numberOfQuestions: state.examsList[index].numberOfQuestions,
+                            subjectName: args.name,quizTitle: data?.exams?[index].title,
+                            createdAt: data?.exams?[index].createdAt,
+                            duration: data?.exams?[index].duration,
+                            numberOfQuestions: data?.exams?[index].numberOfQuestions,
 
                                                    ),
                          );

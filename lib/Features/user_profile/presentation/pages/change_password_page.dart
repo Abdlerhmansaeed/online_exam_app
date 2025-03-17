@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/user_profile/presentation/manager/profile_view_model_cubit.dart';
 import 'package:online_exam_app/Features/user_profile/presentation/manager/profile_view_model_state.dart';
-import 'package:online_exam_app/core/Constant/app_constant.dart';
 import 'package:online_exam_app/core/base_states/base_states.dart';
 import 'package:online_exam_app/core/di/di.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
+
+import '../../../../core/Constant/app_regx.dart';
 
 class ChangePasswordPage extends StatelessWidget {
   const ChangePasswordPage({super.key});
@@ -67,7 +68,7 @@ class ChangePasswordPage extends StatelessWidget {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "Password Is Required";
-                                  } else if(!AppConstant.passwordRegex
+                                  } else if(!AppRegx.passwordRegex
                                       .hasMatch(value)){
                                     return "Enter your Password";
                                   }
@@ -85,7 +86,7 @@ class ChangePasswordPage extends StatelessWidget {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "Password Is Required";
-                                  } else if(!AppConstant.passwordRegex
+                                  } else if(!AppRegx.passwordRegex
                                       .hasMatch(value)){
                                     return "Enter Strong Password";
                                   }
@@ -103,7 +104,7 @@ class ChangePasswordPage extends StatelessWidget {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "Password Is Required";
-                                  } else if(!AppConstant.passwordRegex
+                                  } else if(!AppRegx.passwordRegex
                                       .hasMatch(value)){
                                     return "Enter Strong Password";
                                   }

@@ -16,7 +16,7 @@ abstract class DioModule{
     var dio = Dio(
         BaseOptions(
           connectTimeout: const Duration(seconds: connectionTimeOut),
-          baseUrl: AppConstant.baseUrl,
+          baseUrl: ApiConstants.baseUrl,
         )
     );
     dio.interceptors.add(logInterceptor);

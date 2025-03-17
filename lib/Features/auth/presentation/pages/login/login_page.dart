@@ -6,7 +6,7 @@ import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../../core/Constant/app_constant.dart';
+import '../../../../../core/Constant/app_regx.dart';
 import '../../../../../core/base_states/base_states.dart';
 import '../../../../../core/di/di.dart';
 
@@ -62,7 +62,7 @@ class LoginPage extends StatelessWidget {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "Email Can not be empty";
-                              } else if (!AppConstant.emailRegex
+                              } else if (!AppRegx.emailRegex
                                   .hasMatch(value)) {
                                 return "Enter Valid Email";
                               }
@@ -81,7 +81,7 @@ class LoginPage extends StatelessWidget {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "please enter your password";
-                              } else if (!AppConstant.passwordRegex
+                              } else if (!AppRegx.passwordRegex
                                   .hasMatch(value)) {
                                 return "Please Enter your correct password";
                               }

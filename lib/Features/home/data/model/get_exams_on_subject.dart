@@ -1,3 +1,4 @@
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'get_exams_on_subject.g.dart';
@@ -50,24 +51,38 @@ class Metadata {
   }
 }
 
+@HiveType(typeId: 1) // Unique type ID for Hive
 @JsonSerializable()
-class Exams {
+class Exams extends HiveObject {
+  @HiveField(0)
   @JsonKey(name: "_id")
   final String? Id;
+
+  @HiveField(1)
   @JsonKey(name: "title")
   final String? title;
+
+  @HiveField(2)
   @JsonKey(name: "duration")
   final int? duration;
+
+  @HiveField(3)
   @JsonKey(name: "subject")
   final String? subject;
+
+  @HiveField(4)
   @JsonKey(name: "numberOfQuestions")
   final int? numberOfQuestions;
+
+  @HiveField(5)
   @JsonKey(name: "active")
   final bool? active;
+
+  @HiveField(6)
   @JsonKey(name: "createdAt")
   final String? createdAt;
 
-  Exams ({
+  Exams({
     this.Id,
     this.title,
     this.duration,
@@ -77,13 +92,9 @@ class Exams {
     this.createdAt,
   });
 
-  factory Exams.fromJson(Map<String, dynamic> json) {
-    return _$ExamsFromJson(json);
-  }
-
-  Map<String, dynamic> toJson() {
-    return _$ExamsToJson(this);
-  }
+  /// JSON Serialization
+  factory Exams.fromJson(Map<String, dynamic> json) => _$ExamsFromJson(json);
+  Map<String, dynamic> toJson() => _$ExamsToJson(this);
 }
 
 

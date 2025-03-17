@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/auth/data/models/response/register_response.dart';
 import 'package:online_exam_app/Features/user_profile/presentation/manager/profile_view_model_cubit.dart';
 
-import '../../../../core/Constant/app_constant.dart';
+import '../../../../core/Constant/app_regx.dart';
 import '../../../../core/base_states/base_states.dart';
 import '../../../../core/di/di.dart';
 import '../../../../core/routes/app_routes.dart';
@@ -182,7 +182,7 @@ class ProfilePage extends StatelessWidget {
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return "Email is required";
-                                    } else if (!AppConstant.emailRegex
+                                    } else if (!AppRegx.emailRegex
                                         .hasMatch(value)) {
                                       return "Enter Valid Email";
                                     }
@@ -270,7 +270,7 @@ class ProfilePage extends StatelessWidget {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "Phone Is Required";
-                                  } else if (!AppConstant.phoneRegex
+                                  } else if (!AppRegx.phoneRegex
                                       .hasMatch(value)) {
                                     return "Enter Valid Phone";
                                   }

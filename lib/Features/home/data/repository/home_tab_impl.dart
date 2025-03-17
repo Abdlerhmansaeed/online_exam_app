@@ -13,12 +13,7 @@ class HomeTabImpl implements HomeTabRepoContract {
     required this.remoteDataSourceContract,
   });
 
-  @override
-  Future<Either<String, GetExamsOnSubject>> getExamsOnSubject(
-      String subjectId) async {
-    var response = await remoteDataSourceContract.getExamsOnSubject(subjectId);
-    return handleResponse(response);
-  }
+
 
   @override
   Future<Either<String, List<SubjectsEntity>>> getAllSubjects() async {
