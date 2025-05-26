@@ -7,7 +7,7 @@ import 'package:online_exam_app/Features/user_profile/data/models/edit_profile_r
 import 'package:online_exam_app/Features/user_profile/domain/entities/profile_entity.dart';
 import 'package:online_exam_app/core/helper/handel_response.dart';
 import '../../domain/repositories/user_profile_repo.dart';
-import '../data_sources/user_profile_remote_data_source.dart';
+import '../data_sources/remote_data_source/user_profile_remote_data_source.dart';
 
 @Injectable(as: UserProfileRepo)
 class UserProfileRepoImpl implements UserProfileRepo {

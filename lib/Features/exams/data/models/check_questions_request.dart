@@ -1,3 +1,4 @@
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'check_questions_request.g.dart';
@@ -5,7 +6,7 @@ part 'check_questions_request.g.dart';
 @JsonSerializable()
 class CheckQuestionsRequest {
   @JsonKey(name: "answers")
-  final List<Answers>? answers;
+  final List<UserAnswers>? answers;
   @JsonKey(name: "time")
   final int? time;
 
@@ -22,25 +23,27 @@ class CheckQuestionsRequest {
     return _$CheckQuestionsRequestToJson(this);
   }
 }
-
+@HiveType(typeId: 0)
 @JsonSerializable()
-class Answers {
+class UserAnswers {
+  @HiveField(0)
   @JsonKey(name: "questionId")
   final String? questionId;
+  @HiveField(1)
   @JsonKey(name: "correct")
   final String? correct;
 
-  Answers ({
+  UserAnswers ({
     this.questionId,
     this.correct,
   });
 
-  factory Answers.fromJson(Map<String, dynamic> json) {
-    return _$AnswersFromJson(json);
+  factory UserAnswers.fromJson(Map<String, dynamic> json) {
+    return _$UserAnswersFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return _$AnswersToJson(this);
+    return _$UserAnswersToJson(this);
   }
 }
 

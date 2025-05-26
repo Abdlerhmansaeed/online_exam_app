@@ -28,50 +28,44 @@ part 'web_services.g.dart';
 abstract class WebServices {
   factory WebServices(Dio dio) = _WebServices;
 
-  @POST(AppConstant.signInEndPoint)
+  @POST(ApiConstants.signInEndPoint)
   Future<RegisterResponse> login(@Body() LoginRequest data);
 
-  @POST(AppConstant.signupEndPoint)
+  @POST(ApiConstants.signupEndPoint)
   Future<RegisterResponse> signup(@Body() SignUpRequest data);
 
-  @POST(AppConstant.forgotPasswordEndPoint)
+  @POST(ApiConstants.forgotPasswordEndPoint)
   Future<ResetPasswordVerify> forgetPasswordEmailVerify(
       @Body() ForgetPasswordEmailRequest data);
 
-  @POST(AppConstant.resetPasswordEndPoint)
+  @POST(ApiConstants.resetPasswordEndPoint)
   Future<ResetPasswordResponse> resetPassword(
       @Body() ResetPasswordRequest data);
 
-  @POST(AppConstant.verifyResetCodeEndPoint)
+  @POST(ApiConstants.verifyResetCodeEndPoint)
   Future<OtpCodeResponse> resetCodeVerify(@Body() OtpCodeVerifyRequset data);
 
-  @GET(AppConstant.allSubjectsEndPoint)
-  Future<GetSubjectsResponse> getAllSubjects(@Header("token") String token);
+  @GET(ApiConstants.allSubjectsEndPoint)
+  Future<GetSubjectsResponse> getAllSubjects();
 
-  @GET(AppConstant.examsEndPoint)
+  @GET(ApiConstants.examsEndPoint)
   Future<GetExamsOnSubject> getExamsOnSubject(
-    @Query("subject") String subjectId,
-    @Header("token") String token,
-  );
-  @GET(AppConstant.questionEndPoint)
-  Future<ExamQuestionsResponse> getExamsQuestions(
-    @Header("token") String token,
-    @Query("exam") String examId,
-  );
+      @Query("subject") String subjectId);
 
-  @POST(AppConstant.checkAnswerEndPoint)
+  @GET(ApiConstants.questionEndPoint)
+  Future<ExamQuestionsResponse> getExamsQuestions(@Query("exam") String examId);
+
+  @POST(ApiConstants.checkAnswerEndPoint)
   Future<CheckQuestionsResponse> checkAnswers(
-      @Header('token') String token, @Body() CheckQuestionsRequest data);
+      @Body() CheckQuestionsRequest data);
 
-  @GET(AppConstant.getUserDetailsEndPoint)
-  Future<GetUserProfileResponse> getUserDetails(@Header("token") String token);
-  @PUT(AppConstant.editUserDetailsEndPoint)
-  Future<EditProfileResponse> editUserDetails(
-      @Header("token") String token, @Body() EditProfileRequest data);
-  
-  @PATCH(AppConstant.changePasswordEndPoint)
+  @GET(ApiConstants.getUserDetailsEndPoint)
+  Future<GetUserProfileResponse> getUserDetails();
+
+  @PUT(ApiConstants.editUserDetailsEndPoint)
+  Future<EditProfileResponse> editUserDetails(@Body() EditProfileRequest data);
+
+  @PATCH(ApiConstants.changePasswordEndPoint)
   Future<ChangePasswordResponse> changePassword(
-    @Header("token") String token,
-    @Body() ChangePasswordRequest data,
-  );
+      @Body() ChangePasswordRequest data);
 }

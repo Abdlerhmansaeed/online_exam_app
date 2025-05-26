@@ -1,0 +1,96 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:online_exam_app/Features/exams/presentation/manager/exam_veiw_model.dart';
+import 'package:online_exam_app/Features/home/data/model/get_exams_on_subject.dart';
+import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
+import 'package:online_exam_app/core/di/di.dart';
+import '../../../../core/base_states/base_states.dart';
+import '../manager/exam_states.dart';
+import 'instructions_screen.dart';
+import 'package:online_exam_app/Features/user_results/presentation/widgets/cart_widget.dart';
+
+class ExamsOnSubjectScreen extends StatelessWidget {
+  const ExamsOnSubjectScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)?.settings.arguments as SubjectsEntity;
+
+    return Scaffold(
+      appBar: AppBar(
+        leading: InkWell(
+          onTap: () => Navigator.pop(context),
+          child: const Icon(Icons.arrow_back_ios_new_rounded),
+        ),
+        title: Text(args.name),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 16.0.h),
+        child: Column(
+          children: [
+            Expanded(
+              child: BlocBuilder<ExamViewModel, ExamStates>(
+                bloc: getIt<ExamViewModel>()..getExamsOnSubject(args.id),
+                builder: (context, state) {
+                  GetExamsOnSubject? data;
+                  if (state.examOnSubjectStates
+                      is SuccessState<GetExamsOnSubject>) {
+                    data = (state.examOnSubjectStates
+                            as SuccessState<GetExamsOnSubject>)
+                        .data;
+                  }
+                  return state.examOnSubjectStates is LoadingState
+                      ? const Center(child: CircularProgressIndicator())
+                      : data != null &&
+                              data.exams != null &&
+                              data.exams!.isEmpty
+                          ? Center(
+                              child: Text(
+                              "No exams found",
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ))
+                          : ListView.builder(
+                              itemCount: data!.exams!.length,
+                              itemBuilder: (context, index) {
+                                final exam = data?.exams?[index];
+
+                                return InkWell(
+                                  onTap: () {
+                                    if (exam?.Id != null) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ExamInstructionsScreen(
+                                            createdAt: exam?.createdAt ?? '',
+                                            duration: exam?.duration ?? 0,
+                                            numberOfQuestions:
+                                                exam?.numberOfQuestions ?? 0,
+                                            subjectName: exam?.subject ?? '',
+                                            quizTitle: exam?.title ?? '',
+                                            examId: exam?.Id ?? '',
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: CartWidget(
+                                    subjectName: args.name,
+                                    quizTitle: exam?.title,
+                                    createdAt: exam?.createdAt,
+                                    duration: exam?.duration,
+                                    numberOfQuestions: exam?.numberOfQuestions,
+                                  ),
+                                );
+                              },
+                            );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

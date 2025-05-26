@@ -1,23 +1,11 @@
-part of 'home_cubit.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-sealed class HomeState {}
-final class HomeInitial extends HomeState {}
-final class ChangeBottomNavBarState extends HomeState {}
-final class HomeLoadingState extends HomeState {}
-final class HomeErrorState extends HomeState {
-  final String errorMessage;
-  HomeErrorState({required this.errorMessage});
-}
-final class HomeSuccessState extends HomeState {
-  List<SubjectsEntity> subjectsList;
-  HomeSuccessState({required this.subjectsList});
+part 'home_state.freezed.dart';
 
-}
-
-final class ExamOnSubjectSuccessState extends HomeState {
-List<Exams> examsList;
-  ExamOnSubjectSuccessState({required this.examsList});
- 
-
+@freezed
+class HomeState<T> with _$HomeState<T> {
+  const factory HomeState.initial() = _Initial<T>;
+  const factory HomeState.loading() = HomeLoading<T>;
+  const factory HomeState.success(T data) = HomeSuccess<T>;
+  const factory HomeState.error(String message) = HomeError<T>;
 }

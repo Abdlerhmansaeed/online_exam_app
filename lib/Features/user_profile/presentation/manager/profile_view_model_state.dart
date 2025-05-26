@@ -1,10 +1,12 @@
+import 'package:equatable/equatable.dart';
+
 import '../../../../core/base_states/base_states.dart';
 
-class ProfileStates {
+class ProfileStates extends Equatable{
   final BaseStates? getUserProfileStates;
   final BaseStates? changePassword;
   final BaseStates? editProfile;
-  ProfileStates(
+  const ProfileStates(
       {this.getUserProfileStates,
         this.changePassword,
         this.editProfile});
@@ -17,4 +19,11 @@ class ProfileStates {
         changePassword: changePassword?? this.changePassword,
         editProfile: editProfile?? this.editProfile);
   }
+  
+  @override
+  List<Object?> get props => [
+    getUserProfileStates,
+    changePassword,
+    editProfile
+  ];
 }

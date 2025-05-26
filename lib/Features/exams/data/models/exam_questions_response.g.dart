@@ -3,6 +3,65 @@
 part of 'exam_questions_response.dart';
 
 // **************************************************************************
+// TypeAdapterGenerator
+// **************************************************************************
+
+class QuestionsAdapter extends TypeAdapter<Questions> {
+  @override
+  final int typeId = 2;
+
+  @override
+  Questions read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return Questions(
+      answers: (fields[0] as List?)?.cast<ExamAnswers>(),
+      type: fields[1] as String?,
+      Id: fields[2] as String?,
+      question: fields[3] as String?,
+      correct: fields[4] as String?,
+      subject: fields[5] as Subject?,
+      exam: fields[6] as Exam?,
+      createdAt: fields[7] as String?,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, Questions obj) {
+    writer
+      ..writeByte(8)
+      ..writeByte(0)
+      ..write(obj.answers)
+      ..writeByte(1)
+      ..write(obj.type)
+      ..writeByte(2)
+      ..write(obj.Id)
+      ..writeByte(3)
+      ..write(obj.question)
+      ..writeByte(4)
+      ..write(obj.correct)
+      ..writeByte(5)
+      ..write(obj.subject)
+      ..writeByte(6)
+      ..write(obj.exam)
+      ..writeByte(7)
+      ..write(obj.createdAt);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is QuestionsAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+// **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
@@ -24,7 +83,7 @@ Map<String, dynamic> _$ExamQuestionsResponseToJson(
 
 Questions _$QuestionsFromJson(Map<String, dynamic> json) => Questions(
       answers: (json['answers'] as List<dynamic>?)
-          ?.map((e) => Answers.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => ExamAnswers.fromJson(e as Map<String, dynamic>))
           .toList(),
       type: json['type'] as String?,
       Id: json['_id'] as String?,
@@ -50,12 +109,13 @@ Map<String, dynamic> _$QuestionsToJson(Questions instance) => <String, dynamic>{
       'createdAt': instance.createdAt,
     };
 
-Answers _$AnswersFromJson(Map<String, dynamic> json) => Answers(
+ExamAnswers _$ExamAnswersFromJson(Map<String, dynamic> json) => ExamAnswers(
       answer: json['answer'] as String?,
       key: json['key'] as String?,
     );
 
-Map<String, dynamic> _$AnswersToJson(Answers instance) => <String, dynamic>{
+Map<String, dynamic> _$ExamAnswersToJson(ExamAnswers instance) =>
+    <String, dynamic>{
       'answer': instance.answer,
       'key': instance.key,
     };
