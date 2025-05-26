@@ -1,20 +1,12 @@
 
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-sealed class BaseStates  {}
+part 'base_states.freezed.dart';
 
-class InitialState extends BaseStates {
-
-}
-
-class LoadingState extends BaseStates {}
-
-class ErrorState extends BaseStates {
-  String? error;
-
-  ErrorState(this.error);
-}
-
-class SuccessState<T> extends BaseStates {
-  T? data;
-  SuccessState(this.data);
+@freezed
+sealed class BaseStates<T> with _$BaseStates<T> {
+  const factory BaseStates.initial() = InitialState<T>;
+  const factory BaseStates.loading() = LoadingState<T>;
+  const factory BaseStates.success([T? data]) = SuccessState<T>;
+  const factory BaseStates.error(String? error) = ErrorState<T>;
 }

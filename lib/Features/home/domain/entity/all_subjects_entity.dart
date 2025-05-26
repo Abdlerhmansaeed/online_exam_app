@@ -34,4 +34,9 @@ class SubjectsEntity {
       "createdAt": createdAt,
     };
   }
+
+  @override
+  String toString() {
+    return 'Subject{id: $id, name: $name}';
+  }
 }

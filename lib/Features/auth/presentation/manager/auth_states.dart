@@ -1,32 +1,15 @@
-
-
+import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../core/base_states/base_states.dart';
 
-class AuthState {
- final BaseStates? loginStates;
- final BaseStates? signupStates;
- final BaseStates? forgetPasswordStates;
- final BaseStates? otpStates;
- final BaseStates? resetPasswordStates;
+part 'auth_states.freezed.dart';
 
-
-  AuthState(
-      {this.loginStates,
-      this.signupStates,
-      this.forgetPasswordStates,
-      this.otpStates,
-      this.resetPasswordStates});
-  AuthState copyWith(
-      {BaseStates? loginStates,
-      BaseStates? signupStates,
-      BaseStates? forgetPasswordStates,
-      BaseStates? otpStates,
-      BaseStates? resetPasswordStates}) {
-    return AuthState(
-        loginStates: loginStates?? this.loginStates,
-        signupStates: signupStates?? this.signupStates,
-        forgetPasswordStates: forgetPasswordStates?? this.forgetPasswordStates,
-        otpStates: otpStates?? this.otpStates,
-        resetPasswordStates: resetPasswordStates?? this.resetPasswordStates);
-  }
+@freezed
+class AuthState with _$AuthState {
+  const factory AuthState({
+    @Default(BaseStates.initial()) BaseStates loginStates,
+    @Default(BaseStates.initial()) BaseStates signupStates,
+    @Default(BaseStates.initial()) BaseStates forgetPasswordStates,
+    @Default(BaseStates.initial()) BaseStates otpStates,
+    @Default(BaseStates.initial()) BaseStates resetPasswordStates,
+  }) = _AuthState;
 }

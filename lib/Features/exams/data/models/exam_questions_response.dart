@@ -1,3 +1,4 @@
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'exam_questions_response.g.dart';
@@ -23,26 +24,42 @@ class ExamQuestionsResponse {
   }
 }
 
+@HiveType(typeId: 2)
 @JsonSerializable()
-class Questions {
+class Questions extends HiveObject {
+  @HiveField(0)
   @JsonKey(name: "answers")
-  final List<Answers>? answers;
+  final List<ExamAnswers>? answers;
+
+  @HiveField(1)
   @JsonKey(name: "type")
   final String? type;
+
+  @HiveField(2)
   @JsonKey(name: "_id")
   final String? Id;
+
+  @HiveField(3)
   @JsonKey(name: "question")
   final String? question;
+
+  @HiveField(4)
   @JsonKey(name: "correct")
   final String? correct;
+
+  @HiveField(5)
   @JsonKey(name: "subject")
   final Subject? subject;
+
+  @HiveField(6)
   @JsonKey(name: "exam")
   final Exam? exam;
+
+  @HiveField(7)
   @JsonKey(name: "createdAt")
   final String? createdAt;
 
-  Questions ({
+  Questions({
     this.answers,
     this.type,
     this.Id,
@@ -53,33 +70,29 @@ class Questions {
     this.createdAt,
   });
 
-  factory Questions.fromJson(Map<String, dynamic> json) {
-    return _$QuestionsFromJson(json);
-  }
+  factory Questions.fromJson(Map<String, dynamic> json) => _$QuestionsFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return _$QuestionsToJson(this);
-  }
+  Map<String, dynamic> toJson() => _$QuestionsToJson(this);
 }
 
 @JsonSerializable()
-class Answers {
+class ExamAnswers {
   @JsonKey(name: "answer")
   final String? answer;
   @JsonKey(name: "key")
   final String? key;
 
-  Answers ({
+  ExamAnswers ({
     this.answer,
     this.key,
   });
 
-  factory Answers.fromJson(Map<String, dynamic> json) {
-    return _$AnswersFromJson(json);
+  factory ExamAnswers.fromJson(Map<String, dynamic> json) {
+    return _$ExamAnswersFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return _$AnswersToJson(this);
+    return _$ExamAnswersToJson(this);
   }
 }
 

@@ -1,0 +1,23 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../../core/base_states/base_states.dart';
+import '../../data/models/check_questions_request.dart';
+
+part 'exam_states.freezed.dart';
+@freezed
+class ExamStates with _$ExamStates {
+  const factory ExamStates({
+    required BaseStates examStates,
+    @Default(0) int currentQuestionIndex,
+    @Default({}) Map<int, int> selectedAnswers,
+    int? examDuration,
+    bool? examTimeOutState,
+    bool? isLastQuestion,
+    bool? isDangerTime,
+    bool? isInExam,
+    BaseStates? examOnSubjectStates,
+    BaseStates? checkUserAnswersStates,
+    List<UserAnswers>? userAnswers,
+    String? navigationState,
+  }) = _ExamStates;
+}

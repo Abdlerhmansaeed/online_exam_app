@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_cubit.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.dart';
-import 'package:online_exam_app/core/Constant/app_constant.dart';
+import 'package:online_exam_app/core/Constant/app_regx.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import '../../../../../core/base_states/base_states.dart';
 import '../../../../../core/di/di.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
-  ForgotPasswordPage({super.key});
+  const ForgotPasswordPage({super.key});
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -53,6 +53,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (context) {
+                      Navigator.pop(context);
                       return AlertDialog(
                         title: const Text("Error"),
                         content: Text((state.forgetPasswordStates as ErrorState).error?? ""));
@@ -88,7 +89,7 @@ class ForgotPasswordPage extends StatelessWidget {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "Email Can not be empty";
-                                  } else if (!AppConstant.emailRegex
+                                  } else if (!AppRegx.emailRegex
                                       .hasMatch(value)) {
                                     return "Enter Valid Email";
                                   }
@@ -97,7 +98,8 @@ class ForgotPasswordPage extends StatelessWidget {
 
                                 controller:
                                     authCubit.forgetPasswordEmailController,
-                                decoration: InputDecoration(
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                decoration: const InputDecoration(
                                   hintText: 'Enter Your Email',
                                   labelText: 'Email',
 

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_cubit.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.dart';
-import 'package:online_exam_app/core/Constant/app_constant.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../core/Constant/app_regx.dart';
 import '../../../../../core/base_states/base_states.dart';
 import '../../../../../core/di/di.dart';
 
@@ -74,6 +74,8 @@ class SignUpPage extends StatelessWidget {
                                   return null;
                                 },
                                 controller: authCubit.userNameController,
+                                onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 decoration: const InputDecoration(
                                     hintText: 'Enter Your User Name',
                                     labelText: 'User Name'),
@@ -94,7 +96,9 @@ class SignUpPage extends StatelessWidget {
                                           return null;
                                         },
                                         controller:
-                                            authCubit.firstNameController,
+                                            authCubit.firstNameController, onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                        autovalidateMode: AutovalidateMode.onUserInteraction,
+
                                         decoration: const InputDecoration(
                                             hintText: 'Enter First Name',
                                             labelText: 'First Name')),
@@ -110,6 +114,8 @@ class SignUpPage extends StatelessWidget {
                                           }
                                           return null;
                                         },
+                                        onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                        autovalidateMode: AutovalidateMode.onUserInteraction,
                                         controller:
                                             authCubit.lastNameController,
                                         decoration: const InputDecoration(
@@ -126,12 +132,14 @@ class SignUpPage extends StatelessWidget {
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return "Email is required";
-                                    } else if (!AppConstant.emailRegex
+                                    } else if (!AppRegx.emailRegex
                                         .hasMatch(value)) {
                                       return "Enter Valid Email";
                                     }
                                     return null;
-                                  },
+                                  }, onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+
                                   controller: authCubit.emailController,
                                   decoration: const InputDecoration(
                                       hintText: 'Enter Email',
@@ -148,13 +156,14 @@ class SignUpPage extends StatelessWidget {
                                       validator: (value) {
                                         if (value!.isEmpty) {
                                           return "Password Is Required";
-                                        } else if(!AppConstant.passwordRegex
+                                        } else if(!AppRegx.passwordRegex
                                             .hasMatch(value)){
                                           return "Enter Strong Password";
                                         }
                                         return null;
                                       },
-                                      controller: authCubit.passwordController,
+                                      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                      autovalidateMode: AutovalidateMode.onUserInteraction,                                      controller: authCubit.passwordController,
                                       decoration: const InputDecoration(
                                           hintText: 'Enter Password',
                                           labelText: 'Password'),
@@ -176,6 +185,8 @@ class SignUpPage extends StatelessWidget {
                                         }
                                         return null;
                                       },
+                                      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                      autovalidateMode: AutovalidateMode.onUserInteraction,
                                       controller:
                                           authCubit.rePasswordController,
                                       decoration: const InputDecoration(
@@ -192,12 +203,14 @@ class SignUpPage extends StatelessWidget {
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return "Phone Is Required";
-                                  } else if (!AppConstant.phoneRegex
+                                  } else if (!AppRegx.phoneRegex
                                       .hasMatch(value)) {
                                     return "Enter Valid Phone";
                                   }
                                   return null;
                                 },
+                                onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 controller: authCubit.phoneNumberController,
                                 decoration: const InputDecoration(
                                     hintText: 'Enter Phone Number',

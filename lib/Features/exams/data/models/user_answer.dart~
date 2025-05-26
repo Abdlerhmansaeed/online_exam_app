@@ -1,0 +1,12 @@
+import 'package:hive/hive.dart';
+
+part 'user_answer.g.dart';
+
+@HiveType(typeId: 0)
+class UserAnswer {
+  @HiveField(0)
+  final String questionId;
+  @HiveField(1)
+  final String selectedAnswerId;
+  UserAnswer({required this.questionId, required this.selectedAnswerId});
+}
