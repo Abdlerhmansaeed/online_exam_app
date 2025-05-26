@@ -1,0 +1,10 @@
+part of 'profile_view_model_cubit.dart';
+
+sealed class ProfileViewModelState extends Equatable {
+  const ProfileViewModelState();
+}
+
+final class ProfileViewModelInitial extends ProfileViewModelState {
+  @override
+  List<Object> get props => [];
+}

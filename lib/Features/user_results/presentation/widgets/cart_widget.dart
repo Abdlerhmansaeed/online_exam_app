@@ -1,20 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:online_exam_app/core/routes/app_routes.dart';
 
 import '../../../../core/helper/spacing.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class CartWidget extends StatelessWidget {
-  String? subjectName;
-  int? duration;
-  int? numberOfQuestions;
-  String? createdAt;
-  String?quizTitle;
+ final String? subjectName;
+  final int? duration;
+  final int? numberOfQuestions;
+ final  String? createdAt;
+  final String?quizTitle;
 
  
-   CartWidget({super.key,
+   const CartWidget({super.key,
    this.subjectName,
    this.duration,
    this.numberOfQuestions,
@@ -66,7 +64,7 @@ class CartWidget extends StatelessWidget {
                     ),
                   ),
                    Text(
-                   "${numberOfQuestions.toString()} Question" ?? "20 Question",
+                   "${numberOfQuestions.toString()} Question",
                     style: TextStyle(
                       color: AppColors.blue[60],
                     ),
@@ -80,7 +78,7 @@ class CartWidget extends StatelessWidget {
                   ),
                 ],
               ),
-               Text( "${duration.toString()} Minutes" ?? "30 Minutes"),
+               Text( "${duration.toString()} Minutes"),
             ],
           ),
         ),

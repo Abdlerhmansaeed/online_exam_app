@@ -1,0 +1,2 @@
+C:/elevateBootCamp/online_exam_app/android/app/.cxx/RelWithDebInfo/6z4v53b2/x86/CMakeFiles/edit_cache.dir
+C:/elevateBootCamp/online_exam_app/android/app/.cxx/RelWithDebInfo/6z4v53b2/x86/CMakeFiles/rebuild_cache.dir

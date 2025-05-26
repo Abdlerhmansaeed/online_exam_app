@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart' show debugPrint;
 
 Future<void> handleCubitStates<T>({
   required Future<Either<String, T>> Function() request,
@@ -14,7 +15,7 @@ Future<void> handleCubitStates<T>({
           (success) => onSuccess(success),
     );
   } catch (e) {
-    print("Error: $e");
+    debugPrint("Error: $e");
     onError(e.toString());
   }
 }

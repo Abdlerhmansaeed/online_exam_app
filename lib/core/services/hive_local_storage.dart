@@ -1,7 +1,5 @@
 import 'package:hive_flutter/adapters.dart';
-import 'package:injectable/injectable.dart';
 
-@injectable
 class HiveLocalStorage {
   static Future<void> hiveInit() async {
     await Hive.initFlutter();

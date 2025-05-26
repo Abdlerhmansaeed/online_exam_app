@@ -6,7 +6,7 @@ import 'package:online_exam_app/Features/auth/presentation/pages/reset_passowrod
 import 'package:online_exam_app/Features/auth/presentation/pages/signup/sign_up_page.dart';
 import 'package:online_exam_app/Features/exams/presentation/pages/exam_score_screen.dart';
 import 'package:online_exam_app/Features/exams/presentation/pages/exam_screen.dart';
-import 'package:online_exam_app/Features/home/presentation/pages/layout_screen.dart';
+import 'package:online_exam_app/Features/main_layout/Ui/layout_screen.dart';
 import 'package:online_exam_app/Features/exams/presentation/pages/exams_on_subject_screen.dart';
 import 'package:online_exam_app/Features/user_profile/presentation/pages/change_password_page.dart';
 import 'package:online_exam_app/Features/user_profile/presentation/pages/profile_page.dart';
@@ -31,7 +31,7 @@ class AppRoutesGenerator {
           builder: (_) => ForgotPasswordPage(),
         );
       case AppRoutes.layoutScreen:
-        return MaterialPageRoute(builder: (_) => const LayoutScreen());
+        return MaterialPageRoute(builder: (_) => LayoutScreen());
       case AppRoutes.otpPage:
         return MaterialPageRoute(
           builder: (_) => OtpVerificationPage(),
@@ -49,20 +49,20 @@ class AppRoutesGenerator {
       case AppRoutes.subjectDetails:
         return MaterialPageRoute(
             settings: settings, builder: (_) => const ExamsOnSubjectScreen());
-      case AppRoutes.resultAnswersPage:
-        return MaterialPageRoute(
-          builder: (_) => const AnswersView(),
-        );
+      // case AppRoutes.resultAnswersPage:
+      //   return MaterialPageRoute(
+      //     builder: (_) => const AnswersView(),
+      //   );
       case AppRoutes.instructionsScreen:
         return MaterialPageRoute(
           // settings: settings,
           builder: (_) => ExamInstructionsScreen(),
         );
-      case AppRoutes.examScreen:
-        return MaterialPageRoute(
-          // settings: settings,
-          builder: (_) => const ExamScreen(),
-        );
+      // case AppRoutes.examScreen:
+      //   return MaterialPageRoute(
+      //     // settings: settings,
+      //     builder: (_) => const ExamScreen(),
+      //   );
       case AppRoutes.examScoreScreen:
         return MaterialPageRoute(
           builder: (_) => const ExamScoreScreen(),
@@ -73,9 +73,13 @@ class AppRoutesGenerator {
           builder: (_) => const ChangePasswordPage(),
         );
       default:
-        return
-         token == null? MaterialPageRoute(builder: (_) => const LoginPage()):
-          MaterialPageRoute(builder: (_) => const LayoutScreen());
+        return MaterialPageRoute(
+          builder: (_) => Scaffold(
+            body: Center(
+              child: Text('No route defined for ${settings.name}'),
+            ),
+          ),
+        );
     }
   }
 }

@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/exams/presentation/pages/exam_screen.dart';
+import 'package:online_exam_app/Features/main_layout/Ui/layout_screen.dart';
 import 'package:online_exam_app/core/helper/spacing.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
 
+import '../../../../core/generated/assets.dart';
+
 class ExamInstructionsScreen extends StatelessWidget {
-  String? subjectName;
-  int? duration;
-  int? numberOfQuestions;
-  String? createdAt;
-  String? quizTitle;
-  String? examId;
-  ExamInstructionsScreen({
+  final String? subjectName;
+  final int? duration;
+  final int? numberOfQuestions;
+  final String? createdAt;
+  final String? quizTitle;
+  final String? examId;
+
+  const ExamInstructionsScreen({
+    super.key,
     this.subjectName,
     this.duration,
     this.numberOfQuestions,
@@ -23,9 +28,13 @@ class ExamInstructionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+        leading: GestureDetector(
+          child: const Icon(Icons.arrow_back),
+          onTap: () => Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LayoutScreen()),
+            (route) => false,
+          ),
         ),
       ),
       body: Padding(
@@ -35,7 +44,7 @@ class ExamInstructionsScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                Image.asset("assets/images/Profit.png"),
+                Image.asset(Assets.imagesProfit),
                 horizontalSpace(40),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +102,19 @@ class ExamInstructionsScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 80.w, vertical: 15),
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder:(context) => ExamScreen(duration:duration,examId: examId?? '',), ));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ExamScreen(
+                        duration: duration,
+                        examId: examId ?? '',
+                        examTitle: quizTitle ?? "Unknown Exam",
+                        subjectName: subjectName ?? "Unknown Subject",
+                        numberOfQuestions: numberOfQuestions ?? 0,
+                        examDuration: duration ?? 0,
+                      ),
+                    ),
+                  );
                 },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,

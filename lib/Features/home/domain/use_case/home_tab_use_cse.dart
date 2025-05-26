@@ -5,12 +5,12 @@ import 'package:online_exam_app/Features/home/domain/repository/contract/home_ta
 
 @injectable
 class GetAllSubjectsUseCase {
-HomeTabRepoContract homeTabRepo;
+  final HomeTabRepoContract _homeTabRepository;
 
-GetAllSubjectsUseCase(this.homeTabRepo);
-Future<Either<String, List<SubjectsEntity>>> invoke() async {
-  var response = await homeTabRepo.getAllSubjects();
-  return response;
-}
+  GetAllSubjectsUseCase(this._homeTabRepository);
 
+  Future<Either<String, List<SubjectsEntity>>> invoke(
+      {bool forceRefresh = false}) {
+    return _homeTabRepository.getAllSubjects(forceRefresh: forceRefresh);
+  }
 }

@@ -1,0 +1,35 @@
+class QuestionsEntity {
+  final List<AnswersEntity>? answers;
+  final String? type;
+  final String? id;
+  final String? question;
+  final String? correct;
+  final SubjectEntity? subject;
+
+  QuestionsEntity({
+    this.answers,
+    this.type,
+    this.id,
+    this.question,
+    this.correct,
+    this.subject,
+  });
+
+  // دالة لتحويل Questions إلى QuestionsEntity
+  factory QuestionsEntity.fromModel(Questions model) {
+    return QuestionsEntity(
+      answers: model.answers?.map((answer) => AnswersEntity(
+        id: answer.id,
+        answer: answer.answer,
+      )).toList(),
+      type: model.type,
+      id: model.Id,
+      question: model.question,
+      correct: model.correct,
+      subject: model.subject != null ? SubjectEntity(
+        id: model.subject!.Id,
+        name: model.subject!.name,
+      ) : null,
+    );
+  }
+}
