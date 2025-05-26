@@ -17,7 +17,7 @@ class ExamsAdapter extends TypeAdapter<Exams> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Exams(
-      Id: fields[0] as String?,
+      id: fields[0] as String?,
       title: fields[1] as String?,
       duration: fields[2] as int?,
       subject: fields[3] as String?,
@@ -32,7 +32,7 @@ class ExamsAdapter extends TypeAdapter<Exams> {
     writer
       ..writeByte(7)
       ..writeByte(0)
-      ..write(obj.Id)
+      ..write(obj.id)
       ..writeByte(1)
       ..write(obj.title)
       ..writeByte(2)
@@ -93,7 +93,7 @@ Map<String, dynamic> _$MetadataToJson(Metadata instance) => <String, dynamic>{
     };
 
 Exams _$ExamsFromJson(Map<String, dynamic> json) => Exams(
-      Id: json['_id'] as String?,
+      id: json['_id'] as String?,
       title: json['title'] as String?,
       duration: (json['duration'] as num?)?.toInt(),
       subject: json['subject'] as String?,
@@ -103,7 +103,7 @@ Exams _$ExamsFromJson(Map<String, dynamic> json) => Exams(
     );
 
 Map<String, dynamic> _$ExamsToJson(Exams instance) => <String, dynamic>{
-      '_id': instance.Id,
+      '_id': instance.id,
       'title': instance.title,
       'duration': instance.duration,
       'subject': instance.subject,

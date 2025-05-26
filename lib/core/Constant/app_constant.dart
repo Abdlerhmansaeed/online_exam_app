@@ -14,4 +14,8 @@ class ApiConstants {
   static const String getUserDetailsEndPoint = '/auth/profileData';
   static const String editUserDetailsEndPoint = '/auth/editProfile';
   static const String changePasswordEndPoint = '/auth/changePassword';
+
+
+
+  static const int connectionTimeOut = 60;
 }

@@ -12,7 +12,9 @@ import '../../domain/use_cases/edit_profile_use_case.dart';
 
 @injectable
 class ProfileViewModelCubit extends Cubit<ProfileStates> {
-  ProfileViewModelCubit(this._getUserProfileUseCase, this._changeUserPasswordUseCase, this._editProfileUseCase) : super(ProfileStates());
+  ProfileViewModelCubit(this._getUserProfileUseCase,
+      this._changeUserPasswordUseCase, this._editProfileUseCase)
+      : super(const ProfileStates());
 
   // Form Keys
   final profileFormKey = GlobalKey<FormState>();
@@ -34,41 +36,51 @@ class ProfileViewModelCubit extends Cubit<ProfileStates> {
     return handleCubitStates(
         request: () => _getUserProfileUseCase.call(),
         onSuccess: (data) {
+          emailController.text = data.email ?? '';
+          userNameController.text = data.userName ?? '';
+          firstNameController.text = data.firstName ?? '';
+          lastNameController.text = data.lastName ?? '';
+          phoneNumberController.text = data.phone ?? '';
           emit(state.copyWith(getUserProfileStates: SuccessState(data)));
         },
-        onError: (error) => emit(state.copyWith(getUserProfileStates: ErrorState(error))),
-        onLoading: () => emit(state.copyWith(getUserProfileStates: LoadingState())));
+        onError: (error) =>
+            emit(state.copyWith(getUserProfileStates: ErrorState(error))),
+        onLoading: () =>
+            emit(state.copyWith(getUserProfileStates: const LoadingState())));
   }
 
   Future<void> changePassword() async {
     return handleCubitStates(
-        request: () => _changeUserPasswordUseCase.call(data: ChangePasswordRequest(
-          oldPassword: passwordController.text,
-          password: newPasswordController.text,
-          rePassword: confirmPasswordController.text
-        )),
+        request: () => _changeUserPasswordUseCase.call(
+            data: ChangePasswordRequest(
+                oldPassword: passwordController.text,
+                password: newPasswordController.text,
+                rePassword: confirmPasswordController.text)),
         onSuccess: (data) {
           emit(state.copyWith(changePassword: SuccessState(data)));
         },
-        onError: (error) => emit(state.copyWith(changePassword: ErrorState(error))),
-        onLoading: () => emit(state.copyWith(changePassword: LoadingState())));
+        onError: (error) =>
+            emit(state.copyWith(changePassword: ErrorState(error))),
+        onLoading: () =>
+            emit(state.copyWith(changePassword: const LoadingState())));
   }
 
   Future<void> editProfile() async {
     return handleCubitStates(
-        request: () => _editProfileUseCase.call(data: EditProfileRequest(
-          userName: userNameController.text,
-          firstName: firstNameController.text,
-          lastName: lastNameController.text,
-          phone: phoneNumberController.text,
-          email: emailController.text,
-        )),
+        request: () => _editProfileUseCase.call(
+              data: EditProfileRequest(
+                firstName: firstNameController.text,
+                lastName: lastNameController.text,
+                phone: phoneNumberController.text,
+                email: emailController.text,
+              ),
+            ),
         onSuccess: (data) {
           emit(state.copyWith(editProfile: SuccessState(data)));
         },
-        onError: (error) => emit(state.copyWith(editProfile: ErrorState(error))),
-        onLoading: () => emit(state.copyWith(editProfile: LoadingState())));
+        onError: (error) =>
+            emit(state.copyWith(editProfile: ErrorState(error))),
+        onLoading: () =>
+            emit(state.copyWith(editProfile: const LoadingState())));
   }
-
-
 }

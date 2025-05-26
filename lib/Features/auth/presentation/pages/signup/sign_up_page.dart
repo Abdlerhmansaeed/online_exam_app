@@ -74,6 +74,8 @@ class SignUpPage extends StatelessWidget {
                                   return null;
                                 },
                                 controller: authCubit.userNameController,
+                                onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 decoration: const InputDecoration(
                                     hintText: 'Enter Your User Name',
                                     labelText: 'User Name'),
@@ -94,7 +96,9 @@ class SignUpPage extends StatelessWidget {
                                           return null;
                                         },
                                         controller:
-                                            authCubit.firstNameController,
+                                            authCubit.firstNameController, onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                        autovalidateMode: AutovalidateMode.onUserInteraction,
+
                                         decoration: const InputDecoration(
                                             hintText: 'Enter First Name',
                                             labelText: 'First Name')),
@@ -110,6 +114,8 @@ class SignUpPage extends StatelessWidget {
                                           }
                                           return null;
                                         },
+                                        onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                        autovalidateMode: AutovalidateMode.onUserInteraction,
                                         controller:
                                             authCubit.lastNameController,
                                         decoration: const InputDecoration(
@@ -131,7 +137,9 @@ class SignUpPage extends StatelessWidget {
                                       return "Enter Valid Email";
                                     }
                                     return null;
-                                  },
+                                  }, onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+
                                   controller: authCubit.emailController,
                                   decoration: const InputDecoration(
                                       hintText: 'Enter Email',
@@ -154,7 +162,8 @@ class SignUpPage extends StatelessWidget {
                                         }
                                         return null;
                                       },
-                                      controller: authCubit.passwordController,
+                                      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                      autovalidateMode: AutovalidateMode.onUserInteraction,                                      controller: authCubit.passwordController,
                                       decoration: const InputDecoration(
                                           hintText: 'Enter Password',
                                           labelText: 'Password'),
@@ -176,6 +185,8 @@ class SignUpPage extends StatelessWidget {
                                         }
                                         return null;
                                       },
+                                      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                      autovalidateMode: AutovalidateMode.onUserInteraction,
                                       controller:
                                           authCubit.rePasswordController,
                                       decoration: const InputDecoration(
@@ -198,6 +209,8 @@ class SignUpPage extends StatelessWidget {
                                   }
                                   return null;
                                 },
+                                onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 controller: authCubit.phoneNumberController,
                                 decoration: const InputDecoration(
                                     hintText: 'Enter Phone Number',

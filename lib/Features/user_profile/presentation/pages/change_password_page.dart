@@ -6,6 +6,7 @@ import 'package:online_exam_app/Features/user_profile/presentation/manager/profi
 import 'package:online_exam_app/core/base_states/base_states.dart';
 import 'package:online_exam_app/core/di/di.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
+import 'package:online_exam_app/core/utils/app_validator.dart';
 
 import '../../../../core/Constant/app_regx.dart';
 
@@ -30,7 +31,7 @@ class ChangePasswordPage extends StatelessWidget {
                 icon: const Icon(Icons.arrow_back_ios_new_rounded),
               ),
             ),
-            BlocConsumer<ProfileViewModelCubit,ProfileStates>(
+            BlocConsumer<ProfileViewModelCubit, ProfileStates>(
               listener: (context, state) {
                 if (state.getUserProfileStates is SuccessState) {
                   Navigator.pushReplacementNamed(
@@ -40,7 +41,9 @@ class ChangePasswordPage extends StatelessWidget {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: Text((state.getUserProfileStates as ErrorState).error?? ""),
+                        title: Text(
+                            (state.getUserProfileStates as ErrorState).error ??
+                                ""),
                       );
                     },
                   );
@@ -49,14 +52,14 @@ class ChangePasswordPage extends StatelessWidget {
                     context: context,
                     barrierDismissible: false,
                     builder: (_) =>
-                    const Center(child: CircularProgressIndicator()),
+                        const Center(child: CircularProgressIndicator()),
                   );
                 }
               },
               builder: (context, state) {
                 return SliverPadding(
                   padding:
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate.fixed(
                       [
@@ -65,15 +68,6 @@ class ChangePasswordPage extends StatelessWidget {
                           child: Column(
                             children: [
                               TextFormField(
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Password Is Required";
-                                  } else if(!AppRegx.passwordRegex
-                                      .hasMatch(value)){
-                                    return "Enter your Password";
-                                  }
-                                  return null;
-                                },
                                 controller: profileCubit.passwordController,
                                 decoration: const InputDecoration(
                                     hintText: 'Current Password',
@@ -83,15 +77,8 @@ class ChangePasswordPage extends StatelessWidget {
                                 height: 16.h,
                               ),
                               TextFormField(
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Password Is Required";
-                                  } else if(!AppRegx.passwordRegex
-                                      .hasMatch(value)){
-                                    return "Enter Strong Password";
-                                  }
-                                  return null;
-                                },
+                                validator: (value) =>
+                                    AppValidators.validatePassword(value),
                                 controller: profileCubit.newPasswordController,
                                 decoration: const InputDecoration(
                                     hintText: 'New Password',
@@ -101,16 +88,13 @@ class ChangePasswordPage extends StatelessWidget {
                                 height: 16.h,
                               ),
                               TextFormField(
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Password Is Required";
-                                  } else if(!AppRegx.passwordRegex
-                                      .hasMatch(value)){
-                                    return "Enter Strong Password";
-                                  }
-                                  return null;
-                                },
-                                controller: profileCubit.confirmPasswordController,
+                                validator: (value) =>
+                                    AppValidators.validateConfirmPassword(
+                                        value,
+                                        profileCubit
+                                            .newPasswordController.text),
+                                controller:
+                                    profileCubit.confirmPasswordController,
                                 decoration: const InputDecoration(
                                     hintText: 'Confirm Password',
                                     labelText: 'Confirm Password'),
@@ -135,7 +119,6 @@ class ChangePasswordPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-
                             ],
                           ),
                         )

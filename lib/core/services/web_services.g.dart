@@ -193,11 +193,10 @@ class _WebServices implements WebServices {
   }
 
   @override
-  Future<GetSubjectsResponse> getAllSubjects(String token) async {
+  Future<GetSubjectsResponse> getAllSubjects() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'token': token};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<GetSubjectsResponse>(Options(
       method: 'GET',
@@ -227,14 +226,10 @@ class _WebServices implements WebServices {
   }
 
   @override
-  Future<GetExamsOnSubject> getExamsOnSubject(
-    String subjectId,
-    String token,
-  ) async {
+  Future<GetExamsOnSubject> getExamsOnSubject(String subjectId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'subject': subjectId};
-    final _headers = <String, dynamic>{r'token': token};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<GetExamsOnSubject>(Options(
       method: 'GET',
@@ -264,14 +259,10 @@ class _WebServices implements WebServices {
   }
 
   @override
-  Future<ExamQuestionsResponse> getExamsQuestions(
-    String token,
-    String examId,
-  ) async {
+  Future<ExamQuestionsResponse> getExamsQuestions(String examId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'exam': examId};
-    final _headers = <String, dynamic>{r'token': token};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<ExamQuestionsResponse>(Options(
       method: 'GET',
@@ -302,13 +293,10 @@ class _WebServices implements WebServices {
 
   @override
   Future<CheckQuestionsResponse> checkAnswers(
-    String token,
-    CheckQuestionsRequest data,
-  ) async {
+      CheckQuestionsRequest data) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'token': token};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(data.toJson());
     final _options = _setStreamType<CheckQuestionsResponse>(Options(
@@ -339,11 +327,10 @@ class _WebServices implements WebServices {
   }
 
   @override
-  Future<GetUserProfileResponse> getUserDetails(String token) async {
+  Future<GetUserProfileResponse> getUserDetails() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'token': token};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<GetUserProfileResponse>(Options(
       method: 'GET',
@@ -373,14 +360,10 @@ class _WebServices implements WebServices {
   }
 
   @override
-  Future<EditProfileResponse> editUserDetails(
-    String token,
-    EditProfileRequest data,
-  ) async {
+  Future<EditProfileResponse> editUserDetails(EditProfileRequest data) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'token': token};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(data.toJson());
     final _options = _setStreamType<EditProfileResponse>(Options(
@@ -412,13 +395,10 @@ class _WebServices implements WebServices {
 
   @override
   Future<ChangePasswordResponse> changePassword(
-    String token,
-    ChangePasswordRequest data,
-  ) async {
+      ChangePasswordRequest data) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'token': token};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(data.toJson());
     final _options = _setStreamType<ChangePasswordResponse>(Options(

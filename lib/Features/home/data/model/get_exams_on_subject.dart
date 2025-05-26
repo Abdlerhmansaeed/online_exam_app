@@ -12,7 +12,7 @@ class GetExamsOnSubject {
   @JsonKey(name: "exams")
   final List<Exams>? exams;
 
-  GetExamsOnSubject ({
+  GetExamsOnSubject({
     this.message,
     this.metadata,
     this.exams,
@@ -36,7 +36,7 @@ class Metadata {
   @JsonKey(name: "limit")
   final int? limit;
 
-  Metadata ({
+  Metadata({
     this.currentPage,
     this.numberOfPages,
     this.limit,
@@ -55,8 +55,8 @@ class Metadata {
 @JsonSerializable()
 class Exams extends HiveObject {
   @HiveField(0)
-  @JsonKey(name: "_id")
-  final String? Id;
+  @JsonKey(name: "_id") // Add this line to map _id to id
+  final String? id;
 
   @HiveField(1)
   @JsonKey(name: "title")
@@ -83,7 +83,7 @@ class Exams extends HiveObject {
   final String? createdAt;
 
   Exams({
-    this.Id,
+    this.id,
     this.title,
     this.duration,
     this.subject,
@@ -96,5 +96,3 @@ class Exams extends HiveObject {
   factory Exams.fromJson(Map<String, dynamic> json) => _$ExamsFromJson(json);
   Map<String, dynamic> toJson() => _$ExamsToJson(this);
 }
-
-

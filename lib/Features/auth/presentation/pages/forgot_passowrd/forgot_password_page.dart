@@ -53,6 +53,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (context) {
+                      Navigator.pop(context);
                       return AlertDialog(
                         title: const Text("Error"),
                         content: Text((state.forgetPasswordStates as ErrorState).error?? ""));
@@ -97,6 +98,7 @@ class ForgotPasswordPage extends StatelessWidget {
 
                                 controller:
                                     authCubit.forgetPasswordEmailController,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 decoration: const InputDecoration(
                                   hintText: 'Enter Your Email',
                                   labelText: 'Email',

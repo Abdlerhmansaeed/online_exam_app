@@ -7,7 +7,6 @@ import 'package:online_exam_app/Features/exams/data/models/exam_questions_respon
 import 'package:online_exam_app/Features/home/data/model/get_exams_on_subject.dart';
 import 'package:online_exam_app/core/exceptions/failure.dart';
 import 'package:online_exam_app/core/services/web_services.dart';
-import 'package:online_exam_app/main.dart';
 import '../../../../../core/helper/request_handler.dart';
 
 @Injectable(as: ExamRemoteDataSource)
@@ -21,12 +20,12 @@ class ExamRemoteDataSourceImpl implements ExamRemoteDataSource {
       String? examId) async {
     final validExamId = examId ?? '';
 
-    return RequestHandler.handle(() => webServices.getExamsQuestions(token?? '', validExamId));
+    return RequestHandler.handle(() => webServices.getExamsQuestions(validExamId));
   }
 
   @override
   Future<Either<Failures, CheckQuestionsResponse>> checkAnswers( CheckQuestionsRequest data) {
-    return RequestHandler.handle(() => webServices.checkAnswers(token?? '', data));
+    return RequestHandler.handle(() => webServices.checkAnswers( data));
   }
 
 
@@ -34,7 +33,7 @@ class ExamRemoteDataSourceImpl implements ExamRemoteDataSource {
   Future<Either<Failures, GetExamsOnSubject>> getExamsOnSubject(
       String subjectId) async {
     return RequestHandler.handle(() =>
-        webServices.getExamsOnSubject(subjectId, token ?? ''));
+        webServices.getExamsOnSubject(subjectId,));
 
   }
 }

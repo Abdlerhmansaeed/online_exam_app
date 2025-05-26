@@ -46,32 +46,26 @@ abstract class WebServices {
   Future<OtpCodeResponse> resetCodeVerify(@Body() OtpCodeVerifyRequset data);
 
   @GET(ApiConstants.allSubjectsEndPoint)
-  Future<GetSubjectsResponse> getAllSubjects(@Header("token") String token);
+  Future<GetSubjectsResponse> getAllSubjects();
 
   @GET(ApiConstants.examsEndPoint)
   Future<GetExamsOnSubject> getExamsOnSubject(
-    @Query("subject") String subjectId,
-    @Header("token") String token,
-  );
+      @Query("subject") String subjectId);
+
   @GET(ApiConstants.questionEndPoint)
-  Future<ExamQuestionsResponse> getExamsQuestions(
-    @Header("token") String token,
-    @Query("exam") String examId,
-  );
+  Future<ExamQuestionsResponse> getExamsQuestions(@Query("exam") String examId);
 
   @POST(ApiConstants.checkAnswerEndPoint)
   Future<CheckQuestionsResponse> checkAnswers(
-      @Header('token') String token, @Body() CheckQuestionsRequest data);
+      @Body() CheckQuestionsRequest data);
 
   @GET(ApiConstants.getUserDetailsEndPoint)
-  Future<GetUserProfileResponse> getUserDetails(@Header("token") String token);
+  Future<GetUserProfileResponse> getUserDetails();
+
   @PUT(ApiConstants.editUserDetailsEndPoint)
-  Future<EditProfileResponse> editUserDetails(
-      @Header("token") String token, @Body() EditProfileRequest data);
-  
+  Future<EditProfileResponse> editUserDetails(@Body() EditProfileRequest data);
+
   @PATCH(ApiConstants.changePasswordEndPoint)
   Future<ChangePasswordResponse> changePassword(
-    @Header("token") String token,
-    @Body() ChangePasswordRequest data,
-  );
+      @Body() ChangePasswordRequest data);
 }

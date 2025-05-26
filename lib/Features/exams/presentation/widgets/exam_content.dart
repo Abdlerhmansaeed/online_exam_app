@@ -2,170 +2,310 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/helper/spacing.dart';
+import 'package:online_exam_app/core/routes/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../data/models/exam_questions_response.dart';
 import '../manager/exam_veiw_model.dart';
-import '../manager/exam_veiw_states.dart';
+import '../manager/exam_states.dart';
 
-Widget buildExamContent(BuildContext context, ExamQuestionsResponse? examData, ExamViewModel examViewModel) {
-  var theme = Theme.of(context);
+class ExamContentScreen extends StatelessWidget {
+  final ExamQuestionsResponse? examData;
+  final ExamViewModel examViewModel;
 
-  if (examData == null || examData.questions == null || examData.questions!.isEmpty) {
-    return const Center(child: Text("No Questions Found"));
+  const ExamContentScreen({
+    super.key,
+    required this.examData,
+    required this.examViewModel,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+
+    if (examData == null ||
+        examData!.questions == null ||
+        examData!.questions!.isEmpty) {
+      return const Center(child: Text("No Questions Found"));
+    }
+
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 16.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _buildQuestionHeader(context, theme),
+
+          Expanded(
+            child: _buildQuestionContent(context, theme),
+          ),
+
+          _buildNavigationButtons(context, theme),
+        ],
+      ),
+    );
   }
-
-  return Padding(
-    padding:  EdgeInsets.symmetric(vertical: 16.h , horizontal: 8.w),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      mainAxisSize: MainAxisSize.min,
+  Widget _buildQuestionHeader(BuildContext context, ThemeData theme) {
+    return Column(
       children: [
         BlocBuilder<ExamViewModel, ExamStates>(
           buildWhen: (previous, current) =>
-          previous.currentQuestionIndex != current.currentQuestionIndex,
+              previous.currentQuestionIndex != current.currentQuestionIndex,
           builder: (context, state) {
             return Text(
-              "Question ${(state.currentQuestionIndex ?? 0) + 1} of ${examData.questions!.length}",
+              "Question ${(state.currentQuestionIndex) + 1} of ${examData!.questions!.length}",
               style: theme.textTheme.titleLarge,
             );
           },
         ),
+        SizedBox(height: 8.h),
         FAProgressBar(
-          maxValue: examData.questions!.length.toDouble(),
-          currentValue: examViewModel.state.currentQuestionIndex!.toDouble() + 1,
+          maxValue: examData!.questions!.length.toDouble(),
+          currentValue:
+              examViewModel.state.currentQuestionIndex.toDouble() + 1,
           progressColor: AppColors.blue,
-          size: 10,
-          animatedDuration: const Duration(milliseconds: 500),
-          backgroundColor: AppColors.black[AppColors.colorCode10]!,
+          size: 8,
+          animatedDuration: const Duration(milliseconds: 300),
+          backgroundColor: Colors.grey.shade200,
           borderRadius: BorderRadius.circular(100),
         ),
-        verticalSpace(30),
-        Expanded(
-          child: PageView.builder(
-            controller: examViewModel.pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: examData.questions!.length,
-            itemBuilder: (context, questionIndex) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    examData.questions![questionIndex].question ?? "",
-                    style: theme.textTheme.titleLarge!.copyWith(fontSize: 18),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: examData.questions![questionIndex].answers?.length ?? 0,
-                      itemBuilder: (context, answerIndex) {
-                        return InkWell(
-                          overlayColor: const WidgetStatePropertyAll(Colors.transparent),
-                          onTap: () {
-                            examViewModel.selectedUserAnswer(answerIndex,questionIndex, examData.questions?[questionIndex].Id?? '', examViewModel.questions[answerIndex].answers?[answerIndex].key?? '');
-                          },
-                          child: BlocBuilder<ExamViewModel, ExamStates>(
-                            bloc: examViewModel,
-                            buildWhen: (previous, current) {
-                              return previous.selectedAnswers != current.selectedAnswers;
-                            },
-                            builder: (context, state) {
-                              return Container(
+      ],
+    );
+  }
 
-                                key: ValueKey(examData.questions![questionIndex].answers?[answerIndex].key),
-                                margin:  EdgeInsets.all(4.r),
-                                padding:  EdgeInsets.all(12.r),
-                                decoration: BoxDecoration(
-                                  color: AppColors.lightBlue,
-                                  borderRadius: BorderRadius.circular(16.r),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 30,
-                                      height: 20,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: AppColors.blue, width: 2),
-                                      ),
-                                      child: Center(
-                                        child: Container(
-                                          width: 10.w,
-                                          height: 10.h,
-                                          decoration:  BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: examViewModel.state.selectedAnswers?[questionIndex] == answerIndex ? AppColors.blue : AppColors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    horizontalSpace(10),
-                                    Expanded(
-                                      child: Text(
-                                        examData.questions![questionIndex].answers?[answerIndex].answer ?? '',
-                                        style: theme.textTheme.bodyMedium!.copyWith(
-                                          fontSize: 14.sp,
-                                          color: AppColors.blue[AppColors.colorCode90],
-                                        ),
-                                        overflow: TextOverflow.fade,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      },
+  Widget _buildQuestionContent(BuildContext context, ThemeData theme) {
+    return PageView.builder(
+      controller: examViewModel.pageController,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: examData!.questions!.length,
+      itemBuilder: (context, questionIndex) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 24.h),
+            Text(
+              examData!.questions![questionIndex].question ?? "",
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+            ),
+            SizedBox(height: 16.h),
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                itemCount:
+                    examData!.questions![questionIndex].answers?.length ?? 0,
+                itemBuilder: (context, answerIndex) {
+                  return _buildAnswerOption(
+                    context,
+                    theme,
+                    questionIndex,
+                    answerIndex,
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildAnswerOption(
+    BuildContext context,
+    ThemeData theme,
+    int questionIndex,
+    int answerIndex,
+  ) {
+    return InkWell(
+      overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+      onTap: () => examViewModel.selectAnswer(questionIndex, answerIndex),
+      child: BlocBuilder<ExamViewModel, ExamStates>(
+        bloc: examViewModel,
+        buildWhen: (previous, current) {
+          return previous.selectedAnswers != current.selectedAnswers;
+        },
+        builder: (context, state) {
+          final isSelected =
+              examViewModel.state.selectedAnswers[questionIndex] ==
+                  answerIndex;
+
+          return Container(
+            key: ValueKey(
+                examData!.questions![questionIndex].answers?[answerIndex].key),
+            margin: EdgeInsets.only(bottom: 12.h),
+            padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade50,
+              borderRadius: BorderRadius.circular(12.r),
+              border: Border.all(
+                color: isSelected ? AppColors.blue : Colors.grey.shade200,
+                width: isSelected ? 2 : 1,
+              ),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 24.w,
+                  height: 24.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: isSelected ? AppColors.blue : Colors.grey.shade400,
+                      width: 2,
                     ),
                   ),
-                ],
-              );
-            },
+                  child: isSelected
+                      ? Center(
+                          child: Container(
+                            width: 12.w,
+                            height: 12.h,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.blue,
+                            ),
+                          ),
+                        )
+                      : null,
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Text(
+                    examData!.questions![questionIndex].answers?[answerIndex]
+                            .answer ??
+                        '',
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      color: Colors.black87,
+                      fontWeight:
+                          isSelected ? FontWeight.w500 : FontWeight.normal,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildNavigationButtons(BuildContext context, ThemeData theme) {
+    final isLastQuestion = examViewModel.state.currentQuestionIndex ==
+        (examData!.questions?.length ?? 0) - 1;
+
+    final isFirstQuestion = examViewModel.state.currentQuestionIndex == 0;
+
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            height: 48.h,
+            margin: EdgeInsets.only(right: 8.w),
+            child: OutlinedButton(
+              onPressed:
+                  isFirstQuestion ? null : examViewModel.goToPreviousQuestion,
+              style: OutlinedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: AppColors.blue,
+                side: BorderSide(
+                  color:
+                      isFirstQuestion ? Colors.grey.shade300 : AppColors.blue,
+                  width: 1.5,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                disabledForegroundColor: Colors.grey.shade400,
+                disabledBackgroundColor: Colors.grey.shade100,
+              ),
+              child: Text(
+                "Back",
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                  color:
+                      isFirstQuestion ? Colors.grey.shade400 : AppColors.blue,
+                ),
+              ),
+            ),
           ),
         ),
-        verticalSpace(30),
-        Flexible(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                style: ButtonStyle(
-                  elevation: const WidgetStatePropertyAll(0),
-                  overlayColor: const WidgetStatePropertyAll(Colors.transparent),
-                  side: const WidgetStatePropertyAll(BorderSide(color: AppColors.blue)),
-                  shape: WidgetStatePropertyAll(
-                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
-                  ),
-                  backgroundColor: const WidgetStatePropertyAll(AppColors.white),
-                  padding: WidgetStatePropertyAll(
-                    EdgeInsets.symmetric(horizontal: 64.w, vertical: 14.h),
-                  ),
-                ),
-                onPressed: examViewModel.goToPreviousQuestion,
-                child: Text("Back", style: theme.textTheme.bodyMedium!.copyWith(color: AppColors.blue)),
-              ),
-              ElevatedButton(
-                style: ButtonStyle(
-                  elevation: const WidgetStatePropertyAll(0),
-                  overlayColor: const WidgetStatePropertyAll(Colors.transparent),
-                  shape: WidgetStatePropertyAll(
-                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
-                  ),
-                  padding: WidgetStatePropertyAll(
-                    EdgeInsets.symmetric(horizontal: 64.w, vertical: 14.h),
-                  ),
-                ),
-                onPressed:() {
+
+        Expanded(
+          child: Container(
+            height: 48.h,
+            margin: EdgeInsets.only(left: 8.w),
+            child: ElevatedButton(
+              onPressed: () {
+                if (isLastQuestion) {
+                  _submitAnswersAndShowResults(context);
+                } else {
                   examViewModel.goToNextQuestion(context);
-                },
-                child: const Text("Next"),
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.blue,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                elevation: 0,
               ),
-            ],
+              child: _buildNextButtonContent(isLastQuestion),
+            ),
           ),
         ),
       ],
-    ),
+    );
+  }
+
+  Widget _buildNextButtonContent(bool isLastQuestion) {
+    return examViewModel.state.checkUserAnswersStates?.maybeWhen(
+          loading: () => const SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(
+              color: Colors.white,
+              strokeWidth: 2,
+            ),
+          ),
+          orElse: () => Text(
+            isLastQuestion ? "Finish" : "Next",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ) ??
+        Text(
+          isLastQuestion ? "Finish" : "Next",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w500,
+          ),
+        );
+  }
+
+  void _submitAnswersAndShowResults(BuildContext context) async {
+    examViewModel.cancelTimer();
+    await examViewModel.checkUserAnswers();
+    examViewModel.navigateToRoute(
+      routeName: AppRoutes.examScoreScreen,
+      context: context,
+      arguments: examViewModel,
+    );
+  }
+}
+
+Widget buildExamContent(BuildContext context, ExamQuestionsResponse? examData,
+    ExamViewModel examViewModel) {
+  return ExamContentScreen(
+    examData: examData,
+    examViewModel: examViewModel,
   );
 }

@@ -89,6 +89,8 @@ class ResetPasswordPage extends StatelessWidget {
                               }
                               return null;
                             },
+                            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             decoration: const InputDecoration(
                               label: Text('Email'),
                               hintText: 'Enter your email',
@@ -107,6 +109,8 @@ class ResetPasswordPage extends StatelessWidget {
                               }
                               return null;
                             },
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
                             obscureText: true,
                             obscuringCharacter: "*",
                             decoration: const InputDecoration(
