@@ -6,13 +6,13 @@ import 'package:online_exam_app/Features/auth/presentation/manager/auth_cubit.da
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
+import 'package:online_exam_app/core/utils/extinstions.dart';
 import 'package:pinput/pinput.dart';
 
-import '../../../../../core/base_states/base_states.dart';
 import '../../../../../core/di/di.dart';
 
 class OtpVerificationPage extends StatelessWidget {
-  OtpVerificationPage({super.key});
+  const OtpVerificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,37 +25,46 @@ class OtpVerificationPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Password'),
           leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: () => Navigator.pop(context),
             icon: const Icon(Icons.arrow_back_ios_new_rounded),
           ),
         ),
-        body: BlocConsumer<AuthCubit, AuthState>(
+        body: BlocConsumer<AuthCubit, AuthStates>(
+          listenWhen: (previous, current) =>
+              previous.otpStates != current.otpStates,
           listener: (context, state) {
-
-
-            if (state.otpStates is SuccessState) {
-              Navigator.pushReplacementNamed(
-                  context, AppRoutes.resetPasswordPage,
-                  arguments: authCubit);
-            } else if (state.otpStates is ErrorState) {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text((state.otpStates as ErrorState).error?? ""),
-                  );
-                },
-              );
-            } else if (state.otpStates is LoadingState) {
-              showDialog(
-                context: context,
-                barrierDismissible: false, // Prevent closing while loading
-                builder: (_) =>
-                    const Center(child: CircularProgressIndicator()),
-              );
-            }
+            state.otpStates?.when(
+              initial: () {
+                // No action for initial state
+              },
+              loading: () {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) =>
+                      const Center(child: CircularProgressIndicator()),
+                );
+              },
+              success: (data) {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context); // Close loading dialog
+                }
+                Navigator.pushReplacementNamed(
+                  context,
+                  AppRoutes.resetPasswordPage,
+                  arguments: authCubit,
+                );
+              },
+              error: (error) {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context); // Close loading dialog if any
+                }
+                context.showErrorDialog(
+                  error ?? "An error occurred during verification",
+                  context,
+                );
+              },
+            );
           },
           builder: (context, state) {
             return Padding(
@@ -109,16 +118,7 @@ class OtpVerificationPage extends StatelessWidget {
                         onPressed: () {
                           authCubit.forgetPasswordEmailVerify();
                         },
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(8.0.r),
-                              child: const Text(
-                                'Resend',
-                              ),
-                            ),
-                          ],
-                        ),
+                        child: const Text('Resend'),
                       ),
                     ],
                   ),

@@ -6,8 +6,8 @@ import 'package:online_exam_app/Features/exams/data/models/answer_option.dart';
 import 'package:online_exam_app/Features/exams/data/models/exam_result.dart';
 import 'package:online_exam_app/Features/exams/data/models/question_result.dart';
 import 'package:online_exam_app/Features/exams/data/models/user_answer.dart';
-import '../../../../core/base_states/base_states.dart';
-import '../../../../core/helper/handel_cubit_states.dart';
+import 'package:online_exam_app/core/base_states/app_states.dart';
+import 'package:online_exam_app/core/helper/handle_cubit_states.dart';
 import '../../../home/data/model/get_exams_on_subject.dart';
 import '../../domain/repositories/exam_local_repository.dart'; // Import abstraction
 import '../../data/models/check_questions_request.dart';
@@ -25,7 +25,7 @@ class ExamViewModel extends Cubit<ExamStates> {
     this._examLocalRepository, // Use repository instead of data source
     this._checkUserAnswersUseCase,
     this._getExamsOnSubjectUseCase,
-  ) : super(const ExamStates(examStates: BaseStates.initial()));
+  ) : super(const ExamStates());
 
   final ExamQuestionsUseCase _examQuestionsUseCase;
   final CheckUserAnswersUseCase _checkUserAnswersUseCase;
@@ -73,13 +73,11 @@ class ExamViewModel extends Cubit<ExamStates> {
   Future<void> getExamsOnSubject(String subjectId) async {
     return handleCubitStates<GetExamsOnSubject>(
       request: () => _getExamsOnSubjectUseCase.invoke(subjectId),
-      onSuccess: (data) async {
-        emit(state.copyWith(examOnSubjectStates: BaseStates.success(data)));
+      emit: (newState) {
+        emit(state.copyWith(
+          examOnSubjectStates: newState,
+        ));
       },
-      onError: (error) =>
-          emit(state.copyWith(examOnSubjectStates: BaseStates.error(error))),
-      onLoading: () =>
-          emit(state.copyWith(examOnSubjectStates: const BaseStates.loading())),
     );
   }
 
@@ -100,11 +98,10 @@ class ExamViewModel extends Cubit<ExamStates> {
   Future<void> getExamQuestions(String? examId) async {
     await handleCubitStates<ExamQuestionsResponse>(
       request: () => _examQuestionsUseCase.call(examId),
-      onLoading: () =>
-          emit(state.copyWith(examStates: const BaseStates.loading())),
+      emit: (newState) => emit(state.copyWith(examStates: newState)),
       onSuccess: (data) async {
         isExamining = true;
-        questions = data.questions ?? [];
+        questions = data?.questions ?? [];
         answers = questions
             .expand((q) => q.answers ?? [])
             .map((e) => e as ExamAnswers)
@@ -116,10 +113,8 @@ class ExamViewModel extends Cubit<ExamStates> {
         }
 
         await _saveQuestionsWithDetails(questions);
-        emit(state.copyWith(examStates: BaseStates.success(data)));
+        emit(state.copyWith(examStates: SuccessState(data)));
       },
-      onError: (error) =>
-          emit(state.copyWith(examStates: BaseStates.error(error))),
     );
   }
 
@@ -150,7 +145,7 @@ class ExamViewModel extends Cubit<ExamStates> {
   }
 
   void goToNextQuestion(BuildContext context) {
-    final nextIndex = (state.currentQuestionIndex) + 1;
+    final nextIndex = (state.currentQuestionIndex)! + 1;
     if (nextIndex < questions.length) {
       pageController.nextPage(
           duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
@@ -161,7 +156,7 @@ class ExamViewModel extends Cubit<ExamStates> {
   }
 
   void goToPreviousQuestion() {
-    final previousIndex = (state.currentQuestionIndex) - 1;
+    final previousIndex = (state.currentQuestionIndex)! - 1;
     if (previousIndex >= 0) {
       pageController.previousPage(
           duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
@@ -172,7 +167,7 @@ class ExamViewModel extends Cubit<ExamStates> {
   Future<void> checkUserAnswers() async {
     try {
       emit(state.copyWith(
-        checkUserAnswersStates: const BaseStates.loading(),
+        checkUserAnswersStates: const LoadingState(),
       ));
 
       List<UserAnswers> userAnswersList = [];
@@ -206,24 +201,24 @@ class ExamViewModel extends Cubit<ExamStates> {
             answers: userAnswersList, time: state.examDuration ?? 0),
       );
 
-      result.fold(
-        (failure) {
+      result.when(
+        failure: (message) {
           emit(state.copyWith(
-            checkUserAnswersStates: BaseStates.error(failure),
+            checkUserAnswersStates: ErrorState(message),
           ));
         },
-        (data) {
+        success: (data) {
           _saveExamResults(data, answersMap);
 
           emit(state.copyWith(
-            checkUserAnswersStates: BaseStates.success(data),
+            checkUserAnswersStates: SuccessState(data),
             userAnswers: userAnswersList,
           ));
         },
       );
     } catch (e) {
       emit(state.copyWith(
-        checkUserAnswersStates: BaseStates.error(e.toString()),
+        checkUserAnswersStates: ErrorState(e.toString()),
       ));
     }
   }
@@ -231,7 +226,6 @@ class ExamViewModel extends Cubit<ExamStates> {
   Future<void> _saveExamResults(CheckQuestionsResponse apiResponse,
       Map<String, String> userAnswers) async {
     try {
-
       final questionsDetails = await getStoredQuestionsDetails();
 
       List<QuestionResult> correctQuestionsList = [];

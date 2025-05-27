@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/exams/data/models/exam_result.dart';
 import 'package:online_exam_app/Features/user_results/presentation/pages/exam_details_page.dart';
-import 'package:online_exam_app/Features/user_results/presentation/pages/result_page.dart';
 import 'package:online_exam_app/core/helper/spacing.dart';
 
 class ExamResultItem extends StatelessWidget {

@@ -61,7 +61,6 @@ class _LayoutScreenState extends State<LayoutScreen> {
   }
 
   Widget _getOrCreateTab(int index) {
-    // تحديث وقت الزيارة
     _lastVisitTime[index] = DateTime.now();
 
     if (_createdTabs.containsKey(index)) {

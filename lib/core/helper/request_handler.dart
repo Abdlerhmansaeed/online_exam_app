@@ -1,117 +1,119 @@
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
-import '../exceptions/failure.dart';
+
+import 'api_result.dart';
+import '../services/connectivity_service.dart';
+import '../services/localization_service.dart';
 
 class RequestHandler {
-  static Future<Either<Failures, T>> handle<T>(
-      Future<T> Function() request) async {
+  static final ConnectivityService _connectivityService = ConnectivityService();
+  static final ApiLocalizationService _localization = ApiLocalizationService();
+
+  static Future<ApiResult<T>> handle<T>(Future<T> Function() request) async {
+    if (!(await _connectivityService.isConnected())) {
+      return ApiFailure(_localization.translate('errors.no_internet'));
+    }
+
     try {
       final response = await request();
-      return Right(response);
+      return ApiSuccess(response);
     } on DioException catch (e) {
-      return Left(_handleDioError(e));
+      return ApiFailure(_handleDioError(e));
     } on SocketException {
-      return const Left(NetWorkError(
-          errorMessage:
-              "No internet connection. Please check your network and try again."));
+      return ApiFailure(_localization.translate('errors.socket_exception'));
+    } on FormatException {
+      return ApiFailure(_localization.translate('errors.format_exception'));
     } catch (e) {
-      // Consider logging the error here for debugging purposes
-      // print('Unexpected error in RequestHandler: $e');
-      return const Left(ServerFailure(
-          errorMessage:
-              "An unexpected error occurred. Please try again later."));
+      debugPrint('Unexpected error in RequestHandler: $e');
+      return ApiFailure(_localization.translate('errors.unexpected_error'));
     }
   }
 
-  static Failures _handleDioError(DioException e) {
-    const String genericNetworkErrorMessage =
-        "There seems to be a problem with the network. Please check your connection and try again.";
-    switch (e.type) {
-      case DioExceptionType.connectionTimeout:
-      case DioExceptionType.sendTimeout:
-      case DioExceptionType.receiveTimeout:
-        return const NetWorkError(
-            errorMessage:
-                "Connection timeout. Please check your internet and try again.");
-
-      case DioExceptionType.badResponse:
-        if (e.response != null) {
-          final statusCode = e.response!.statusCode;
-          final errorMessage = _extractErrorMessage(e.response!);
-          // You could create more specific Failure types here e.g. AuthenticationFailure, NotFoundFailure
-          switch (statusCode) {
-            case 400: // Bad Request
-              return ServerFailure(
-                  errorMessage: errorMessage ??
-                      "The request was invalid. Please check the data and try again.");
-            case 401: // Unauthorized
-              return ServerFailure(
-                  errorMessage: errorMessage ??
-                      "Authentication failed. Please log in again.");
-            case 403: // Forbidden
-              return ServerFailure(
-                  errorMessage: errorMessage ??
-                      "You don't have permission to access this resource.");
-            case 404: // Not Found
-              return ServerFailure(
-                  errorMessage:
-                      errorMessage ?? "The requested resource was not found.");
-            case 500: // Internal Server Error
-            case 502: // Bad Gateway
-            case 503: // Service Unavailable
-              return ServerFailure(
-                  errorMessage: errorMessage ??
-                      "The server is currently unavailable. Please try again later.");
-            default:
-              return ServerFailure(
-                  errorMessage: errorMessage ??
-                      "An error occurred (Status code: $statusCode). Please try again.");
-          }
-        }
-        return const ServerFailure(
-            errorMessage: "A server error occurred. Please try again later.");
-
-      case DioExceptionType.cancel:
-        return const ServerFailure(
-            errorMessage: "The request was canceled. Please try again.");
-
-      case DioExceptionType.connectionError:
-        return const NetWorkError(
-            errorMessage:
-                "Connection error. Please check your internet connection.");
-
-      case DioExceptionType.unknown:
-      default:
-        if (e.error is SocketException) {
-          return const NetWorkError(
-              errorMessage:
-                  "No internet connection. Please check your network and try again.");
-        }
-        return ServerFailure(
-            errorMessage:
-                "An unknown error occurred. ${e.message ?? genericNetworkErrorMessage}");
-    }
+  static String _handleDioError(DioException e) {
+    return switch (e.type) {
+      DioExceptionType.connectionTimeout ||
+      DioExceptionType.sendTimeout ||
+      DioExceptionType.receiveTimeout =>
+        _localization.translate('errors.timeout'),
+      DioExceptionType.badResponse when e.response != null =>
+        _handleBadResponse(e.response!),
+      DioExceptionType.cancel =>
+        _localization.translate('errors.request_cancelled'),
+      DioExceptionType.connectionError =>
+        _localization.translate('errors.connection_error'),
+      _ when e.error is SocketException =>
+        _localization.translate('errors.no_internet'),
+      _ => _localization.translate('errors.unknown', {
+          'message': e.message ?? '',
+        }),
+    };
   }
 
-  /// Function to extract error message from API response
+  static String _handleBadResponse(Response response) {
+    final statusCode = response.statusCode;
+    final errorMessage = _extractErrorMessage(response);
+
+    if (errorMessage != null && errorMessage.isNotEmpty) {
+      return errorMessage;
+    }
+
+    return switch (statusCode) {
+      400 => _localization.translate('errors.bad_request'),
+      401 => _localization.translate('errors.unauthorized'),
+      403 => _localization.translate('errors.forbidden'),
+      404 => _localization.translate('errors.not_found'),
+      422 => _extractValidationErrors(response),
+      500 || 502 || 503 => _localization.translate('errors.server_error'),
+      _ => _localization.translate('errors.status_code',
+          {'status': statusCode?.toString() ?? 'unknown'}),
+    };
+  }
+
   static String? _extractErrorMessage(Response response) {
     try {
       if (response.data is Map<String, dynamic>) {
         final data = response.data as Map<String, dynamic>;
-        // Common error message keys, add more if your API uses different ones
         return data['message']?.toString() ??
             data['error']?.toString() ??
+            data['errors']?.toString() ??
             data['detail']?.toString();
       } else if (response.data is String &&
           (response.data as String).isNotEmpty) {
         return response.data as String;
       }
     } catch (ex) {
-       debugPrint('Error parsing error message: $ex');
-      return null;
+      debugPrint('Error parsing error message: $ex');
     }
     return null;
+  }
+
+
+  static String _extractValidationErrors(Response response) {
+    try {
+      if (response.data is Map<String, dynamic>) {
+        final data = response.data as Map<String, dynamic>;
+        if (data.containsKey('errors') &&
+            data['errors'] is Map<String, dynamic>) {
+          final errors = data['errors'] as Map<String, dynamic>;
+          final errorMessages = <String>[];
+
+          errors.forEach((key, value) {
+            if (value is List) {
+              errorMessages.addAll(value.map((e) => e.toString()));
+            } else {
+              errorMessages.add('$key: $value');
+            }
+          });
+
+          if (errorMessages.isNotEmpty) {
+            return errorMessages.join('\n');
+          }
+        }
+      }
+    } catch (ex) {
+      debugPrint('Error parsing validation errors: $ex');
+    }
+    return _localization.translate('errors.validation');
   }
 }

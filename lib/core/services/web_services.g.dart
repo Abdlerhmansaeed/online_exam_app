@@ -132,7 +132,7 @@ class _WebServices implements WebServices {
     final _data = <String, dynamic>{};
     _data.addAll(data.toJson());
     final _options = _setStreamType<ResetPasswordResponse>(Options(
-      method: 'POST',
+      method: 'PUT',
       headers: _headers,
       extra: _extra,
     )

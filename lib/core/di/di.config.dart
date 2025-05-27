@@ -169,6 +169,7 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i583.EditProfileUseCase(gh<_i464.UserProfileRepo>()));
     gh.factory<_i604.ProfileViewModelCubit>(() => _i604.ProfileViewModelCubit(
           gh<_i100.GetUserProfileUseCase>(),
+          gh<_i841.AppLocalStorage>(),
           gh<_i197.ChangeUserPasswordUseCase>(),
           gh<_i583.EditProfileUseCase>(),
         ));

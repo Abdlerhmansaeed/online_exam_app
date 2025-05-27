@@ -6,10 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/home/presentation/cubit/home_cubit.dart';
 import 'package:online_exam_app/Features/home/presentation/cubit/home_state.dart';
 import 'package:online_exam_app/Features/home/presentation/widgets/build_search_field.dart';
-import 'package:online_exam_app/Features/home/presentation/widgets/home_shimmer_loading.dart';
 import 'package:online_exam_app/Features/home/presentation/widgets/home_sliver_shimmer.dart';
 import 'package:online_exam_app/Features/home/presentation/widgets/subject_item.dart';
-import 'package:online_exam_app/core/base_states/base_states.dart';
 import 'package:online_exam_app/core/di/di.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
@@ -70,11 +68,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-            // 2. باقي الـ Slivers كما هي
-            BlocBuilder<HomeCubit, HomeState<List<SubjectsEntity>>>(
+            BlocBuilder<HomeCubit, HomeState>(
               bloc: homeCubit,
               builder: (context, state) {
-                return state.when(
+                return state.homeTabStates?.when(
                   initial: () => const HomeSliverShimmer(),
                   loading: () => const HomeSliverShimmer(),
                   success: (subjects) => subjects.isEmpty
@@ -102,8 +99,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ]),
                         ),
                   error: (message) => SliverFillRemaining(
-                      child: _buildErrorState(context, message)),
-                );
+                      child: _buildErrorState(context, message?? 'Error occurred')),
+                )?? const HomeSliverShimmer();
               },
             ),
           ],

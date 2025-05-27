@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../../core/helper/spacing.dart';
 
 class HomeSliverShimmer extends StatelessWidget {
   const HomeSliverShimmer({super.key});
@@ -57,11 +56,10 @@ class HomeSliverShimmer extends StatelessWidget {
           height: 48.h,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(30.r), // جعله أكثر استدارة
+            borderRadius: BorderRadius.circular(30.r),
             border: Border.all(color: Colors.grey[200]!),
           ),
           child: Row(
-            // أضف أيقونة البحث والنص الوهمي
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 16.w),
@@ -120,7 +118,7 @@ class HomeSliverShimmer extends StatelessWidget {
         highlightColor: Colors.grey[100]!,
         child: Container(
           padding: EdgeInsets.all(16.r),
-          height: 80.h, // ضبط الارتفاع ليطابق الـ UI الحقيقي
+          height: 80.h, 
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.r),
@@ -134,7 +132,7 @@ class HomeSliverShimmer extends StatelessWidget {
           ),
           child: Row(
             children: [
-              // أيقونة المادة
+
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.r),
                 child: Container(
@@ -144,7 +142,6 @@ class HomeSliverShimmer extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 16.w),
-              // اسم المادة
               Expanded(
                 child: Container(
                   height: 20.h,

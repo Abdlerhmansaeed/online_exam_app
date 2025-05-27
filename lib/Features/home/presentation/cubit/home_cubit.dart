@@ -5,24 +5,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
 import 'package:online_exam_app/Features/home/presentation/cubit/home_state.dart';
-import 'package:online_exam_app/core/base_states/base_states.dart';
+import 'package:online_exam_app/core/base_states/app_states.dart';
+import 'package:online_exam_app/core/helper/handle_cubit_states.dart';
 import '../../domain/use_case/home_tab_use_cse.dart';
 
 @injectable
-class HomeCubit extends Cubit<HomeState<List<SubjectsEntity>>> {
+class HomeCubit extends Cubit<HomeState> {
   final GetAllSubjectsUseCase _getAllSubjectsUseCase;
 
-  HomeCubit(this._getAllSubjectsUseCase) : super(const HomeState.initial());
+  HomeCubit(this._getAllSubjectsUseCase) : super(const HomeState());
 
   static HomeCubit get(context) => BlocProvider.of(context);
 
   ValueNotifier<int> currentIndex = ValueNotifier(0);
 
   Future<void> getAllSubjects({bool forceRefresh = false}) async {
-    debugPrint('🔄 HomeCubit: getAllSubjects called');
-    debugPrint('   📋 forceRefresh: $forceRefresh');
-    debugPrint('   📋 current state: ${state.runtimeType}');
-
     // Show loading in these cases:
     // 1. First time loading (not forceRefresh)
     // 2. Force refresh from user action
@@ -32,25 +29,16 @@ class HomeCubit extends Cubit<HomeState<List<SubjectsEntity>>> {
         forceRefresh;
 
     if (shouldShowLoading) {
-      emit(const HomeState.loading());
+      emit(state.copyWith(
+        homeTabStates: const LoadingState(),
+      ));
     }
-
-    try {
-      final result =
-          await _getAllSubjectsUseCase.invoke(forceRefresh: forceRefresh);
-
-      result.fold(
-        (failure) {
-          emit(HomeState.error(failure.toString()));
-        },
-        (data) {
-          emit(HomeState.success(data));
-        },
-      );
-    } catch (e) {
-      debugPrint('💥 HomeCubit: Exception - $e');
-      emit(HomeState.error(e.toString()));
-    }
+    handleCubitStates(
+      request: () => _getAllSubjectsUseCase.invoke(forceRefresh: forceRefresh),
+           emit: (newState) {
+        emit(state.copyWith(homeTabStates: newState));
+      },
+    );
   }
 
   Future<void> refreshInBackground() async {

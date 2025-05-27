@@ -1,10 +1,10 @@
-import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/Features/user_profile/data/models/change_password_request.dart';
 import 'package:online_exam_app/Features/user_profile/data/models/change_password_response.dart';
 import 'package:online_exam_app/Features/user_profile/data/models/edit_profile_request.dart';
 import 'package:online_exam_app/Features/user_profile/data/models/edit_profile_response.dart';
 import 'package:online_exam_app/Features/user_profile/domain/entities/profile_entity.dart';
+import 'package:online_exam_app/core/helper/api_result.dart';
 import 'package:online_exam_app/core/helper/handel_response.dart';
 import '../../domain/repositories/user_profile_repo.dart';
 import '../data_sources/remote_data_source/user_profile_remote_data_source.dart';
@@ -18,7 +18,7 @@ class UserProfileRepoImpl implements UserProfileRepo {
       : _userProfileRemoteDataSource = userProfileRemoteDataSource;
 
   @override
-  Future<Either<String, ChangePasswordResponse>> changePassword(
+  Future<ApiResult<ChangePasswordResponse>> changePassword(
       {required ChangePasswordRequest changePasswordRequest}) async {
     var response = await _userProfileRemoteDataSource
         .changePassword(changePasswordRequest);
@@ -26,7 +26,7 @@ class UserProfileRepoImpl implements UserProfileRepo {
   }
 
   @override
-  Future<Either<String, EditProfileResponse>> editProfile(
+  Future<ApiResult< EditProfileResponse>> editProfile(
       {required EditProfileRequest editProfileRequest}) async {
     var response =
         await _userProfileRemoteDataSource.editUserProfile(editProfileRequest);
@@ -34,7 +34,7 @@ class UserProfileRepoImpl implements UserProfileRepo {
   }
 
   @override
-  Future<Either<String, ProfileEntity>> getUserDetails() async {
+  Future<ApiResult< ProfileEntity>> getUserDetails() async {
     var response = await _userProfileRemoteDataSource.getUserDetails();
     var data = response.map(
       (data) {

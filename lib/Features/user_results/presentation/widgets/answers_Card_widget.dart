@@ -49,7 +49,6 @@ class AnswersCardWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // رقم ونص السؤال
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -87,21 +86,18 @@ class AnswersCardWidget extends StatelessWidget {
 
           verticalSpace(16),
 
-          // خيارات الإجابة
           ...allAnswers.map((option) {
             final answerKey = option.key;
             final answerText = option.text;
             final isUserSelected = answerKey == userAnswer;
             final isCorrectAnswer = answerKey == correctAnswer;
 
-            // تحديد نمط كل خيار
             Color bgColor = AppColors.lightBlue;
             Color borderColor = Colors.transparent;
             IconData? icon;
             Color iconColor = AppColors.blue;
 
             if (isCorrectAnswer) {
-              // الإجابة الصحيحة
               bgColor = AppColors.lightGreen;
               borderColor = Colors.green;
               icon = Icons.check_circle;
@@ -109,7 +105,6 @@ class AnswersCardWidget extends StatelessWidget {
             }
 
             if (isUserSelected && !isCorrectAnswer) {
-              // إجابة المستخدم الخاطئة
               bgColor = Colors.red.withOpacity(0.1);
               borderColor = Colors.red;
               icon = Icons.cancel;
@@ -128,7 +123,6 @@ class AnswersCardWidget extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  // أيقونة الاختيار
                   Container(
                     width: 24.w,
                     height: 24.h,
@@ -155,7 +149,6 @@ class AnswersCardWidget extends StatelessWidget {
 
                   horizontalSpace(12),
 
-                  // نص الإجابة
                   Expanded(
                     child: RichText(
                       text: TextSpan(
@@ -187,7 +180,7 @@ class AnswersCardWidget extends StatelessWidget {
                 ],
               ),
             );
-          }).toList(),
+          }),
         ],
       ),
     );

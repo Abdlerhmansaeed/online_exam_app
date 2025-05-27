@@ -29,12 +29,13 @@ abstract class DioModule {
   @Singleton()
   Dio provideDio(
       PrettyDioLogger prettyLogger, AuthInterceptor authInterceptor) {
-    var dio = Dio(BaseOptions(
-      connectTimeout: const Duration(seconds: 60),
-      baseUrl: ApiConstants.baseUrl,
-    ));
+    var dio = Dio(
+      BaseOptions(
+        connectTimeout: const Duration(seconds: 60),
+        baseUrl: ApiConstants.baseUrl,
+      ),
+    );
 
-    // Order matters - auth interceptor should be added before logger
     dio.interceptors.add(authInterceptor);
     dio.interceptors.add(prettyLogger);
 

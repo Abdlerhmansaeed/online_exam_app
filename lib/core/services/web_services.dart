@@ -38,7 +38,7 @@ abstract class WebServices {
   Future<ResetPasswordVerify> forgetPasswordEmailVerify(
       @Body() ForgetPasswordEmailRequest data);
 
-  @POST(ApiConstants.resetPasswordEndPoint)
+  @PUT(ApiConstants.resetPasswordEndPoint)
   Future<ResetPasswordResponse> resetPassword(
       @Body() ResetPasswordRequest data);
 
