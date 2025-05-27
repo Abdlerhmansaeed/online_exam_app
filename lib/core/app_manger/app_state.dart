@@ -1,22 +1,21 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 
-class AppState extends Equatable {
+class AppManagerState extends Equatable {
   final bool isLoggedIn;
-  int bottomNavBarIndex = 0;
-  AppState({this.isLoggedIn = false, this.bottomNavBarIndex = 0});
+  final int bottomNavBarIndex;
+ const  AppManagerState({this.isLoggedIn = false, this.bottomNavBarIndex = 0});
 
-  factory AppState.initial() {
-    return AppState(
+  factory AppManagerState.initial() {
+    return const AppManagerState(
       isLoggedIn: false,
       bottomNavBarIndex: 0,
     );
   }
-  AppState copyWith({
+  AppManagerState copyWith({
     bool? isLoggedIn,
     int? bottomNavBarIndex,
   }) {
-    return AppState(
+    return AppManagerState(
       isLoggedIn: isLoggedIn ?? this.isLoggedIn,
       bottomNavBarIndex: bottomNavBarIndex ?? this.bottomNavBarIndex,
     );

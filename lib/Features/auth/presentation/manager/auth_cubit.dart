@@ -5,7 +5,6 @@ import 'package:online_exam_app/Features/auth/data/models/request_model/otp_code
 import 'package:online_exam_app/Features/auth/data/models/response/otp_code_response.dart';
 import 'package:online_exam_app/Features/auth/data/models/response/reset_password.dart';
 import 'package:online_exam_app/Features/auth/data/models/response/reset_password_verify.dart';
-import 'package:online_exam_app/Features/auth/domain/entities/user_entiti.dart';
 import 'package:online_exam_app/Features/auth/domain/use_cases/forget_password_use_case.dart';
 import 'package:online_exam_app/Features/auth/domain/use_cases/login_use_case.dart';
 import 'package:online_exam_app/Features/auth/domain/use_cases/otp_reset_use_case.dart';
@@ -13,17 +12,14 @@ import 'package:online_exam_app/Features/auth/domain/use_cases/reset_password_us
 import 'package:online_exam_app/Features/auth/domain/use_cases/signup_usecase.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.dart';
 import 'package:online_exam_app/core/app_manger/app_local_storage/app_local_storage.dart';
-import 'package:online_exam_app/core/base_states/base_states.dart';
-
-import '../../../../core/helper/handel_cubit_states.dart';
-import '../../../../core/services/shared_prefs.dart';
+import 'package:online_exam_app/core/helper/handle_cubit_states.dart';
 import '../../data/models/request_model/forget_password_email_request.dart';
 import '../../data/models/request_model/login_request.dart';
 import '../../data/models/request_model/reset_passowrd_request.dart';
 import '../../data/models/request_model/signup_request.dart';
 
 @injectable
-class AuthCubit extends Cubit<AuthState> {
+class AuthCubit extends Cubit<AuthStates> {
   AuthCubit(
     this._loginUseCase,
     this._signupUseCase,
@@ -31,14 +27,14 @@ class AuthCubit extends Cubit<AuthState> {
     this._otpResetUseCase,
     this._resetPasswordUseCase,
     this._localStorage,
-  ) : super(const AuthState());
+  ) : super(const AuthStates());
 
   final LoginUseCase _loginUseCase;
   final SignupUseCase _signupUseCase;
   final ForgetPasswordUseCase _forgetPasswordUseCase;
   final ResetPasswordUseCase _resetPasswordUseCase;
   final OtpResetUseCase _otpResetUseCase;
-  AppLocalStorage _localStorage;
+  final AppLocalStorage _localStorage;
 
   // Form Keys
   final GlobalKey<FormState> forgotPasswordFormKey = GlobalKey<FormState>();
@@ -61,45 +57,35 @@ class AuthCubit extends Cubit<AuthState> {
   final ValueNotifier<bool> checkBoxValue = ValueNotifier<bool>(false);
 
   Future<void> login() async {
-    await handleCubitStates<UserEntity>(
+    await handleCubitStates(
       request: () => _loginUseCase.call(
-        data: LoginRequest(
-          email: emailController.text,
-          password: passwordController.text,
-        ),
-      ),
-      onLoading: () =>
-          emit(state.copyWith(loginStates: const BaseStates.loading())),
-      onSuccess: (user) async => {
-        await _localStorage.saveToken(user.token),
-        emit(state.copyWith(loginStates: BaseStates.success(user)))
-      },
-      onError: (error) =>
-          emit(state.copyWith(loginStates: BaseStates.error(error))),
+          data: LoginRequest(
+        email: emailController.text,
+        password: passwordController.text,
+      )),
+      emit: (newState) => emit(state.copyWith(
+        loginStates: newState,
+      )),
+      onSuccess: (data) => _localStorage.saveToken(data?.token ?? ''),
     );
   }
 
   Future<void> signup() async {
-    await handleCubitStates<UserEntity>(
+    await handleCubitStates(
       request: () => _signupUseCase.call(
-        data: SignUpRequest(
-          username: userNameController.text,
-          email: emailController.text,
-          password: passwordController.text,
-          firstName: firstNameController.text,
-          lastName: lastNameController.text,
-          phone: phoneNumberController.text,
-          rePassword: rePasswordController.text,
-        ),
-      ),
-      onLoading: () =>
-          emit(state.copyWith(signupStates: const BaseStates.loading())),
-      onSuccess: (user) async {
-        await _localStorage.saveToken(user.token);
-        emit(state.copyWith(signupStates: BaseStates.success(user)));
-      },
-      onError: (error) =>
-          emit(state.copyWith(signupStates: BaseStates.error(error))),
+          data: SignUpRequest(
+        email: emailController.text,
+        password: passwordController.text,
+        rePassword: rePasswordController.text,
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
+        username: userNameController.text,
+        phone: phoneNumberController.text,
+      )),
+      emit: (newState) => emit(state.copyWith(
+        signupStates: newState,
+      )),
+      onSuccess: (data) => _localStorage.saveToken(data?.token ?? ''),
     );
   }
 
@@ -109,12 +95,9 @@ class AuthCubit extends Cubit<AuthState> {
         data: ForgetPasswordEmailRequest(
             email: forgetPasswordEmailController.text),
       ),
-      onLoading: () => emit(
-          state.copyWith(forgetPasswordStates: const BaseStates.loading())),
-      onSuccess: (success) => emit(
-          state.copyWith(forgetPasswordStates: BaseStates.success(success))),
-      onError: (error) =>
-          emit(state.copyWith(forgetPasswordStates: BaseStates.error(error))),
+      emit: (newState) => emit(state.copyWith(
+        forgetPasswordStates: newState,
+      )),
     );
   }
 
@@ -123,12 +106,9 @@ class AuthCubit extends Cubit<AuthState> {
       request: () => _otpResetUseCase.call(
         data: OtpCodeVerifyRequset(resetCode: otpController.text),
       ),
-      onLoading: () =>
-          emit(state.copyWith(otpStates: const BaseStates.loading())),
-      onSuccess: (response) =>
-          emit(state.copyWith(otpStates: BaseStates.success(response))),
-      onError: (error) =>
-          emit(state.copyWith(otpStates: BaseStates.error(error))),
+      emit: (newState) => emit(state.copyWith(
+        otpStates: newState,
+      )),
     );
   }
 
@@ -140,12 +120,10 @@ class AuthCubit extends Cubit<AuthState> {
           newPassword: passwordController.text,
         ),
       ),
-      onLoading: () =>
-          emit(state.copyWith(resetPasswordStates: const BaseStates.loading())),
-      onSuccess: (response) => emit(
-          state.copyWith(resetPasswordStates: BaseStates.success(response))),
-      onError: (error) =>
-          emit(state.copyWith(resetPasswordStates: BaseStates.error(error))),
+      emit: (newState) => emit(state.copyWith(
+        resetPasswordStates: newState,
+      )),
+      onSuccess: (data) => _localStorage.saveToken(data?.token ?? ''),
     );
   }
 

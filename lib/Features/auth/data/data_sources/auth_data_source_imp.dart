@@ -1,8 +1,7 @@
-import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import '../../../../core/exceptions/failure.dart';
+import 'package:online_exam_app/core/helper/api_result.dart';
+import 'package:online_exam_app/core/helper/retrofit_handler.dart';
 import '../../../../core/di/di.dart';
-import '../../../../core/helper/request_handler.dart';
 import '../../../../core/services/web_services.dart';
 import '../models/request_model/forget_password_email_request.dart';
 import '../models/request_model/login_request.dart';
@@ -20,27 +19,29 @@ class AuthDataSourceImp implements AuthDataSource {
  final WebServices webServices = getIt<WebServices>();
 
  @override
- Future<Either<Failures, ResetPasswordVerify>> forgetPasswordEmailVerify({required ForgetPasswordEmailRequest data}) async {
-  return await RequestHandler.handle(() => webServices.forgetPasswordEmailVerify(data));
+ Future<ApiResult<ResetPasswordVerify>> forgetPasswordEmailVerify({required ForgetPasswordEmailRequest data}) async {
+  return await RetrofitHandler.handle(() => webServices.forgetPasswordEmailVerify(data));
  }
+ 
+  @override
+  Future<ApiResult<RegisterResponse>> login({required LoginRequest data}) {
+    return RetrofitHandler.handle(() => webServices.login(data));
+  }
+ 
+  @override
+  Future<ApiResult<OtpCodeResponse>> resetCodeVerify({required OtpCodeVerifyRequset data}) {
+    return RetrofitHandler.handle(() => webServices.resetCodeVerify(data));
+  }
+ 
+  @override
+  Future<ApiResult<ResetPasswordResponse>> resetPassword({required ResetPasswordRequest data}) {
+    return RetrofitHandler.handle(() => webServices.resetPassword(data));
+  }
+ 
+  @override
+  Future<ApiResult<RegisterResponse>> signup({required SignUpRequest data}) {
+    return RetrofitHandler.handle(() => webServices.signup(data));
+  }
 
- @override
- Future<Either<Failures, RegisterResponse>> login({required LoginRequest data}) async {
-  return await RequestHandler.handle(() => webServices.login(data));
- }
 
- @override
- Future<Either<Failures, OtpCodeResponse>> resetCodeVerify({required OtpCodeVerifyRequset data}) async {
-  return await RequestHandler.handle(() => webServices.resetCodeVerify(data));
- }
-
- @override
- Future<Either<Failures, ResetPasswordResponse>> resetPassword({required ResetPasswordRequest data}) async {
-  return await RequestHandler.handle(() => webServices.resetPassword(data));
- }
-
- @override
- Future<Either<Failures, RegisterResponse>> signup({required SignUpRequest data}) async {
-  return await RequestHandler.handle(() => webServices.signup(data));
- }
 }

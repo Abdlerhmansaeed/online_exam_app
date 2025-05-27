@@ -1,35 +1,46 @@
 import 'dart:developer' as dev;
 
+import 'package:online_exam_app/Features/home/presentation/cubit/home_state.dart';
+import 'package:online_exam_app/core/base_states/app_states.dart';
+
 class AppLogger {
-  static void logState(
-      String blocName, dynamic currentState, dynamic nextState) {
+  static void logState(String bloc, Object oldState, Object newState) {
     dev.log(
-      '🔄 STATE CHANGE\n'
-      '➡️ FROM: ${_formatState(currentState)}\n'
-      '➡️ TO: ${_formatState(nextState)}',
-      name: blocName,
+      '\n[$bloc] 🔄 STATE CHANGE\n'
+      '            ➡️ FROM: ${_formatState(oldState)}\n'
+      '            ➡️ TO: ${_formatState(newState)}',
+      name: bloc,
     );
   }
 
-  static String _formatState(dynamic state) {
-    if (state.toString().contains('List<') &&
-        state.toString().contains('data:')) {
-      // Extract the list from the state
+  static String _formatState(Object state) {
+    if (state is SuccessState) {
       final list = _extractListFromState(state);
-      if (list != null && list.isNotEmpty) {
-        final itemCount = list.length;
-        final preview = list.take(3).join(', ');
-        return '${state.toString().split('data:')[0]}data: [$preview${itemCount > 3 ? ', ... and ${itemCount - 3} more]' : ']'}';
+      if (list != null) {
+        return '$state (${list.length} items)';
       }
     }
+
     return state.toString();
   }
 
-  static List<dynamic>? _extractListFromState(dynamic state) {
-    // This is a simplified approach - adjust based on your actual state structure
-    if (state.data is List) {
-      return state.data;
+  static List<dynamic>? _extractListFromState(Object state) {
+    try {
+      if (state is SuccessState && state.data is List) {
+        return state.data as List;
+      }
+
+      if (state is HomeState && state.homeTabStates is SuccessState) {
+        final successState = state.homeTabStates as SuccessState;
+        if (successState.data is List) {
+          return successState.data as List;
+        }
+      }
+
+      return null;
+    } catch (e) {
+      dev.log('++++++++onError -- AppLogger, $e');
+      return null;
     }
-    return null;
   }
 }

@@ -28,7 +28,7 @@ class ExamResultsLoading extends UserViewModelState {}
 class ExamResultsEmpty extends UserViewModelState {}
 
 class ExamResultsSuccess extends UserViewModelState {
-  final List<ExamResult> examResults; // <--- رجعها قائمة تاني
+  final List<ExamResult> examResults; 
   const ExamResultsSuccess({required this.examResults});
   @override
   List<Object?> get props => [examResults];

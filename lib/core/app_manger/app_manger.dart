@@ -4,10 +4,10 @@ import 'package:online_exam_app/core/app_manger/app_local_storage/app_local_stor
 import 'package:online_exam_app/core/app_manger/app_state.dart';
 
 @singleton
-class AppManger extends Cubit<AppState> {
+class AppManger extends Cubit<AppManagerState> {
   AppManger(
     this._localStorage,
-  ) : super(AppState.initial());
+  ) : super(AppManagerState.initial());
 
   final AppLocalStorage _localStorage;
   Future<void> getUserLoggedInState() async {

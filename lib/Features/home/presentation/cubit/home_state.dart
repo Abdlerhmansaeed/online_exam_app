@@ -1,11 +1,17 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:equatable/equatable.dart';
+import 'package:online_exam_app/core/base_states/app_states.dart';
 
-part 'home_state.freezed.dart';
-
-@freezed
-class HomeState<T> with _$HomeState<T> {
-  const factory HomeState.initial() = _Initial<T>;
-  const factory HomeState.loading() = HomeLoading<T>;
-  const factory HomeState.success(T data) = HomeSuccess<T>;
-  const factory HomeState.error(String message) = HomeError<T>;
+class HomeState extends Equatable {
+final AppStates ? homeTabStates;
+  const HomeState({this.homeTabStates});
+  
+  HomeState copyWith({AppStates? homeTabStates}) {
+    return HomeState(
+      homeTabStates: homeTabStates ?? this.homeTabStates,
+    );
+  }
+  @override
+  List<Object?> get props => [
+    homeTabStates,
+  ];
 }

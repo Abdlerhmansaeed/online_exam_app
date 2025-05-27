@@ -34,6 +34,8 @@ class ProfilePage extends StatelessWidget {
                     },
                     child: const Icon(Icons.arrow_back_ios_new_rounded))),
             BlocConsumer<ProfileViewModelCubit, ProfileStates>(
+              listenWhen: (previous, current) =>
+                  previous.editProfile != current.editProfile,
               listener: (context, state) {
                 state.editProfile?.when(
                   initial: () {},
@@ -353,7 +355,10 @@ class ProfilePage extends StatelessWidget {
                                                     Navigator.of(context)
                                                         .push(MaterialPageRoute(
                                                       builder: (context) {
-                                                        return const ChangePasswordPage();
+                                                        return ChangePasswordPage(
+                                                          profileCubit:
+                                                              profileCubit,
+                                                        );
                                                       },
                                                     ));
                                                   },
@@ -410,9 +415,7 @@ class ProfilePage extends StatelessWidget {
                         );
                       },
                     ) ??
-                    const SliverFillRemaining(
-                      child: ProfileSliverShimmer(),
-                    );
+                    const ProfileSliverShimmer();
               },
             ),
           ],

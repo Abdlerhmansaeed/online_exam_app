@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/Features/auth/data/data_sources/auth_data_source.dart';
 import 'package:online_exam_app/Features/auth/data/models/request_model/forget_password_email_request.dart';
@@ -11,7 +10,7 @@ import 'package:online_exam_app/Features/auth/data/models/response/reset_passwor
 import 'package:online_exam_app/Features/auth/data/models/response/reset_password_verify.dart';
 import 'package:online_exam_app/Features/auth/domain/entities/user_entiti.dart';
 import 'package:online_exam_app/Features/auth/domain/repositories/auth_repo.dart';
-import 'package:online_exam_app/core/services/shared_prefs.dart';
+import 'package:online_exam_app/core/helper/api_result.dart';
 import '../../../../core/helper/handel_response.dart';
 
 @Injectable(as: AuthRepo)
@@ -21,37 +20,38 @@ class AuthRepoImp implements AuthRepo {
   AuthRepoImp(this.authDataSource);
 
   @override
-  Future<Either<String, UserEntity>> login({required LoginRequest data}) async {
+  Future<ApiResult<UserEntity>> login({required LoginRequest data}) async {
     var response = await authDataSource.login(data: data);
-    return handleResponse(response).map((loginResponse) {
-      SharedPrefs().saveString('token', loginResponse.token ?? "");
-      return UserEntity.fromRegisterResponse(loginResponse);
+    return handleResponse(response).map((registerResponse) {
+      return UserEntity.fromRegisterResponse(registerResponse);
     });
   }
 
   @override
-  Future<Either<String, ResetPasswordVerify>> forgetPasswordEmailVerify({required ForgetPasswordEmailRequest data}) async {
+  Future<ApiResult<ResetPasswordVerify>> forgetPasswordEmailVerify(
+      {required ForgetPasswordEmailRequest data}) async {
     var response = await authDataSource.forgetPasswordEmailVerify(data: data);
     return handleResponse(response);
   }
 
   @override
-  Future<Either<String, OtpCodeResponse>> resetCodeVerify({required OtpCodeVerifyRequset data}) async {
+  Future<ApiResult<OtpCodeResponse>> resetCodeVerify(
+      {required OtpCodeVerifyRequset data}) async {
     var response = await authDataSource.resetCodeVerify(data: data);
     return handleResponse(response);
   }
 
   @override
-  Future<Either<String, ResetPasswordResponse>> resetPassword({required ResetPasswordRequest data}) async {
+  Future<ApiResult<ResetPasswordResponse>> resetPassword(
+      {required ResetPasswordRequest data}) async {
     var response = await authDataSource.resetPassword(data: data);
     return handleResponse(response);
   }
 
   @override
-  Future<Either<String, UserEntity>> signup({required SignUpRequest data}) async {
+  Future<ApiResult<UserEntity>> signup({required SignUpRequest data}) async {
     var response = await authDataSource.signup(data: data);
     return handleResponse(response).map((registerResponse) {
-      SharedPrefs().saveString('token', registerResponse.token ?? "");
       return UserEntity.fromRegisterResponse(registerResponse);
     });
   }

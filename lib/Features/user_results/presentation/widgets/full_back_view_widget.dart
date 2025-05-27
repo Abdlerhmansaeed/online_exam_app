@@ -35,6 +35,6 @@ class FullBackViewWidget extends StatelessWidget {
           ),
         ],
       ),
-    );;
+    );
   }
 }

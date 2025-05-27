@@ -1,8 +1,7 @@
-import 'package:dartz/dartz.dart';
 import 'package:online_exam_app/Features/home/data/model/get_subjects_response.dart';
-import 'package:online_exam_app/core/exceptions/failure.dart';
+import 'package:online_exam_app/core/helper/api_result.dart';
 
 abstract class HomRemoteDataSourceContract {
-  Future<Either<Failures,GetSubjectsResponse>> getAllSubjects();
+   Future<ApiResult <GetSubjectsResponse>> getAllSubjects();
 
 }

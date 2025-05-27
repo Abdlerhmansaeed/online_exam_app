@@ -1,19 +1,19 @@
 import 'package:equatable/equatable.dart';
+import 'package:online_exam_app/core/base_states/app_states.dart';
 
-import '../../../../core/base_states/base_states.dart';
 
 class ProfileStates extends Equatable{
-  final BaseStates? getUserProfileStates;
-  final BaseStates? changePassword;
-  final BaseStates? editProfile;
+  final AppStates? getUserProfileStates;
+  final AppStates? changePassword;
+  final AppStates? editProfile;
   const ProfileStates(
       {this.getUserProfileStates,
         this.changePassword,
         this.editProfile});
   ProfileStates copyWith(
-      {BaseStates? getUserProfileStates,
-        BaseStates? changePassword,
-        BaseStates? editProfile}) {
+      {AppStates? getUserProfileStates,
+        AppStates? changePassword,
+        AppStates? editProfile}) {
     return ProfileStates(
         getUserProfileStates: getUserProfileStates?? this.getUserProfileStates,
         changePassword: changePassword?? this.changePassword,

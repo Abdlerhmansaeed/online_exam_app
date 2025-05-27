@@ -53,7 +53,7 @@ class ExamContentScreen extends StatelessWidget {
               previous.currentQuestionIndex != current.currentQuestionIndex,
           builder: (context, state) {
             return Text(
-              "Question ${(state.currentQuestionIndex) + 1} of ${examData!.questions!.length}",
+              "Question ${(state.currentQuestionIndex?? 0) + 1} of ${examData!.questions!.length}",
               style: theme.textTheme.titleLarge,
             );
           },
@@ -62,7 +62,7 @@ class ExamContentScreen extends StatelessWidget {
         FAProgressBar(
           maxValue: examData!.questions!.length.toDouble(),
           currentValue:
-              examViewModel.state.currentQuestionIndex.toDouble() + 1,
+              examViewModel.state.currentQuestionIndex?.toDouble()?? 0.0 + 1,
           progressColor: AppColors.blue,
           size: 8,
           animatedDuration: const Duration(milliseconds: 300),

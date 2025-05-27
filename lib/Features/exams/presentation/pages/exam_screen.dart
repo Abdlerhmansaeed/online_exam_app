@@ -141,7 +141,7 @@ class _ExamScreenState extends State<ExamScreen> {
             }
           },
           builder: (context, state) {
-            return state.examStates.when(
+            return state.examStates?.when(
               initial: () => const SizedBox.shrink(),
               loading: () => const Center(
                 child: CircularProgressIndicator(),
@@ -156,7 +156,7 @@ class _ExamScreenState extends State<ExamScreen> {
                   ),
                 );
               },
-            );
+            )?? const SizedBox.shrink();
           },
         ),
       ),

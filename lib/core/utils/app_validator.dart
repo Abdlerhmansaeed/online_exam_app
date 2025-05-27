@@ -23,9 +23,9 @@ class AppValidators {
       return 'Please Enter a valid Number.\nExample: 01001234567';
     }
 
-    return null; // Valid
+    return null; 
   }
-
+  // /// Validates password strength like Test@123 
   static String? validatePassword(String? password) {
     if (password == null || password.isEmpty) {
       return 'Password is required';
@@ -72,7 +72,43 @@ class AppValidators {
       return 'Username can only contain letters and spaces.';
     }
 
-    return null; // Valid
+    return null; 
+  }
+    static String? validateLastName(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Last name is required.';
+    }
+
+    final trimmed = value.trim();
+
+    if (trimmed.length < 3 || trimmed.length > 30) {
+      return 'Last name  must be between 3 and 30 characters.';
+    }
+
+    final nameRegex = RegExp(r'^[a-zA-Z\s]+$');
+    if (!nameRegex.hasMatch(trimmed)) {
+      return 'Last name can only contain letters and spaces.';
+    }
+
+    return null; 
+  }
+    static String? validateFirstName(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'First name is required.';
+    }
+
+    final trimmed = value.trim();
+
+    if (trimmed.length < 3 || trimmed.length > 30) {
+      return 'First name must be between 3 and 30 characters.';
+    }
+
+    final nameRegex = RegExp(r'^[a-zA-Z\s]+$');
+    if (!nameRegex.hasMatch(trimmed)) {
+      return 'First name can only contain letters and spaces.';
+    }
+
+    return null; 
   }
 
   static String? validateConfirmPassword(
@@ -85,6 +121,6 @@ class AppValidators {
       return 'Passwords do not match.';
     }
 
-    return null; // Valid
+    return null; 
   }
 }

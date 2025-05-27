@@ -5,17 +5,13 @@ import 'package:online_exam_app/Features/auth/presentation/pages/otp_page/otp_ve
 import 'package:online_exam_app/Features/auth/presentation/pages/reset_passowrod/reset_password_page.dart';
 import 'package:online_exam_app/Features/auth/presentation/pages/signup/sign_up_page.dart';
 import 'package:online_exam_app/Features/exams/presentation/pages/exam_score_screen.dart';
-import 'package:online_exam_app/Features/exams/presentation/pages/exam_screen.dart';
 import 'package:online_exam_app/Features/main_layout/Ui/layout_screen.dart';
 import 'package:online_exam_app/Features/exams/presentation/pages/exams_on_subject_screen.dart';
-import 'package:online_exam_app/Features/user_profile/presentation/pages/change_password_page.dart';
 import 'package:online_exam_app/Features/user_profile/presentation/pages/profile_page.dart';
-import 'package:online_exam_app/Features/user_results/presentation/pages/answers_view.dart';
 import 'package:online_exam_app/Features/user_results/presentation/pages/result_page.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import '../../Features/exams/presentation/pages/instructions_screen.dart';
 import '../../Features/home/presentation/pages/home_screen.dart';
-import '../../main.dart';
 
 class AppRoutesGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -68,10 +64,10 @@ class AppRoutesGenerator {
           builder: (_) => const ExamScoreScreen(),
           settings: settings,
         );
-      case AppRoutes.changePasswordScreen:
-        return MaterialPageRoute(
-          builder: (_) => const ChangePasswordPage(),
-        );
+      // case AppRoutes.changePasswordScreen:
+      //   return MaterialPageRoute(
+      //     builder: (_) => const ChangePasswordPage(),
+      //   );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

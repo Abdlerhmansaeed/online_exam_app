@@ -1,7 +1,7 @@
-import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam_app/Features/home/domain/entity/all_subjects_entity.dart';
 import 'package:online_exam_app/Features/home/domain/repository/contract/home_tab_repo.dart';
+import 'package:online_exam_app/core/helper/api_result.dart';
 
 @injectable
 class GetAllSubjectsUseCase {
@@ -9,7 +9,7 @@ class GetAllSubjectsUseCase {
 
   GetAllSubjectsUseCase(this._homeTabRepository);
 
-  Future<Either<String, List<SubjectsEntity>>> invoke(
+  Future<ApiResult< List<SubjectsEntity>>> invoke(
       {bool forceRefresh = false}) {
     return _homeTabRepository.getAllSubjects(forceRefresh: forceRefresh);
   }

@@ -36,6 +36,5 @@ class ExamResultsListView extends StatelessWidget {
         ),
       ],
     );
-    ;
   }
 }

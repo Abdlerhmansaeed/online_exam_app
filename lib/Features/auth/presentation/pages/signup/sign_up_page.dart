@@ -1,274 +1,273 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_cubit.dart';
 import 'package:online_exam_app/Features/auth/presentation/manager/auth_states.dart';
 import 'package:online_exam_app/core/routes/app_routes.dart';
 import 'package:online_exam_app/core/theme/app_colors.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:online_exam_app/core/utils/app_validator.dart';
+import 'package:online_exam_app/core/utils/extinstions.dart';
 
-import '../../../../../core/Constant/app_regx.dart';
-import '../../../../../core/base_states/base_states.dart';
 import '../../../../../core/di/di.dart';
 
 class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
 
-  const SignUpPage({super.key,});
   @override
-
   Widget build(BuildContext context) {
     AuthCubit authCubit = getIt<AuthCubit>();
 
     return BlocProvider(
       create: (context) => authCubit,
       child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              title: const Text('Sign Up'),
-              leading: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.arrow_back_ios_new_rounded),
-              ),
-            ),
-            BlocConsumer<AuthCubit, AuthState>(
-              listener: (context, state) {
-                if (state.signupStates is SuccessState) {
-                  Navigator.pushReplacementNamed(
-                      context, AppRoutes.layoutScreen);
-                } else if (state.signupStates is ErrorState) {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text((state.signupStates as ErrorState).error?? ""),
-                      );
-                    },
-                  );
-                } else if (state.signupStates is LoadingState) {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (_) =>
-                    const Center(child: CircularProgressIndicator()),
-                  );
-                }
+        appBar: AppBar(
+          title: const Text('Sign Up'),
+          leading: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: const Icon(Icons.arrow_back_ios_new_rounded),
+          ),
+          leadingWidth: 20.w,
+        ),
+        body: BlocListener<AuthCubit, AuthStates>(
+          listenWhen: (previous, current) =>
+              previous.signupStates != current.signupStates,
+          listener: (context, state) {
+            state.signupStates?.when(
+              initial: () {
+                // No action for initial state
               },
-              builder: (context, state) {
-                return SliverPadding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate.fixed(
-                      [
-                        Form(
-                          key: authCubit.signupFormKey,
-                          child: Column(
-                            children: [
-                              TextFormField(
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "User Name is required";
-                                  }
-                                  return null;
-                                },
-                                controller: authCubit.userNameController,
-                                onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                decoration: const InputDecoration(
-                                    hintText: 'Enter Your User Name',
-                                    labelText: 'User Name'),
-                              ),
-                              SizedBox(
-                                height: 16.h,
-                              ),
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 163.w,
-                                    height: 56.h,
-                                    child: TextFormField(
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return "Required";
-                                          }
-                                          return null;
-                                        },
-                                        controller:
-                                            authCubit.firstNameController, onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                                        autovalidateMode: AutovalidateMode.onUserInteraction,
+              loading: () {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) =>
+                      const Center(child: CircularProgressIndicator()),
+                );
+              },
+              success: (data) {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  AppRoutes.loginPage,
+                  (route) => false,
+                );
+              },
+              error: (error) {
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
+                context.showErrorDialog(
+                  error ?? "An error occurred during signup",
+                  context,
+                );
+              },
+            );
+          },
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
+            child: Form(
+              key: authCubit.signupFormKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Username field
+                  TextFormField(
+                    validator: (value) => AppValidators.validateUserName(value),
+                    controller: authCubit.userNameController,
+                    onTapOutside: (_) =>
+                        FocusManager.instance.primaryFocus?.unfocus(),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: const InputDecoration(
+                        hintText: 'Enter Your User Name',
+                        labelText: 'User Name'),
+                  ),
 
-                                        decoration: const InputDecoration(
-                                            hintText: 'Enter First Name',
-                                            labelText: 'First Name')),
-                                  ),
-                                  const Spacer(),
-                                  SizedBox(
-                                      width: 163.w,
-                                      height: 56.h,
-                                      child: TextFormField(
-                                        validator: (value) {
-                                          if (value!.isEmpty) {
-                                            return "Required";
-                                          }
-                                          return null;
-                                        },
-                                        onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                                        controller:
-                                            authCubit.lastNameController,
-                                        decoration: const InputDecoration(
-                                          hintText: 'Enter Last Name',
-                                          labelText: 'Last Name',
-                                        ),
-                                      )),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 16.h,
-                              ),
-                              TextFormField(
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return "Email is required";
-                                    } else if (!AppRegx.emailRegex
-                                        .hasMatch(value)) {
-                                      return "Enter Valid Email";
-                                    }
-                                    return null;
-                                  }, onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  SizedBox(height: 16.h),
 
-                                  controller: authCubit.emailController,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Enter Email',
-                                      labelText: 'Email')),
-                              SizedBox(
-                                height: 16.h,
-                              ),
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 163.w,
-                                    height: 56.h,
-                                    child: TextFormField(
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return "Password Is Required";
-                                        } else if(!AppRegx.passwordRegex
-                                            .hasMatch(value)){
-                                          return "Enter Strong Password";
-                                        }
-                                        return null;
-                                      },
-                                      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                                      autovalidateMode: AutovalidateMode.onUserInteraction,                                      controller: authCubit.passwordController,
-                                      decoration: const InputDecoration(
-                                          hintText: 'Enter Password',
-                                          labelText: 'Password'),
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  SizedBox(
-                                    width: 163.w,
-                                    height: 56.h,
-                                    child: TextFormField(
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return "Confirm Password is required";
-                                        } else if (authCubit
-                                                .passwordController.text !=
-                                            authCubit
-                                                .rePasswordController.text) {
-                                          return "Not Matched";
-                                        }
-                                        return null;
-                                      },
-                                      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                                      controller:
-                                          authCubit.rePasswordController,
-                                      decoration: const InputDecoration(
-                                          hintText: 'Confirm Password',
-                                          labelText: 'Confirm Password'),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 16.h,
-                              ),
-                              TextFormField(
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Phone Is Required";
-                                  } else if (!AppRegx.phoneRegex
-                                      .hasMatch(value)) {
-                                    return "Enter Valid Phone";
-                                  }
-                                  return null;
-                                },
-                                onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                controller: authCubit.phoneNumberController,
-                                decoration: const InputDecoration(
-                                    hintText: 'Enter Phone Number',
-                                    labelText: 'Phone Number'),
-                              ),
-                              SizedBox(
-                                height: 16.h,
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (authCubit.signupFormKey.currentState!
-                                      .validate()) {
-                                    authCubit.signup();
-                                  }
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.all(8.0.r),
-                                      child: const Text('Sign Up'),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text('Already have an account?'),
-                                  TextButton(
-                                    style: const ButtonStyle(
-                                      overlayColor: WidgetStatePropertyAll(
-                                          Colors.transparent),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pushReplacementNamed(
-                                          context, AppRoutes.loginPage);
-                                    },
-                                    child: const Text(
-                                      'login',
-                                      style: TextStyle(
-                                        color: AppColors.blue,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                  // First Name and Last Name row
+                  Row(
+                    children: [
+                      // First Name field
+                      Expanded(
+                        child: TextFormField(
+                          validator: (value) =>
+                              AppValidators.validateFirstName(value),
+                          controller: authCubit.firstNameController,
+                          onTapOutside: (_) =>
+                              FocusManager.instance.primaryFocus?.unfocus(),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: const InputDecoration(
+                              hintText: 'Enter First Name',
+                              labelText: 'First Name'),
+                        ),
+                      ),
+
+                      SizedBox(width: 16.w),
+
+                      // Last Name field
+                      Expanded(
+                        child: TextFormField(
+                          validator: (value) =>
+                              AppValidators.validateLastName(value),
+                          controller: authCubit.lastNameController,
+                          onTapOutside: (_) =>
+                              FocusManager.instance.primaryFocus?.unfocus(),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: const InputDecoration(
+                            hintText: 'Enter Last Name',
+                            labelText: 'Last Name',
                           ),
-                        )
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  // Email field
+                  TextFormField(
+                    validator: (value) => AppValidators.validateEmail(value),
+                    controller: authCubit.emailController,
+                    onTapOutside: (_) =>
+                        FocusManager.instance.primaryFocus?.unfocus(),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: const InputDecoration(
+                        hintText: 'Enter Email', labelText: 'Email'),
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  // Password and Confirm Password row
+                  Row(
+                    children: [
+                      // Password field
+                      Expanded(
+                        child: TextFormField(
+                          validator: (value) =>
+                              AppValidators.validatePassword(value),
+                          controller: authCubit.passwordController,
+                          onTapOutside: (_) =>
+                              FocusManager.instance.primaryFocus?.unfocus(),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          obscureText: true,
+                          obscuringCharacter: "*",
+                          decoration: const InputDecoration(
+                              hintText: 'Enter Password',
+                              labelText: 'Password'),
+                        ),
+                      ),
+
+                      SizedBox(width: 16.w),
+
+                      // Confirm Password field
+                      Expanded(
+                        child: TextFormField(
+                          validator: (value) =>
+                              AppValidators.validateConfirmPassword(
+                                  value, authCubit.passwordController.text),
+                          controller: authCubit.rePasswordController,
+                          onTapOutside: (_) =>
+                              FocusManager.instance.primaryFocus?.unfocus(),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          obscureText: true,
+                          obscuringCharacter: "*",
+                          decoration: const InputDecoration(
+                              hintText: 'Confirm Password',
+                              labelText: 'Confirm Password'),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  // Phone field
+                  TextFormField(
+                    validator: (value) =>
+                        AppValidators.validatePhoneNumber(value),
+                    controller: authCubit.phoneNumberController,
+                    onTapOutside: (_) =>
+                        FocusManager.instance.primaryFocus?.unfocus(),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    keyboardType: TextInputType.phone,
+                    decoration: const InputDecoration(
+                        hintText: 'Enter Phone Number',
+                        labelText: 'Phone Number'),
+                  ),
+
+                  SizedBox(height: 24.h),
+
+                  // Sign Up button
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.blue,
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (authCubit.signupFormKey.currentState!.validate()) {
+                        authCubit.signup();
+                      }
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Sign Up',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                );
-              },
+
+                  SizedBox(height: 16.h),
+
+                  // Login redirect row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Already have an account?',
+                        style: TextStyle(fontSize: 14.sp),
+                      ),
+                      TextButton(
+                        style: const ButtonStyle(
+                          overlayColor:
+                              WidgetStatePropertyAll(Colors.transparent),
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                              context, AppRoutes.loginPage);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Login',
+                              style: TextStyle(
+                                color: AppColors.blue,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ],
+          ),
         ),
       ),
     );
